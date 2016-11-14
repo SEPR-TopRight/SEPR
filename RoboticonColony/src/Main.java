@@ -1,3 +1,11 @@
+import org.lwjgl.*;
+import org.lwjgl.glfw.*;
+import org.lwjgl.opengl.*;
+
+import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryUntil.*;
 
 public class Main {
 
@@ -112,7 +120,5 @@ public class Main {
 		public static void main(String[] args) {
 			new Main().run();
 		}
-
-	}
 
 }
