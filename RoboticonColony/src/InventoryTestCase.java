@@ -2,6 +2,7 @@ import static org.junit.Assert.*;
 import org.junit.*;	
 
 /**
+ * Test case for the Inventory class
  * @author jcn509
  *
  */
@@ -17,28 +18,6 @@ public class InventoryTestCase {
 		Inventory inv2 = new Inventory(2,3);
 		assertEquals(2,inv2.getOreQuantity());
 		assertEquals(3,inv2.getEnergyQuantity());
-	}
-	
-	@Test
-	public void testSetOreQuantityPositive(){
-		inv.setOreQuantity(6);
-		assertEquals(6,inv.getOreQuantity());
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testSetOreQuantityNegative(){
-		inv.setOreQuantity(-6);
-	}
-	
-	@Test
-	public void testSetEnergyQuantityPositive(){
-		inv.setOreQuantity(6);
-		assertEquals(6,inv.getOreQuantity());
-	}
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testSetEnergyQuantityNegative(){
-		inv.setEnergyQuantity(-6);
 	}
 	
 	@Test

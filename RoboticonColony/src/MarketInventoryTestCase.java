@@ -2,6 +2,7 @@ import static org.junit.Assert.*;
 import org.junit.*;	
 
 /**
+ * Test case for the MarketInventory class
  * @author jcn509
  *
  */
@@ -21,15 +22,6 @@ public class MarketInventoryTestCase {
 		assertEquals(3,inv2.getRoboticonQuantity());
 	}
 	
-	@Test
-	public void testSetRoboticonQuantityPositive(){
-		inv.setRoboticonQuantity(67);
-		assertEquals(67,inv.getRoboticonQuantity());
-	}
-	@Test(expected=IllegalArgumentException.class)
-	public void testSetRoboticonQuantityNegative(){
-		inv.setRoboticonQuantity(-6);
-	}
 	@Test
 	public void testIncreaseRoboticonQuantityPositive(){
 		int roboticonQuantityBeforeIncrease = inv.getRoboticonQuantity();
@@ -51,5 +43,9 @@ public class MarketInventoryTestCase {
 	@Test(expected=IllegalArgumentException.class)
 	public void testDecreaseRoboticonQuantityNegative(){
 		inv.decreaseRoboticonQuantity(-6);
+	}
+	@Test(expected=IllegalArgumentException.class)
+	public void testDecreaseRoboticonQuantityNotEnoughStored(){
+		inv.decreaseRoboticonQuantity(-5); // after initialisation stores 0 roboticons
 	}
 }
