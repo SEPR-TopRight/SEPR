@@ -109,6 +109,7 @@ public class Main {
 			}
 		}
 
+
         /**
          * Start of the program. Calls for graphics to be loaded, windows to be drawn,
          * then finally calls for the game to start.
