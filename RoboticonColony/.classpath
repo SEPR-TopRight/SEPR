@@ -17,5 +17,10 @@
 			<attribute name="javadoc_location" value="jar:file:/Users/andrew/Desktop/TopRight/RoboticonColony/packages/lwjgl-collection/lwjgl-opengles/lwjgl-opengles-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/andrew/Desktop/TopRight/RoboticonColony/packages/jUnit/junit-4.12.jar" sourcepath="/Users/andrew/Desktop/TopRight/RoboticonColony/packages/jUnit/junit-4.12-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:file:/Users/andrew/Desktop/TopRight/RoboticonColony/packages/jUnit/junit-4.12-javadoc.jar!/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
