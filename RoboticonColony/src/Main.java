@@ -19,7 +19,6 @@ public class Main {
 	public void gameLoop(){
     }
 
-        // The window handle
 		private long window;
 
 		public void run() {
@@ -121,5 +120,6 @@ public class Main {
 		public static void main(String[] args) {
 			new Main().run();
 		}
+
 
 }
