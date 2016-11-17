@@ -43,6 +43,10 @@ public class Market {
 			if (mark_inventory.getOreQuantity() > 0){
 			mark_inventory.decreaseOreQuantity(quantity);
 			}
+			else{
+				throw new IllegalStateException("Trying to buy more ore than is available");
+
+			}
 		}
 		/**
 		 * 
@@ -73,6 +77,9 @@ public class Market {
 			if (mark_inventory.getEnergyQuantity() > 0){
 			mark_inventory.decreaseEnergyQuantity(quantity);
 			}
+			else{
+				throw new IllegalStateException("Trying to buy more Energy than is available");
+			}
 		}
 		/**
 		 * 
@@ -83,6 +90,9 @@ public class Market {
 			if (mark_inventory.getRoboticonQuantity() > 0){
 			mark_inventory.decreaseRoboticonQuantity(quantity);
 			//TO DO finish when have robotion class
+			}
+			else{
+				throw new IllegalStateException("Trying to buy more Roboticons than is available");
 			}
 		}
 		/**
