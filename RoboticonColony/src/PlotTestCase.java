@@ -1,6 +1,6 @@
 import static org.junit.Assert.*;
 import org.junit.*;	
-import java.util.EnumMap;
+
 
 public class PlotTestCase {
 	/**
