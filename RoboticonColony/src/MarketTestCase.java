@@ -22,6 +22,10 @@ public class MarketTestCase {
 		int expectedEnergyQuantityAfterIncrease = EnergyQuantityBeforeIncrease -3;
 		assertEquals(expectedEnergyQuantityAfterIncrease, mk.getEnergyQuantity());
 	}
+	@Test(expected=IllegalStateException.class)
+	public void testBuyEnergyFail(){
+		mk.buyEnergy(30);
+	}
 	@Test
 	public void testSellEnergy(){
 		int EnergyQuantityBeforeDecrease = mk.getEnergyQuantity();
@@ -43,6 +47,10 @@ public class MarketTestCase {
 		mk.buyOre(3);
 		int expectedOreQuantityAfterIncrease = OreQuantityBeforeIncrease -3;
 		assertEquals(expectedOreQuantityAfterIncrease, mk.getOreQuantity());
+	}
+	@Test(expected=IllegalStateException.class)
+	public void testBuyOreFail(){
+		mk.buyOre(3);
 	}
 	@Test
 	public void testEnergyCost(){

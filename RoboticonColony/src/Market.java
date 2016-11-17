@@ -40,7 +40,7 @@ public class Market {
 	 * @param quantity the quantity of ore the player is trying to buy 
 	 */
 		public void buyOre(int quantity){
-			if (mark_inventory.getOreQuantity() > 0){
+			if (mark_inventory.getOreQuantity() >= quantity){
 			mark_inventory.decreaseOreQuantity(quantity);
 			}
 			else{
@@ -74,7 +74,7 @@ public class Market {
 		 * @param quantity the quantity of Energy the player is trying to buy 
 		 */
 		public void buyEnergy(int quantity){
-			if (mark_inventory.getEnergyQuantity() > 0){
+			if (mark_inventory.getEnergyQuantity() >= quantity){
 			mark_inventory.decreaseEnergyQuantity(quantity);
 			}
 			else{
@@ -87,7 +87,7 @@ public class Market {
 		 * @param quantity the quantity of Roboticons the player is trying to buy 
 		 */
 		public void buyRoboticons(int quantity){
-			if (mark_inventory.getRoboticonQuantity() > 0){
+			if (mark_inventory.getRoboticonQuantity() >= quantity){
 			mark_inventory.decreaseRoboticonQuantity(quantity);
 			//TO DO finish when have robotion class
 			}
