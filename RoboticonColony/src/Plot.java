@@ -6,19 +6,19 @@
  *
  */
 public class Plot {
-	private String Best;
-	private int Player;
-	private String Roboticon;
+	private String best;
+	private int player;
+	private String roboticon;
 	/**
 	 * 
-	 * @param Player an integer corresponding to whichever player owns the plot (1 or 2) or  no player owns the plot(0)
-	 * @param Best the resource which the plot produces more of
-	 * @param Roboticon the roboticon type which is on the plot if there is one or none otherwise 
+	 * @param player an integer corresponding to whichever player owns the plot (1 or 2) or  no player owns the plot(0)
+	 * @param best the resource which the plot produces more of
+	 * @param roboticon the roboticon type which is on the plot if there is one or none otherwise 
 	 */
-	public Plot(int Player,String Best, String Roboticon){
-		setPlayer(Player);
-		setBest(Best);
-		setRoboticon(Roboticon);
+	public Plot(int player,String best, String roboticon){
+		setPlayer(player);
+		setBest(best);
+		setRoboticon(roboticon);
 	}
 	public Plot() {
 		initialisePlayer();
@@ -30,19 +30,19 @@ public class Plot {
 	/**
 	 * 
 	 * Sets the resource that the plot is best at producing
-	 * @param Best the name of the resource the plot is best at producing( 'ore' or 'energy') 
+	 * @param best the name of the resource the plot is best at producing( 'ore' or 'energy') 
 	 */
-	public void setBest(String Best) {
-		this.Best = Best;
+	public void setBest(String best) {
+		this.best = best;
 		
 	}
 	/**
 	 * 
 	 * Sets the roboticon type on the plot of land
-	 * @param Roboticon the type of roboticon on the plot of land ('ore' or 'energy')
+	 * @param roboticon the type of roboticon on the plot of land ('ore' or 'energy')
 	 */
-	public void setRoboticon(String Roboticon) {
-		this.Roboticon = Roboticon;
+	public void setRoboticon(String roboticon) {
+		this.roboticon = roboticon;
 		
 	}
 	/**
@@ -50,16 +50,16 @@ public class Plot {
 	 * Initialises the plot to be not owned by a player
 	 */
 	private void initialisePlayer(){
-		this.Player = 0;
+		this.player = 0;
 	}
 	/**
 	 * 
 	 * Changes the plot to be owned by a player
-	 * @param Player a number referencing the player that owns the plot
+	 * @param player a number referencing the player that owns the plot
 	 */
-	public void setPlayer(int Player){
-		if (this.Player == 0){
-			this.Player = Player;
+	public void setPlayer(int player){
+		if (this.player == 0){
+			this.player = player;
 		}
 		else{
 			throw new IllegalStateException("Cannot take plots owned by another player");
@@ -70,28 +70,28 @@ public class Plot {
 	 * Returns 0 if plot is not owned or a number referencing the player that owns the plot of land
 	 */
 	public int getPlayer(){
-		return Player;
+		return player;
 	}
 	/**
 	 * 
 	 * returns 'none' if no roboticon on the land or the name of the specialisation of the roboticon on the land
 	 */
 	public String getRoboticon(){
-		return Roboticon;
+		return roboticon;
 	}
 	/**
 	 * 
 	 * returns the resource that the plot will produce more of ('ore' or 'energy')
 	 */
 	public String getBest(){
-		return Best;
+		return best;
 	}
 	/**
 	 * 
 	 * Adds resources to players inventory if they own the plot and have a roboticon on it 
 	 */
-	public void produce(){
-		if ((Player == 0) ||(Roboticon == "none")){
+	public void produceRoboticon(){
+		if ((player == 0) ||(roboticon == "none")){
 			return;
 		}
 		else{

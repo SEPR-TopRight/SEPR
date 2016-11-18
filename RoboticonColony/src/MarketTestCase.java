@@ -69,7 +69,7 @@ public class MarketTestCase {
 		int initialRoboticons = mk.getRoboticonQuantity();
 		mk.sellOre(5);
 		int initialOre = mk.getOreQuantity();
-		mk.ProduceRoboticon(5);
+		mk.produceRoboticon(5);
 		int ExpectedRoboticons = initialRoboticons + 5;
 		int ExpectedOre = initialOre - 5;
 		assertEquals(ExpectedRoboticons, mk.getRoboticonQuantity());
@@ -77,6 +77,6 @@ public class MarketTestCase {
 	}
 	@Test(expected=IllegalStateException.class)
 	public void testProduceRoboticonsFail(){
-		mk.ProduceRoboticon(5);
+		mk.produceRoboticon(5);
 	}
 }

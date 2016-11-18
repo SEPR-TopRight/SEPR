@@ -136,7 +136,7 @@ public class Market {
 		 * allows the player to produce roboticons from ore
 		 * @param quantity the quantity of roboticons the player wishes to produce
 		 */
-		public void ProduceRoboticon(int quantity){
+		public void produceRoboticon(int quantity){
 			if (mark_inventory.getOreQuantity() >= quantity){
 				mark_inventory.increaseRoboticonQuantity(quantity);
 				mark_inventory.decreaseOreQuantity(quantity);
