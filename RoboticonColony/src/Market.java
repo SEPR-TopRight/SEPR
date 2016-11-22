@@ -5,12 +5,25 @@
  */
 
 public class Market {
-	MarketInventory mark_inventory = new MarketInventory(0,16,12);
-
+	public MarketInventory mark_inventory; // public for now, random events etc
+                                           // no point creating other methdso 
+	
+	
+	/**
+	 * Constructor
+	 * @param oreQuantity The initial quantity of ore to be stored in the market's inventory.
+	 * @param energyQuantity The initial quantity of ore to be stored in the market's inventory.
+	 * @param RoboticonQuantity The initial quantity of ore to be stored in the market's inventory.
+	 */
+	public Market(int oreQuantity, int energyQuantity, int RoboticonQuantity){
+		mark_inventory = new MarketInventory(oreQuantity,energyQuantity,RoboticonQuantity);
+	}
+	
+	/*
 	/**
 	 * 
 	 * Returns the amount of ore in the market's inventory
-	 */
+	 
 	public int getOreQuantity(){
 		
 		return mark_inventory.getOreQuantity();
@@ -18,7 +31,7 @@ public class Market {
 	/**
 	 * 
 	 * Returns the amount of energy in the market's inventory
-	 */
+	 
 	public int getEnergyQuantity(){
 		
 		return mark_inventory.getEnergyQuantity();
@@ -26,11 +39,12 @@ public class Market {
 	/**
 	 * 
 	 * Returns the amount of Roboticons in the market's inventory
-	 */
+	 
 	public int getRoboticonQuantity(){
 	
 	return mark_inventory.getRoboticonQuantity();
 }
+	*/
 	
 	
 	

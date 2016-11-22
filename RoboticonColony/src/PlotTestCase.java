@@ -16,7 +16,7 @@ public class PlotTestCase {
 	
 	@Test
 	public void testCreatePlot(){
-		Plot pt1 = new Plot(0,"ore","none");
+		Plot pt1 = new Plot(null,"ore",RoboticonCustomisation.UNCUSTOMISED);
 		assertEquals(0,pt1.getPlayer());
 		assertEquals("ore",pt1.getBest());
 		assertEquals("none",pt1.getRoboticon());

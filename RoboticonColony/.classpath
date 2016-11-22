@@ -22,5 +22,7 @@
 			<attribute name="javadoc_location" value="jar:platform:/resource/RoboticonColony/packages/lwjgl-collection/lwjgl-glfw/lwjgl-glfw-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/usr/userfs/j/jcn509/w2k/junit-4.12.jar"/>
+	<classpathentry kind="lib" path="/usr/userfs/j/jcn509/w2k/hamcrest-core-1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -13,14 +13,14 @@ public class MarketTestCase {
 	private Market mk;
 	@Before
 	public void setup(){
-		mk = new Market();		
+		mk = new Market(0,16,12);		
 	}
 	@Test
 	public void testBuyEnergy(){
-		int EnergyQuantityBeforeIncrease = mk.getEnergyQuantity();
+		int EnergyQuantityBeforeIncrease = mk.mark_inventory.getEnergyQuantity();
 		mk.buyEnergy(3);
 		int expectedEnergyQuantityAfterIncrease = EnergyQuantityBeforeIncrease -3;
-		assertEquals(expectedEnergyQuantityAfterIncrease, mk.getEnergyQuantity());
+		assertEquals(expectedEnergyQuantityAfterIncrease, mk.mark_inventory.getEnergyQuantity());
 	}
 	@Test(expected=IllegalStateException.class)
 	public void testBuyEnergyFail(){
@@ -28,25 +28,25 @@ public class MarketTestCase {
 	}
 	@Test
 	public void testSellEnergy(){
-		int EnergyQuantityBeforeDecrease = mk.getEnergyQuantity();
+		int EnergyQuantityBeforeDecrease = mk.mark_inventory.getEnergyQuantity();
 		mk.sellEnergy(3);
 		int expectedEnergyQuantityAfterDecrease = EnergyQuantityBeforeDecrease +3;
-		assertEquals(expectedEnergyQuantityAfterDecrease, mk.getEnergyQuantity());
+		assertEquals(expectedEnergyQuantityAfterDecrease, mk.mark_inventory.getEnergyQuantity());
 	}
 	@Test
 	public void testSellOre(){
-		int OreQuantityBeforeDecrease = mk.getOreQuantity();
+		int OreQuantityBeforeDecrease = mk.mark_inventory.getOreQuantity();
 		mk.sellOre(3);
 		int expectedOreQuantityAfterDecrease = OreQuantityBeforeDecrease +3;
-		assertEquals(expectedOreQuantityAfterDecrease, mk.getOreQuantity());
+		assertEquals(expectedOreQuantityAfterDecrease, mk.mark_inventory.getOreQuantity());
 	}
 	@Test
 	public void testBuyOre(){
 		mk.sellOre(3);
-		int OreQuantityBeforeIncrease = mk.getOreQuantity();
+		int OreQuantityBeforeIncrease = mk.mark_inventory.getOreQuantity();
 		mk.buyOre(3);
 		int expectedOreQuantityAfterIncrease = OreQuantityBeforeIncrease -3;
-		assertEquals(expectedOreQuantityAfterIncrease, mk.getOreQuantity());
+		assertEquals(expectedOreQuantityAfterIncrease, mk.mark_inventory.getOreQuantity());
 	}
 	@Test(expected=IllegalStateException.class)
 	public void testBuyOreFail(){
@@ -66,14 +66,14 @@ public class MarketTestCase {
 	}
 	@Test
 	public void testProduceRoboticons(){
-		int initialRoboticons = mk.getRoboticonQuantity();
+		int initialRoboticons = mk.mark_inventory.getRoboticonQuantity();
 		mk.sellOre(5);
-		int initialOre = mk.getOreQuantity();
+		int initialOre = mk.mark_inventory.getOreQuantity();
 		mk.ProduceRoboticon(5);
 		int ExpectedRoboticons = initialRoboticons + 5;
 		int ExpectedOre = initialOre - 5;
-		assertEquals(ExpectedRoboticons, mk.getRoboticonQuantity());
-		assertEquals(ExpectedOre, mk.getOreQuantity());
+		assertEquals(ExpectedRoboticons, mk.mark_inventory.getRoboticonQuantity());
+		assertEquals(ExpectedOre, mk.mark_inventory.getOreQuantity());
 	}
 	@Test(expected=IllegalStateException.class)
 	public void testProduceRoboticonsFail(){
