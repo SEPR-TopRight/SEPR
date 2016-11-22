@@ -30,4 +30,31 @@ public class Main extends ApplicationAdapter {
 		batch.dispose();
 		img.dispose();
 	}
+	
+	public void StartGame() {
+		//TODO: create players
+			//TODO: & inventories
+		Market market = new Market();
+		//TODO: create maps
+			//TODO: array to keep all plots
+		
+		
+		//TODO: call gameloop
+	}
+	
+	public void GameLoop(){
+		//phase 1, 2 & 3:
+		// for all players
+			//TODO: acquire 
+			//TODO: purchase & customisation 
+			//TODO: install roboticon
+		
+		//phase 4 & 5
+		
+		//TODO: produce all resources
+		//TODO: auction of resources
+		
+		//next turn
+		//TODO: next turn
+	}
 }

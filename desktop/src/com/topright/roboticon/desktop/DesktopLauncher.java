@@ -10,5 +10,9 @@ public class DesktopLauncher {
 		config.width = 1680;
 		config.height = 1050;
 		new LwjglApplication(new Main(), config);
+		
+		//TODO: load all resources (images etc)
+		
+		//TODO: call the gameloop
 	}
 }
