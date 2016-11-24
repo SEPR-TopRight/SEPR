@@ -2,7 +2,9 @@ package com.topright.roboticon;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
@@ -12,13 +14,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  * @author andrew
  *
  */
-public class Images {
+public class Images extends Actor{
 
 	Texture texture;
 	Image actor;
+	int x, y;
 	
 	/**
-	 * Create images where texturePath is the location of the image within the assests folder.
+	 * Create images where texturePath is the location of the image within the assets folder.
 	 * x & y are the position of the image, imgWidth & imgHeight are how far you wish for the
 	 * image to be stretched. The image is stored in Main.stage and drawn using stage.draw()
 	 * 
@@ -31,6 +34,9 @@ public class Images {
 	 */
 	public void create(String texturePath, int x, int y, int imgWidth, int imgHeight){
 		
+		this.x = x;
+		this.y = y;
+		
 		texture = new Texture(Gdx.files.internal(texturePath));
         TextureRegion region = new TextureRegion(texture, x, y, imgWidth, imgHeight);          
 
@@ -38,6 +44,11 @@ public class Images {
         
         Main.stage.addActor(actor);
 		
+	}
+	
+	@Override
+	public void draw(Batch batch, float alpha){
+		batch.draw(texture, x, y);
 	}
 	
 	/**
