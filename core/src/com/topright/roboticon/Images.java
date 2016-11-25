@@ -38,9 +38,11 @@ public class Images extends Actor{
 		this.y = y;
 		
 		texture = new Texture(Gdx.files.internal(texturePath));
-        TextureRegion region = new TextureRegion(texture, x, y, imgWidth, imgHeight);          
-
-        Image actor = new Image(region);
+        //TextureRegion region = new TextureRegion(texture, x, y, imgWidth, imgHeight);          
+        
+        Image actor = new Image(texture);
+        actor.setX(400);
+        actor.setY(500);
         
         Main.stage.addActor(actor);
 		

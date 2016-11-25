@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
@@ -16,6 +17,7 @@ public class Main extends ApplicationAdapter {
 	Texture testimage;
 	static Stage stage;
 	Texture texture;
+	TextureRegion region;
     
 	
 	@Override
@@ -23,10 +25,14 @@ public class Main extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+        
+        img = new Texture(Gdx.files.internal("badlogic.jpg"));
+        
 
         //---/TEST CREATIONS\---
         Images testImage = new Images();
         testImage.create("buttons/ButtonOff.9.png", 64, 64, 128, 128);
+        testImage.setX(640);
         
 		Button testButton = new Button();
 		testButton.create("", 100, 100);
@@ -34,6 +40,7 @@ public class Main extends ApplicationAdapter {
 		Text testText = new Text();
 		testText.create("Example text!", 500, 500);
 		//---\TEST CREATIONS/---
+		
 		
 	}
 
@@ -46,7 +53,7 @@ public class Main extends ApplicationAdapter {
 		//limited to 30fps
 		
 		batch.begin(); //everything between .begin() and .end() is drawn
-	
+		batch.draw(img, 100, 200);
 		stage.draw(); // used to draw UI elements like Buttons & windows
 		
 		batch.end();
