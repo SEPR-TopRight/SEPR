@@ -18,7 +18,6 @@ public class Images extends Actor{
 
 	Texture texture;
 	Image actor;
-	int x, y;
 	
 	/**
 	 * Create images where texturePath is the location of the image within the assets folder.
@@ -34,15 +33,13 @@ public class Images extends Actor{
 	 */
 	public void create(String texturePath, int x, int y, int imgWidth, int imgHeight){
 		
-		this.x = x;
-		this.y = y;
-		
 		texture = new Texture(Gdx.files.internal(texturePath));
-        //TextureRegion region = new TextureRegion(texture, x, y, imgWidth, imgHeight);          
-        
+
         Image actor = new Image(texture);
-        actor.setX(400);
-        actor.setY(500);
+        actor.setX(x);
+        actor.setY(y);
+        actor.setWidth(imgWidth);
+        actor.setHeight(imgHeight);
         
         Main.stage.addActor(actor);
 		
@@ -50,7 +47,7 @@ public class Images extends Actor{
 	
 	@Override
 	public void draw(Batch batch, float alpha){
-		batch.draw(texture, x, y);
+		//batch.draw(texture, x, y);
 	}
 	
 	/**

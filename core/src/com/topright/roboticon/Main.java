@@ -18,12 +18,14 @@ public class Main extends ApplicationAdapter {
 	static Stage stage;
 	Texture texture;
 	TextureRegion region;
+	Graphics graphics;
     
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		stage = new Stage();
+		Graphics graphics = new Graphics();
         Gdx.input.setInputProcessor(stage);
         
         img = new Texture(Gdx.files.internal("badlogic.jpg"));
@@ -32,7 +34,6 @@ public class Main extends ApplicationAdapter {
         //---/TEST CREATIONS\---
         Images testImage = new Images();
         testImage.create("buttons/ButtonOff.9.png", 64, 64, 128, 128);
-        testImage.setX(640);
         
 		Button testButton = new Button();
 		testButton.create("", 100, 100);
@@ -41,6 +42,7 @@ public class Main extends ApplicationAdapter {
 		testText.create("Example text!", 500, 500);
 		//---\TEST CREATIONS/---
 		
+		graphics.createMenuBar();
 		
 	}
 
