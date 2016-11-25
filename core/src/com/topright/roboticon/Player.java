@@ -50,7 +50,7 @@ public class Player {
 	}
 	
 	/**
-	 * Attempt to purchase ore from the market (checks to see if the purchase is possible, if it is then the purchase is completed).
+	 * Attempt to purchase energy from the market (checks to see if the purchase is possible, if it is then the purchase is completed).
 	 * <p>
 	 * First finds out how much the energy will cost and checks to ensure that the player has enough money in their inventory.
 	 * If the player has enough money the quantities of energy in the player's and market's inventory are updated and money is taken from the player's inventory.

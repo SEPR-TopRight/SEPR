@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
  * A class for creating and destroying UI Buttons
@@ -32,22 +33,31 @@ public class Button {
      * @param x
      * @param y
      */
-	public void create(String text, float x, float y){
+	public void create(String text, float x, float y, float width, float height, String texturePath, String up, String down, ClickListener click){
 		
 		font = new BitmapFont();
         skin = new Skin();
-        buttonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
+        buttonAtlas = new TextureAtlas(Gdx.files.internal(texturePath));
         skin.addRegions(buttonAtlas);
         textButtonStyle = new TextButtonStyle();
         textButtonStyle.font = font;
-        textButtonStyle.up = skin.getDrawable("ButtonOn");
-        textButtonStyle.down = skin.getDrawable("ButtonOff");
+        textButtonStyle.up = skin.getDrawable(up);
+        textButtonStyle.down = skin.getDrawable(down);
         //textButtonStyle.checked = skin.getDrawable("checked-button");
         button = new TextButton(text, textButtonStyle);
         button.setX(x);
         button.setY(y);
+        button.setSize(width, height);
+        
+        button.addListener(click);
         
         Main.stage.addActor(button);
+		
+	}
+	
+	public void setClickListener(){
+		
+		System.out.println("Hello");
 		
 	}
 	
