@@ -36,7 +36,7 @@ public class MenuBar {
 		//Button testButton = new Button();
 		//testButton.create("asdasdasdasd", 900, 800);
 		
-		buttonNextTurn.create("", 0, 0, 640, 640, "buttons/arrow.pack", "arrow", "arrow", new ClickListener() {              
+		buttonNextTurn.create("", 1500, 1000, 40, 40, "buttons/arrow.pack", "arrow", "arrow", new ClickListener() {              
 		    @Override
 		    public void clicked(InputEvent event, float x, float y) {
 		        System.out.println("hello");
