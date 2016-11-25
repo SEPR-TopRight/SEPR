@@ -30,6 +30,9 @@ public class Main extends ApplicationAdapter {
         
 		Button testButton = new Button();
 		testButton.create("", 100, 100);
+		
+		Text testText = new Text();
+		testText.create("Example text!", 500, 500);
 		//---\TEST CREATIONS/---
 		
 	}
