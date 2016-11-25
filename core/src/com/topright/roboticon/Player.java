@@ -18,8 +18,8 @@ public class Player {
 	 * @param roboticonQuantities The quantity of (uncustomised roboticons) initially in the players inventory.
 	 * @param moneyQuantity The amount of money initially in the player's inventory.
 	 */
-	public Player(int oreQuantity, int energyQuantity,EnumMap<RoboticonCustomisation,Integer> roboticonQuantities, int moneyQuantity){
-		inventory = new PlayerInventory(oreQuantity,energyQuantity,roboticonQuantities, moneyQuantity);
+	public Player(PlayerInventory inventory){
+		this.inventory = inventory;
 		//score = 0;
 	}
 	
@@ -48,6 +48,7 @@ public class Player {
 			return true;
 		}
 	}
+	
 	/**
 	 * Attempt to purchase ore from the market (checks to see if the purchase is possible, if it is then the purchase is completed).
 	 * <p>
@@ -73,6 +74,7 @@ public class Player {
 			return true;
 		}
 	}
+	
 	/**
 	 * Attempt to purchase roboticons from the market (checks to see if the purchase is possible, if it is then the purchase is completed).
 	 * <p>
@@ -98,6 +100,7 @@ public class Player {
 			return true;
 		}
 	}
+	
 	/**
 	 * Attempt to customise a roboticon in the players inventory (if the customisation is possible then it is carried out).
 	 * <p>
@@ -124,6 +127,52 @@ public class Player {
 			return true;
 		}
 	}
+	
+	/**
+	 * Attempt to sell ore to the market (checks to see if the sale is possible, if it is then the sale is completed).
+	 * <p>
+	 * First checks how much ore the player has in their inventory.
+	 * If the player has enough ore the quantities of ore in the player's and market's inventory are updated and money is added to the player's inventory.
+	 * </p>
+	 * {@link Player#inventory}
+	 * @param market The market object to which the player is selling ore.
+	 * @param quantity The amount of ore that the player wants to sell.
+	 * @return A boolean value: true if the sale was successful and false if not.
+	 */
+	public boolean attemptToSellOre(Market market, int quantity){
+		if(quantity > inventory.getOreQuantity()) // Cannot sell energy that is not in player's possession.
+			return false;
+		else{ // The player has enough money.
+			market.sellOre(quantity);
+			inventory.decreaseOreQuantity(quantity);
+			inventory.increaseMoneyQuantity(market.getCostOre(quantity));
+			return true;
+		}
+	}
+	
+	/**
+	 * Attempt to sell energy to the market (checks to see if the sale is possible, if it is then the purchase is completed).
+	 * <p>
+	 * First checks to see if the player has enough energy in their inventory
+	 * If the player has enough energy the quantities of energy in the player's and market's inventory are updated and money is added to the player's inventory.
+	 * </p>
+	 * <p>
+	 * {@link Player#inventory}
+	 * @param market The market object to which the player is selling energy.
+	 * @param quantity The amount of energy that the player wants to sell.
+	 * @return A boolean value: true if the sale was successful and false if not.
+	 */
+	public boolean attemptToSellEnergy(Market market, int quantity){
+		if(quantity > inventory.getEnergyQuantity()) // Cannot sell energy that is not in player's possession.
+			return false;
+		else{ // The player has enough money.
+			market.sellEnergy(quantity);
+			inventory.decreaseEnergyQuantity(quantity);
+			inventory.increaseMoneyQuantity(market.getCostEnergy(quantity));
+			return true;
+		}
+	}
+	
 	
 	
 	
