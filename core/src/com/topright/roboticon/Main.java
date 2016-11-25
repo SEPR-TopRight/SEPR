@@ -8,6 +8,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 //TODO: Window, Text, Image
 
@@ -15,10 +21,14 @@ public class Main extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	Texture testimage;
-	static Stage stage;
+	Stage stage;
 	Texture texture;
 	TextureRegion region;
 	MenuBar menu;
+	Buttons nextStageButton;
+	PopUpWindow marketWindow;
+	int timer_time;
+	Label timer_label;
 	private PopUpWindow window;
 	private Images background;
     
@@ -27,13 +37,19 @@ public class Main extends ApplicationAdapter {
 	public void create(){
 		batch = new SpriteBatch();
 		stage = new Stage();
-		MenuBar menu = new MenuBar();
+		menu = new MenuBar();
         Gdx.input.setInputProcessor(stage);
+        stage.addActor(menu);
         
         img = new Texture(Gdx.files.internal("badlogic.jpg"));
         
-        background = new Images();
-        background.create("backgrounds/test.png", 0, 0, 1680, 990);
+        timer_label = new Label("", new Skin(Gdx.files.internal("uiskin.json")));
+        timer_label.setX(1000);
+        timer_label.setY(1000);
+        
+        background = new Images("backgrounds/test.png", 0, 0, 1680, 990);
+        stage.addActor(background);
+        menu.addActor(timer_label);
         //---/TEST CREATIONS\---
         //images testImage = new Images();
         //testImage.create("buttons/ButtonOff.9.png", 64, 64, 128, 128);
@@ -44,10 +60,8 @@ public class Main extends ApplicationAdapter {
 		//testText.create("Example text!", 500, 500);
 		//---\TEST CREATIONS/---
 		
-		menu.create();
-		window = new PopUpWindow();
-		window.create("title");
-		
+        
+        gameLoop();
 	}
 
 	@Override
@@ -71,7 +85,8 @@ public class Main extends ApplicationAdapter {
 		img.dispose();
 	}
 	
-	public void StartGame() {
+	public void startGame() {
+		
 		//TODO: create players
 			//TODO: & inventories
 		//Market market = new Market();
@@ -79,10 +94,57 @@ public class Main extends ApplicationAdapter {
 			//TODO: array to keep all plots
 		
 		
-		//TODO: call gameloop
+		gameLoop();
 	}
 	
-	public void GameLoop(){
+	//purely for testing purposes
+	public void nextStage(){
+		marketWindow.remove();
+		nextStageButton.remove();
+		marketWindow = null;
+		nextStageButton = null;
+		timer_label.setText("");
+		timer_time = 0;
+	}
+	
+	
+	//probably going to rename
+	public void marketStage(){
+		marketWindow = new PopUpWindow("Market");
+		nextStageButton = new Buttons("done with market",1630, 1000, 40, 40, "buttons/buttons.pack", "ButtonOn", "ButtonOn", new ClickListener() {
+	        @Override
+			public void clicked(InputEvent event, float x, float y)
+	        {
+	            nextStage();
+	        }
+	    } );		
+		menu.addActor(nextStageButton);
+        stage.addActor(marketWindow);
+        final int time_till_next_stage = 10;
+        timer_time = time_till_next_stage;
+        Timer.schedule(new Task(){
+            @Override
+            public void run() {
+            	if(timer_time == 0){ // stops things from being broken if the user clicks the close button
+            		cancel();
+            	}
+            	else if(timer_time>1){
+            		timer_time-=1;
+            		timer_label.setText("Time left: "+timer_time);
+            	}
+            	else
+            		nextStage();
+            }
+        }
+        , 0       //    (delay till start)
+        , 1     //    (execute every x seconds)
+        , time_till_next_stage -1
+    );
+        
+	}
+	
+	public void gameLoop(){
+		marketStage();
 		//phase 1, 2 & 3:
 		// for all players
 			//TODO: acquire 

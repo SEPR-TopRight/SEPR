@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -13,13 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  * @author andrew
  *
  */
-public class Button {
+public class Buttons extends TextButton{
 	
-	TextButton button;
-    TextButtonStyle textButtonStyle;
-    BitmapFont font;
-    Skin skin;
-    TextureAtlas buttonAtlas;
 	
     //TODO: figure out how not to stretch the button
     
@@ -33,27 +29,36 @@ public class Button {
      * @param x
      * @param y
      */
-	public void create(String text, float x, float y, float width, float height, String texturePath, String up, String down, ClickListener click){
-		
-		font = new BitmapFont();
-        skin = new Skin();
-        buttonAtlas = new TextureAtlas(Gdx.files.internal(texturePath));
+    
+    
+    //there has to be a less ridiculous way of doing this...
+    private static TextButtonStyle getTextButtonStyle(String up, String down, String texturePath){
+    	TextButtonStyle textButtonStyle = new TextButtonStyle();
+        textButtonStyle.font = new BitmapFont();
+        Skin skin = new Skin();
+        TextureAtlas buttonAtlas = new TextureAtlas(Gdx.files.internal(texturePath));
         skin.addRegions(buttonAtlas);
-        textButtonStyle = new TextButtonStyle();
-        textButtonStyle.font = font;
         textButtonStyle.up = skin.getDrawable(up);
         textButtonStyle.down = skin.getDrawable(down);
+        return textButtonStyle;
+    }
+    
+	public Buttons(String text, float x, float y, float width, float height, String texturePath, String up, String down, ClickListener click){
+		super(text,getTextButtonStyle(up, down, texturePath)); 
+        
+        
+        
         //textButtonStyle.checked = skin.getDrawable("checked-button");
-        button = new TextButton(text, textButtonStyle);
-        button.setX(x);
-        button.setY(y);
-        button.setSize(width, height);
         
-        button.addListener(click);
+        setX(x);
+        setY(y);
+        setSize(width, height);
         
-        Main.stage.addActor(button);
+        addListener(click);
+        
 		
 	}
+	
 	
 	public void setClickListener(){
 		
@@ -66,10 +71,5 @@ public class Button {
 	 * 
 	 * @author andrew
 	 */
-	public void destroy(){
-		
-		button.remove();
-		
-	}
 	
 }
