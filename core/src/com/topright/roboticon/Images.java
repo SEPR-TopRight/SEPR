@@ -2,9 +2,6 @@ package com.topright.roboticon;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 /**
@@ -14,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  * @author andrew
  *
  */
-public class Images extends Actor{
+public class Images{
 
 	Texture texture;
 	Image actor;
@@ -46,10 +43,7 @@ public class Images extends Actor{
 		
 	}
 	
-	@Override
-	public void draw(Batch batch, float alpha){
-		//batch.draw(texture, x, y);
-	}
+
 	
 	/**
 	 * Deletes the image from the stage and from existence .. forever. 
@@ -58,7 +52,6 @@ public class Images extends Actor{
 	 */
 	public void destroy(){
 		
-		actor.remove();
 		
 	}
 }

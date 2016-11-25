@@ -19,10 +19,12 @@ public class Main extends ApplicationAdapter {
 	Texture texture;
 	TextureRegion region;
 	MenuBar menu;
+	private PopUpWindow window;
+	private Images background;
     
 	
 	@Override
-	public void create () {
+	public void create(){
 		batch = new SpriteBatch();
 		stage = new Stage();
 		MenuBar menu = new MenuBar();
@@ -30,7 +32,8 @@ public class Main extends ApplicationAdapter {
         
         img = new Texture(Gdx.files.internal("badlogic.jpg"));
         
-
+        background = new Images();
+        background.create("backgrounds/test.png", 0, 0, 1680, 990);
         //---/TEST CREATIONS\---
         //images testImage = new Images();
         //testImage.create("buttons/ButtonOff.9.png", 64, 64, 128, 128);
@@ -42,12 +45,14 @@ public class Main extends ApplicationAdapter {
 		//---\TEST CREATIONS/---
 		
 		menu.create();
+		window = new PopUpWindow();
+		window.create("title");
 		
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0.6f, 0.6f, 1);
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		stage.act(); //TODO: figure out what this does

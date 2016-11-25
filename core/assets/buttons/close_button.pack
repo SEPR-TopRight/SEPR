@@ -1,0 +1,21 @@
+
+close_button.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+close_button
+  rotate: false
+  xy: 0, 0
+  size: 110, 110
+  split: 23, 26, 18, 34
+  orig: 110, 110
+  offset: 0, 0
+  index: -1
+close_button_flipped
+  rotate: true
+  xy: 110, 0
+  size: 110, 110
+  split: 23, 26, 18, 34
+  orig: 110, 110
+  offset: 0, 0
+  index: -1

@@ -66,7 +66,7 @@ public class Button {
 	 * 
 	 * @author andrew
 	 */
-	public void remove(){
+	public void destroy(){
 		
 		button.remove();
 		
