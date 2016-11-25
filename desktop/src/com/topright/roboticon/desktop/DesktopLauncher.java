@@ -9,6 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1680;
 		config.height = 1050;
+		config.fullscreen = true;
 		new LwjglApplication(new Main(), config);
 		
 		//TODO: load all resources (images etc)

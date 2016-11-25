@@ -34,8 +34,9 @@ public class Images extends Actor{
 	public void create(String texturePath, int x, int y, int imgWidth, int imgHeight){
 		
 		texture = new Texture(Gdx.files.internal(texturePath));
-
+		//texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         Image actor = new Image(texture);
+        
         actor.setX(x);
         actor.setY(y);
         actor.setWidth(imgWidth);

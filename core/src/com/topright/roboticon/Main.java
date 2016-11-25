@@ -18,37 +18,36 @@ public class Main extends ApplicationAdapter {
 	static Stage stage;
 	Texture texture;
 	TextureRegion region;
-	Graphics graphics;
+	MenuBar menu;
     
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		stage = new Stage();
-		Graphics graphics = new Graphics();
+		MenuBar menu = new MenuBar();
         Gdx.input.setInputProcessor(stage);
         
         img = new Texture(Gdx.files.internal("badlogic.jpg"));
         
 
         //---/TEST CREATIONS\---
-        Images testImage = new Images();
-        testImage.create("buttons/ButtonOff.9.png", 64, 64, 128, 128);
+        //images testImage = new Images();
+        //testImage.create("buttons/ButtonOff.9.png", 64, 64, 128, 128);
         
-		Button testButton = new Button();
-		testButton.create("", 100, 100);
 		
-		Text testText = new Text();
-		testText.create("Example text!", 500, 500);
+		
+		//Text testText = new Text();
+		//testText.create("Example text!", 500, 500);
 		//---\TEST CREATIONS/---
 		
-		graphics.createMenuBar();
+		menu.create();
 		
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClearColor(1, 0.6f, 0.6f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		stage.act(); //TODO: figure out what this does
