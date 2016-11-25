@@ -2,50 +2,28 @@ package com.topright.roboticon;
 import static org.junit.Assert.*;
 import java.util.EnumMap;
 import org.junit.*;	
+import mockit.*;
 /**
  * Test case for {@link Player}
  * @author jcn509
  */
 
-// NOTHING TO TEST (WHEN BUYING/SELLING) that the market is correctly updated
-
 public class PlayerTestCase {
 	
 	private Player player;
-	private Market market;
-	private EnumMap<RoboticonCustomisation,Integer> roboticonQuantities;
+	@Mocked private PlayerInventory playerInventory;
+	
+	@Mocked private Market market;
 
 	/**
 	 * Runs before every test, creates a new market object and an empty mapping from RoboticonCustomisation to Integer.
 	 */
 	@Before
-	public void createPlayer(){
-		market = new Market(); // MY FAKE MARKET OBJECT - MOCK LATER
-		roboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
+	public void setup(){
+		playerInventory = new PlayerInventory(5,4,new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class),1000);
+		market = new Market(10,10,10);
+		player = new Player(playerInventory);
 		
-	}
-	
-	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that the correct amount of money is taken from the players inventory.
-	 */
-	@Test
-	public void testCorrectMoneyBuyEnergyHaveEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10000);
-		int cost = market.getCostEnergy(6);
-		int initialMoney = player.inventory.getMoneyQuantity();
-		player.attemptToBuyEnergy(market,6);
-		assertEquals(initialMoney - cost,player.inventory.getMoneyQuantity());
-	}
-	
-	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that the correct amount of energy is added to the players inventory.
-	 */
-	@Test
-	public void testCorrectEnergyBuyEnergyHaveEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10000);
-		int initialEnergy = player.inventory.getEnergyQuantity();
-		player.attemptToBuyEnergy(market,6);
-		assertEquals(initialEnergy+6,player.inventory.getEnergyQuantity());
 	}
 	
 	/**
@@ -53,8 +31,18 @@ public class PlayerTestCase {
 	 */
 	@Test
 	public void testReturnTrueBuyEnergyHaveEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10000);
+		new Expectations(){{
+			market.getCostEnergy(anyInt); result = 10;
+			playerInventory.getMoneyQuantity();result=100000;
+		}};
+		
 		assertTrue(player.attemptToBuyEnergy(market,6));
+		new Verifications(){{
+			market.getCostEnergy(6);times=1;
+			market.buyEnergy(anyInt);times=1;
+			playerInventory.increaseEnergyQuantity(6);times=1;
+			playerInventory.decreaseMoneyQuantity(10);times=1;
+		}};
 	}
 	
 	/**
@@ -62,31 +50,18 @@ public class PlayerTestCase {
 	 */
 	@Test
 	public void testBuyEnergyNotEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10);
+		new Expectations(){{
+			market.getCostEnergy(anyInt); result = 1000;
+			playerInventory.getMoneyQuantity(); result = 0;
+		}};
+		
 		assertFalse(player.attemptToBuyEnergy(market,1000000));
-	}
-	
-	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures that the correct amount of money is taken from the players inventory.
-	 */
-	@Test
-	public void testCorrectMoneyBuyOreHaveEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10000);
-		int cost = market.getCostOre(6);
-		int initialMoney = player.inventory.getMoneyQuantity();
-		player.attemptToBuyOre(market,6);
-		assertEquals(initialMoney - cost,player.inventory.getMoneyQuantity());
-	}
-	
-	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures that the correct amount of ore is added to the players inventory.
-	 */
-	@Test
-	public void testCorrectOreBuyOreHaveEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10000);
-		int initialOre = player.inventory.getOreQuantity();
-		player.attemptToBuyOre(market,6);
-		assertEquals(initialOre+6,player.inventory.getOreQuantity());
+		new Verifications(){{
+			market.getCostEnergy(1000000);times=1;
+			market.buyEnergy(anyInt);times=0;
+			playerInventory.increaseEnergyQuantity(anyInt);times=0;
+			playerInventory.decreaseMoneyQuantity(anyInt);times=0;
+		}};
 	}
 	
 	/**
@@ -94,8 +69,17 @@ public class PlayerTestCase {
 	 */
 	@Test
 	public void testReturnTrueBuyOreHaveEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10000);
+		new Expectations(){{
+			market.getCostOre(anyInt);result=10;
+			playerInventory.getMoneyQuantity();result=10;
+		}};
 		assertTrue(player.attemptToBuyOre(market,6));
+		new Verifications(){{
+			market.getCostOre(6);times=1;
+			market.buyOre(6);times=1;
+			playerInventory.increaseOreQuantity(6);times=1;
+			playerInventory.decreaseMoneyQuantity(10);times=1;
+		}};
 	}
 	
 	/**
@@ -103,40 +87,37 @@ public class PlayerTestCase {
 	 */
 	@Test
 	public void testBuyOreNotEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10);
+		new Expectations(){{
+			market.getCostOre(anyInt);result=100000;
+			playerInventory.getMoneyQuantity();result=0;
+		}};
 		assertFalse(player.attemptToBuyOre(market,1000000));
+		new Verifications(){{
+			market.getCostOre(1000000);times=1;
+			market.buyOre(anyInt);times=0;
+			playerInventory.increaseOreQuantity(anyInt);times=0;
+			playerInventory.decreaseMoneyQuantity(anyInt);times=0;
+		}};
 	}
 	
-	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that the correct amount of money is taken from the players inventory.
-	 */
-	@Test
-	public void testCorrectMoneyBuyRoboticonsHaveEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10000);
-		int cost = market.getCostRoboticons(6);
-		int initialMoney = player.inventory.getMoneyQuantity();
-		player.attemptToBuyRoboticons(market,6);
-		assertEquals(initialMoney - cost,player.inventory.getMoneyQuantity());
-	}
-	
-	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that the correct number of roboticons are added to the players inventory.
-	 */
-	@Test
-	public void testCorrectRoboticonsBuyRoboticonsHaveEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10000);
-		int initialRoboticons = player.inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);
-		player.attemptToBuyRoboticons(market,6);
-		assertEquals(initialRoboticons+6,player.inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED));
-	}
 	
 	/**
 	 * Tests {@link Player#attemptToBuyRoboticons} ensures that returns true when used correctly.
 	 */
 	@Test
 	public void testReturnTrueBuyRoboticonsHaveEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10000);
+		new Expectations(){{
+			market.getCostRoboticons(anyInt);result=10;
+			playerInventory.getMoneyQuantity();result=10000;
+		}};
+		
 		assertTrue(player.attemptToBuyRoboticons(market,6));
+		new Verifications(){{
+			market.getCostRoboticons(6);times=1;
+			market.buyRoboticons(6);times=1;
+			playerInventory.decreaseMoneyQuantity(10);times=1;
+			playerInventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, 6);times=1;
+		}};
 	}
 	
 	/**
@@ -144,65 +125,141 @@ public class PlayerTestCase {
 	 */
 	@Test
 	public void testBuyRoboticonsNotEnoughMoney(){
-		player = new Player(5,4,roboticonQuantities,10);
+		new Expectations(){{
+			market.getCostRoboticons(anyInt);result=99999999;
+			playerInventory.getMoneyQuantity();result=0;
+		}};
 		assertFalse(player.attemptToBuyRoboticons(market,1000000));
+		new Verifications(){{
+			market.getCostRoboticons(1000000);times=1;
+			market.buyRoboticons(anyInt);times=0;
+			playerInventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED,anyInt);times=0;
+			playerInventory.decreaseMoneyQuantity(anyInt);times=0;
+		}};
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of uncustomised roboticons in the player's inventory is reduced by 1.
+	 * Tests {@link Player#attemptToSellOre} ensures that it returns false when the player does not have enough ore.
 	 */
 	@Test
-	public void TestUncustomisedRoboticonQuantitiesCustomiseRoboticons(){
-		player = new Player(5,4,roboticonQuantities,10);
-		player.inventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED,1);
-		int uncustomisedQuantity = player.inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);
-		int customisedQuantity = player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE);
-		player.attemptToCustomiseRoboticon(market, RoboticonCustomisation.ORE);
-		assertEquals(uncustomisedQuantity-1,player.inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED));
+	public void testSellOreNotEnoughOre(){
+		new Expectations(){{
+			playerInventory.getOreQuantity();result=0;
+		}};
+		assertFalse(player.attemptToSellOre(market,1000000));
+		new Verifications(){{
+			market.getCostOre(1000000);times=0;
+			market.sellOre(anyInt);times=0;
+			playerInventory.decreaseOreQuantity(anyInt);times=0;
+			playerInventory.increaseMoneyQuantity(anyInt);times=0;
+		}};
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of roboticons with the correct customisation in player's inventory is increased by 1.
+	 * Tests {@link Player#attemptToSellOre} ensures that it returns true when used as intended.
 	 */
 	@Test
-	public void TestCustomisedRoboticonQuantitiesCustomiseRoboticons(){
-		player = new Player(5,4,roboticonQuantities,10);
-		player.inventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED,1);
-		int uncustomisedQuantity = player.inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);
-		int customisedQuantity = player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE);
-		player.attemptToCustomiseRoboticon(market, RoboticonCustomisation.ORE);
-		assertEquals(customisedQuantity+1,player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE));
+	public void testSellOreEnoughOreReturnTrue(){
+		new Expectations(){{
+			playerInventory.getOreQuantity();result=10;
+			market.getCostOre(anyInt);result=100;
+		}};
+		assertTrue(player.attemptToSellOre(market,10));
+		new Verifications(){{
+			market.getCostOre(10);times=1;
+			market.sellOre(10);times=1;
+			playerInventory.decreaseOreQuantity(10);times=1;
+			playerInventory.increaseMoneyQuantity(100);times=1;
+		}};
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the correct amount of money is removed from the player's inventory.
+	 * Tests {@link Player#attemptToSellenergy} ensures that it returns false when the player does not have enough energy.
 	 */
 	@Test
-	public void TestMoneyQuantityCustomiseRoboticons(){
-		player = new Player(5,4,roboticonQuantities,10);
-		player.inventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED,1);
-		int moneyBefore = player.inventory.getMoneyQuantity();
-		int cost = market.getCostRoboticonCustomisation(RoboticonCustomisation.ORE);
-		player.attemptToCustomiseRoboticon(market, RoboticonCustomisation.ORE);
-		assertEquals(moneyBefore-cost,player.inventory.getMoneyQuantity());
+	public void testSellEnergyNotEnoughEnergy(){
+		new Expectations(){{
+			playerInventory.getEnergyQuantity();result=0;
+		}};
+		assertFalse(player.attemptToSellEnergy(market,1000000));
+		new Verifications(){{
+			market.getCostEnergy(anyInt);times=0;
+			market.sellEnergy(anyInt);times=0;
+			playerInventory.decreaseEnergyQuantity(anyInt);times=0;
+			playerInventory.increaseMoneyQuantity(anyInt);times=0;
+		}};
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player has no uncustomised roboticons in their inventory.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that it returns true when used as intended.
 	 */
 	@Test
-	public void TestNoUncustomisedRoboticonsCustomiseRoboticons(){
-		player = new Player(5,4,roboticonQuantities,10);
-		assertFalse(player.attemptToCustomiseRoboticon(market, RoboticonCustomisation.ORE));
+	public void testSellEnergyEnoughEnergyReturnTrue(){
+		new Expectations(){{
+			playerInventory.getEnergyQuantity();result=10;
+			market.getCostEnergy(anyInt);result=100;
+		}};
+		assertTrue(player.attemptToSellEnergy(market,10));
+		new Verifications(){{
+			market.getCostEnergy(10);times=1;
+			market.sellEnergy(10);times=1;
+			playerInventory.decreaseEnergyQuantity(10);times=1;
+			playerInventory.increaseMoneyQuantity(100);times=1;
+		}};
 	}
+	
+	/**
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when used properly.
+	 */
+	@Test
+	public void testReturnTrueCustomiseRoboticonsHaveEnoughMoney(){
+		new Expectations(){{
+			market.getCostRoboticonCustomisation(RoboticonCustomisation.ORE);result=10;
+			playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);result=1;
+			playerInventory.getMoneyQuantity();result=10000;
+		}};
+		assertTrue(player.attemptToCustomiseRoboticon(market,RoboticonCustomisation.ORE));
+		new Verifications(){{
+			playerInventory.decreaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, 1);times=1;
+			playerInventory.decreaseMoneyQuantity(anyInt);times=1;
+			playerInventory.increaseRoboticonQuantity(RoboticonCustomisation.ORE, anyInt);times=1;
+		}};
+	}
+	
 	
 	/**
 	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does not have enough money in their inventory.
 	 */
 	@Test
-	public void TestNotEnoughMoneyCustomiseRoboticons(){
-		player = new Player(5,4,roboticonQuantities,0);
-		player.inventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED,1);
+	public void testNotEnoughMoneyCustomiseRoboticons(){
+		new Expectations(){{
+			market.getCostRoboticonCustomisation(RoboticonCustomisation.ORE);result=20000000;
+			playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);result=1;
+			playerInventory.getMoneyQuantity();result=10;
+		}};
 		assertFalse(player.attemptToCustomiseRoboticon(market, RoboticonCustomisation.ORE));
+		new Verifications(){{
+			playerInventory.decreaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, 1);times=0;
+			playerInventory.decreaseMoneyQuantity(anyInt);times=0;
+			playerInventory.increaseRoboticonQuantity(RoboticonCustomisation.ORE, anyInt);times=0;
+		}};
 	}
+	
+	/**
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does not have any uncustomised roboticons in their inventory.
+	 */
+	@Test
+	public void testNoUncustomisedRoboticonsCustomiseRoboticons(){
+		new Expectations(){{
+			playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);result=0;
+		}};
+		assertFalse(player.attemptToCustomiseRoboticon(market, RoboticonCustomisation.ORE));
+		new Verifications(){{
+			playerInventory.decreaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, anyInt);times=0;
+			playerInventory.decreaseMoneyQuantity(anyInt);times=0;
+			playerInventory.increaseRoboticonQuantity(RoboticonCustomisation.ORE, anyInt);times=0;
+			market.getCostRoboticonCustomisation(RoboticonCustomisation.ORE);times=0;
+		}};
+	}	
+	
 }
