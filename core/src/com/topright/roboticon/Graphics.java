@@ -22,7 +22,9 @@ public class Graphics {
 		Images robEnergy = new Images();
 		Images robOre = new Images();
 		
-		iconMoney.create("icon/icon-coin.png", 10, 500, 40, 40);
+		iconMoney.create("icon/icon-coin.png", 10, 1000, 40, 40);
+		iconEnergy.create("icon/icon-energy.png", 110, 1000, 40, 40);
+		iconOre.create("icon/icon-ore.png", 210, 1000, 40, 40);
 		
 	}
 	
