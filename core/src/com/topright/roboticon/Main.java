@@ -1,5 +1,7 @@
 package com.topright.roboticon;
 
+import java.util.Random;
+
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -7,31 +9,20 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
+
+import box2dLight.RayHandler;
 
 //TODO: Window, Text, Image
 
 public class Main extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
-	Texture testimage;
-	Stage stage;
-	Texture texture;
-	TextureRegion region;
-	MenuBar menu;
-	Buttons nextStageButton;
-	PopUpWindow marketWindow;
-	int timer_time;
-	Label timer_label;
-	private PopUpWindow window;
-	private Images background;
-    
+	private SpriteBatch batch;
+	private Texture img;
+	private Stage stage;
+	private MenuBar menu;
+	
+	private PopUpWindow marketWindow;    
+	
+	private Plot[][] plots = new Plot[4][4]; // initialise later
 	
 	@Override
 	public void create(){
@@ -43,25 +34,24 @@ public class Main extends ApplicationAdapter {
         
         img = new Texture(Gdx.files.internal("badlogic.jpg"));
         
-        timer_label = new Label("", new Skin(Gdx.files.internal("uiskin.json")));
-        timer_label.setX(1000);
-        timer_label.setY(1000);
+        Images backgroundImage = new Images("backgrounds/test.png", 0, 0, 1680, 990);
+        stage.addActor(backgroundImage);		
         
-        background = new Images("backgrounds/test.png", 0, 0, 1680, 990);
-        stage.addActor(background);
-        menu.addActor(timer_label);
-        //---/TEST CREATIONS\---
-        //images testImage = new Images();
-        //testImage.create("buttons/ButtonOff.9.png", 64, 64, 128, 128);
+        startGame();
         
-		
-		
-		//Text testText = new Text();
-		//testText.create("Example text!", 500, 500);
-		//---\TEST CREATIONS/---
-		
-        
-        gameLoop();
+
+	}
+	
+	public void initialisePlots(){
+		for(int row=0;row<plots.length;row++){
+			for(int column=0;column<plots[0].length;column++){
+			    String[] bestAtChoices = {"ore","energy"};
+			    int choice = new Random().nextInt(bestAtChoices.length);
+			
+			    // No Player owns each plot, no roboticon is placed on it and its best at attribute is random
+				plots[row][column]= new Plot(null, bestAtChoices[choice], RoboticonCustomisation.UNCUSTOMISED);
+			}
+		}
 	}
 
 	@Override
@@ -99,52 +89,29 @@ public class Main extends ApplicationAdapter {
 	
 	//purely for testing purposes
 	public void nextStage(){
+		menu.clearTimer();
 		marketWindow.remove();
-		nextStageButton.remove();
+		menu.removeNextStageButton();
 		marketWindow = null;
-		nextStageButton = null;
-		timer_label.setText("");
-		timer_time = 0;
 	}
 	
+	public void plotAquisitionStage(){
+		plotHolder p = new plotHolder(plots,1680,990);
+		stage.addActor(p);
+		// When done, want to call buying Roboticons phase method
+	}
 	
 	//probably going to rename
-	public void marketStage(){
+	public void buyingRoboticonsStage(){
 		marketWindow = new PopUpWindow("Market");
-		nextStageButton = new Buttons("done with market",1630, 1000, 40, 40, "buttons/buttons.pack", "ButtonOn", "ButtonOn", new ClickListener() {
-	        @Override
-			public void clicked(InputEvent event, float x, float y)
-	        {
-	            nextStage();
-	        }
-	    } );		
-		menu.addActor(nextStageButton);
-        stage.addActor(marketWindow);
-        final int time_till_next_stage = 10;
-        timer_time = time_till_next_stage;
-        Timer.schedule(new Task(){
-            @Override
-            public void run() {
-            	if(timer_time == 0){ // stops things from being broken if the user clicks the close button
-            		cancel();
-            	}
-            	else if(timer_time>1){
-            		timer_time-=1;
-            		timer_label.setText("Time left: "+timer_time);
-            	}
-            	else
-            		nextStage();
-            }
-        }
-        , 0       //    (delay till start)
-        , 1     //    (execute every x seconds)
-        , time_till_next_stage -1
-    );
-        
+		menu.createAndSetNextStageButton(this::nextStage);
+        stage.addActor(marketWindow);        
+        menu.setMenuText("Buying Roboticons");
+        menu.setTimer(this::nextStage, 6);
 	}
 	
-	public void gameLoop(){
-		marketStage();
+	public void gameLoop(){// Each stage calls the next stage/gameloop method?
+		plotAquisitionStage();//spelling?
 		//phase 1, 2 & 3:
 		// for all players
 			//TODO: acquire 

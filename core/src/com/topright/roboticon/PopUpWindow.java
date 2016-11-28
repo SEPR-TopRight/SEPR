@@ -1,9 +1,7 @@
 package com.topright.roboticon;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 /**
@@ -12,10 +10,6 @@ import com.badlogic.gdx.utils.Align;
  *
  */
 public class PopUpWindow extends Window{
-	private String titleText;
-	private Images background;
-	private Buttons buttonClose;
-
 	public PopUpWindow(String titleText){
 		super(titleText, new Skin(Gdx.files.internal("uiskin.json")));
 		

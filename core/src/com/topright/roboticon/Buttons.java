@@ -20,8 +20,7 @@ public class Buttons extends TextButton{
     //TODO: figure out how not to stretch the button
     
     /**
-     * 
-     * Creates a button object and adds it to the Main.stage. 
+     *      * Creates a button object and adds it to the Main.stage. 
      * Takes text as an input and an x & y co-ordinates.
      * 
      * @author andrew
@@ -47,7 +46,6 @@ public class Buttons extends TextButton{
 		super(text,getTextButtonStyle(up, down, texturePath)); 
         
         
-        
         //textButtonStyle.checked = skin.getDrawable("checked-button");
         
         setX(x);
@@ -65,11 +63,5 @@ public class Buttons extends TextButton{
 		System.out.println("Hello");
 		
 	}
-	
-	/**
-	 * Deletes the button from the stage and from existence .. forever. 
-	 * 
-	 * @author andrew
-	 */
 	
 }
