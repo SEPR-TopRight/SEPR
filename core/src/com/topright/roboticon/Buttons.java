@@ -42,26 +42,21 @@ public class Buttons extends TextButton{
         return textButtonStyle;
     }
     
-	public Buttons(String text, float x, float y, float width, float height, String texturePath, String up, String down, ClickListener click){
+	public Buttons(String text, String texturePath, String up, String down, ClickListener click){
 		super(text,getTextButtonStyle(up, down, texturePath)); 
         
         
         //textButtonStyle.checked = skin.getDrawable("checked-button");
         
-        setX(x);
-        setY(y);
-        setSize(width, height);
+       
         
         addListener(click);
         
 		
 	}
 	
-	
-	public void setClickListener(){
-		
-		System.out.println("Hello");
-		
+	public void setImage(String texturePath, String up, String down){
+		this.setStyle(getTextButtonStyle(up,down,texturePath));
 	}
 	
 }

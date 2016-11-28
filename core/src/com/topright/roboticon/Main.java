@@ -1,5 +1,6 @@
 package com.topright.roboticon;
 
+import java.util.EnumMap;
 import java.util.Random;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -9,6 +10,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Scaling;
 
 import box2dLight.RayHandler;
 
@@ -24,18 +29,38 @@ public class Main extends ApplicationAdapter {
 	
 	private Plot[][] plots = new Plot[4][4]; // initialise later
 	
+	private Player humanPlayer;
+	private Player AIPlayer;
+	private Player currentPlayer;
+	private PlotHolder plotHolder;
+	
 	@Override
 	public void create(){
 		batch = new SpriteBatch();
 		stage = new Stage();
 		menu = new MenuBar();
         Gdx.input.setInputProcessor(stage);
-        stage.addActor(menu);
+        //stage.addActor(menu);
+        initialisePlots();
+        plotHolder = new PlotHolder(plots,"backgrounds/test.png");
         
-        img = new Texture(Gdx.files.internal("badlogic.jpg"));
+       
+        EnumMap<RoboticonCustomisation,Integer> roboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
+        humanPlayer = new Player(new PlayerInventory(0, 0, roboticonQuantities, 0));
+        AIPlayer = new Player(new PlayerInventory(0, 0, roboticonQuantities, 0));
+     
+        currentPlayer = humanPlayer;//change so is random
+        plotHolder.setClickActionNone();
         
-        Images backgroundImage = new Images("backgrounds/test.png", 0, 0, 1680, 990);
-        stage.addActor(backgroundImage);		
+        Table mainGuiContainer = new Table();
+        mainGuiContainer.setFillParent(true);
+        mainGuiContainer.add(menu).expandX().fillX();
+        mainGuiContainer.row();
+        mainGuiContainer.add(plotHolder).fill().expand();
+              
+  
+        stage.addActor(mainGuiContainer);
+      
         
         startGame();
         
@@ -53,6 +78,7 @@ public class Main extends ApplicationAdapter {
 			}
 		}
 	}
+	
 
 	@Override
 	public void render () {
@@ -63,10 +89,14 @@ public class Main extends ApplicationAdapter {
 		//limited to 30fps
 		
 		batch.begin(); //everything between .begin() and .end() is drawn
-		batch.draw(img, 100, 200);
 		stage.draw(); // used to draw UI elements like Buttons & windows
 		
 		batch.end();
+	}
+	
+	@Override
+	public void resize (int width, int height) {
+	    stage.getViewport().update(width, height, true);
 	}
 	
 	@Override
@@ -83,12 +113,11 @@ public class Main extends ApplicationAdapter {
 		//TODO: create maps
 			//TODO: array to keep all plots
 		
-		
-		gameLoop();
+		plotAquisitionStage();
 	}
 	
-	//purely for testing purposes
-	public void nextStage(){
+	//called once done with
+	public void roboticonPlacingStage(){
 		menu.clearTimer();
 		marketWindow.remove();
 		menu.removeNextStageButton();
@@ -96,22 +125,27 @@ public class Main extends ApplicationAdapter {
 	}
 	
 	public void plotAquisitionStage(){
-		plotHolder p = new plotHolder(plots,1680,990);
-		stage.addActor(p);
+		menu.setMenuText("Choose a plot to aquire");
+		plotHolder.setCurrentPlayer(humanPlayer);
+        plotHolder.setClickActionAquire(this::buyingRoboticonsStage);
+		
+		//t.addActor(p);
 		// When done, want to call buying Roboticons phase method
 	}
 	
 	//probably going to rename
 	public void buyingRoboticonsStage(){
+		plotHolder.setClickActionNone();
 		marketWindow = new PopUpWindow("Market");
-		menu.createAndSetNextStageButton(this::nextStage);
+		menu.createAndSetNextStageButton(this::roboticonPlacingStage);
         stage.addActor(marketWindow);        
-        menu.setMenuText("Buying Roboticons");
-        menu.setTimer(this::nextStage, 6);
+        menu.setMenuText("Purchase roboticons. Click the next button when you're done.");
+        menu.setTimer(this::roboticonPlacingStage, 6);
 	}
 	
 	public void gameLoop(){// Each stage calls the next stage/gameloop method?
-		plotAquisitionStage();//spelling?
+		//plotAquisitionStage();//spelling?
+		//buyingRoboticonsStage();
 		//phase 1, 2 & 3:
 		// for all players
 			//TODO: acquire 

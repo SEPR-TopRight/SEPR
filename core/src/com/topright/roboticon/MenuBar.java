@@ -1,10 +1,12 @@
 package com.topright.roboticon;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -15,7 +17,7 @@ import com.badlogic.gdx.utils.Timer.Task;
  *
  */
 
-public class MenuBar extends WidgetGroup{
+public class MenuBar extends Table{
 	private int timerTime;
 	private Label menuLabel;
 	private String menuText;
@@ -24,17 +26,16 @@ public class MenuBar extends WidgetGroup{
 	interface Action {
 	  void execute();
 	}
-
 	
 	public void createAndSetNextStageButton(final Runnable methodToCallUponClick){
-		nextStageButton = new Buttons("done with market",1630, 1000, 40, 40, "buttons/buttons.pack", "ButtonOn", "ButtonOn", new ClickListener() {
+		nextStageButton = new Buttons("done with market", "buttons/buttons.pack", "ButtonOn", "ButtonOn", new ClickListener() {
 	        @Override
 			public void clicked(InputEvent event, float x, float y)
 	        {
 	        	methodToCallUponClick.run();
 	        }
 	    } );
-		addActor(nextStageButton);
+		add(nextStageButton).right();
 	}
 	
 	public void setMenuText(String menuText){
@@ -75,37 +76,19 @@ public class MenuBar extends WidgetGroup{
         , timerTime-1 );
 	}
 
-	public MenuBar(){
-		
-		/*Images buttonIconMarket = new Images();
-		Images robEnergy = new Images();
-		Images robOre = new Images();
-		Button buttonStage = new Button();
-		Button buttonNextTurn = new Button();*/
-		
+	public MenuBar(){		
 		
 		menuLabel = new Label("", new Skin(Gdx.files.internal("uiskin.json")));
-		menuLabel.setX(1000);
-		menuLabel.setY(1000);
 		
-		Images iconMoney = new Images("icon/icon-coin.png", 10, 1000, 40, 40);
-		Images iconEnergy = new Images("icon/icon-energy.png", 110, 1000, 40, 40);
-		Images iconOre = new Images("icon/icon-ore.png", 210, 1000, 40, 40);
+		Image iconMoney = new Image(new Texture(Gdx.files.internal("icon/icon-coin.png")));
+		Image iconEnergy = new Image(new Texture(Gdx.files.internal("icon/icon-energy.png")));
+		Image iconOre = new Image(new Texture(Gdx.files.internal("icon/icon-ore.png")));
 		
-		addActor(iconMoney);
-		addActor(iconEnergy);
-		addActor(iconOre);
-		addActor(menuLabel);
+		add(iconMoney).left();
+		add(iconEnergy).left();
+		add(iconOre).left();
+		add(menuLabel).expandX().center();
 		
-		//Button testButton = new Button();
-		//testButton.create("asdasdasdasd", 900, 800);
-		
-		/*buttonNextTurn.create("", 1500, 1000, 40, 40, "buttons/arrow.pack", "arrow", "arrow", new ClickListener() {              
-		    @Override
-		    public void clicked(InputEvent event, float x, float y) {
-		        System.out.println("hello");
-		    }
-		});*/
 		
 	}
 	
