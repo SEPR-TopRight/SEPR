@@ -101,6 +101,7 @@ public class Plot {
 		}
 		else{
 			//TO DO Increase relevant resource in players inventory, 2* if best? (will do once player class is done)
+			player.inventory.increaseEnergyQuantity(1);
 			return;
 		}
 		
