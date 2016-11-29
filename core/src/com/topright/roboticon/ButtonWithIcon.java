@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  * @author andrew
  *
  */
-public class Buttons extends TextButton{
+public class ButtonWithIcon extends TextButton{
 	
 	
     //TODO: figure out how not to stretch the button
@@ -42,7 +42,7 @@ public class Buttons extends TextButton{
         return textButtonStyle;
     }
     
-	public Buttons(String text, String texturePath, String up, String down, ClickListener click){
+	public ButtonWithIcon(String text, String texturePath, String up, String down, ClickListener click){
 		super(text,getTextButtonStyle(up, down, texturePath)); 
         
         
@@ -53,6 +53,10 @@ public class Buttons extends TextButton{
         addListener(click);
         
 		
+	}
+	
+	public ButtonWithIcon(String text, String texturePath, String up, String down){
+		super(text,getTextButtonStyle(up, down, texturePath)); 		
 	}
 	
 	public void setImage(String texturePath, String up, String down){
