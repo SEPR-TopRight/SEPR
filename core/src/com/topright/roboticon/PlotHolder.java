@@ -4,6 +4,8 @@
 package com.topright.roboticon;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.MessageManager;
+import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -29,7 +31,6 @@ public class PlotHolder extends Table{
 	
 	private Buttons[][] buttons;
 	
-	private Runnable callOncePlotAquired;
 	
 	private Player currentPlayer = null; // Want to throw an exception if used when null.
 	
@@ -42,8 +43,8 @@ public class PlotHolder extends Table{
 		Plot plot = plots[row][column];
 		if(!plot.hasBeenAquired()){
 			plot.setPlayer(currentPlayer);
-			callOncePlotAquired.run();
 			buttons[row][column].setImage("plot_overlays/human.pack", "human", "human");
+			MessageManager.getInstance().dispatchMessage(null, 1, new int[] {row,column});
 		}
 	}
 	
@@ -51,9 +52,8 @@ public class PlotHolder extends Table{
 		this.currentPlayer = player;
 	}
 	
-	public void setClickActionAquire(Runnable callOncePlotAquired){
+	public void setClickActionAquire(){
 		clickMode = PlotClickMode.AQUIRE;
-		this.callOncePlotAquired = callOncePlotAquired;
 	}
 	
 	public void setClickActionNone(){

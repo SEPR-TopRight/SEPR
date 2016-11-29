@@ -5,6 +5,9 @@ import java.util.Random;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.ai.msg.MessageManager;
+import com.badlogic.gdx.ai.msg.Telegram;
+import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,7 +22,7 @@ import box2dLight.RayHandler;
 
 //TODO: Window, Text, Image
 
-public class Main extends ApplicationAdapter {
+public class Main extends ApplicationAdapter implements Telegraph{
 	private SpriteBatch batch;
 	private Texture img;
 	private Stage stage;
@@ -57,6 +60,9 @@ public class Main extends ApplicationAdapter {
         mainGuiContainer.add(menu).expandX().fillX();
         mainGuiContainer.row();
         mainGuiContainer.add(plotHolder).fill().expand();
+        
+        MessageManager.getInstance().addListener(this, 1);
+        
               
   
         stage.addActor(mainGuiContainer);
@@ -127,7 +133,7 @@ public class Main extends ApplicationAdapter {
 	public void plotAquisitionStage(){
 		menu.setMenuText("Choose a plot to aquire");
 		plotHolder.setCurrentPlayer(humanPlayer);
-        plotHolder.setClickActionAquire(this::buyingRoboticonsStage);
+        plotHolder.setClickActionAquire();
 		
 		//t.addActor(p);
 		// When done, want to call buying Roboticons phase method
@@ -143,7 +149,7 @@ public class Main extends ApplicationAdapter {
         menu.setTimer(this::roboticonPlacingStage, 6);
 	}
 	
-	public void gameLoop(){// Each stage calls the next stage/gameloop method?
+
 		//plotAquisitionStage();//spelling?
 		//buyingRoboticonsStage();
 		//phase 1, 2 & 3:
@@ -159,5 +165,13 @@ public class Main extends ApplicationAdapter {
 		
 		//next turn
 		//TODO: next turn
+
+	@Override
+	public boolean handleMessage(Telegram msg) {
+		// TODO Auto-generated method stub
+		if((int) msg.message == 1){// When a plot has been acquired we want to move to the buying stage
+			buyingRoboticonsStage();
+		}
+		return true;
 	}
 }
