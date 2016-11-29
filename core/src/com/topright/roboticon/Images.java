@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
  * @author andrew
  *
  */
-public class Images{
+public class Images extends Image{
 
 	Texture texture;
 	Image actor;
@@ -28,18 +28,18 @@ public class Images{
 	 * @param imgWidth
 	 * @param imgHeight
 	 */
-	public void create(String texturePath, int x, int y, int imgWidth, int imgHeight){
+	public Images(String texturePath, int x, int y, int imgWidth, int imgHeight){
+		super(new Texture(Gdx.files.internal(texturePath)));
 		
-		texture = new Texture(Gdx.files.internal(texturePath));
 		//texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        Image actor = new Image(texture);
+ 
         
-        actor.setX(x);
-        actor.setY(y);
-        actor.setWidth(imgWidth);
-        actor.setHeight(imgHeight);
+        setX(x);
+        setY(y);
+        setWidth(imgWidth);
+        setHeight(imgHeight);
         
-        Main.stage.addActor(actor);
+        
 		
 	}
 	

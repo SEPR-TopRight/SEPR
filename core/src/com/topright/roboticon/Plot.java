@@ -61,6 +61,11 @@ public class Plot {
 			throw new IllegalStateException("Cannot take plots owned by another player");
 		}
 	}
+	
+	public boolean hasBeenAquired(){
+		return !(player == null);
+	}
+	
 	/**
 	 * 
 	 * Returns 0 if plot is not owned or a number referencing the player that owns the plot of land

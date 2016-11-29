@@ -1,47 +1,94 @@
 package com.topright.roboticon;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 
 /**
  * Contains all 
  * @author andrew
  *
  */
-public class MenuBar {
-	
-	private Images iconMoney;
-	private Images iconEnergy;
-	private Images iconOre;
-	private Images buttonIconMarket;
-	private Images robEnergy;
-	private Images robOre;
-	private Button buttonStage;
-	private Button buttonNextTurn;
 
-	public void create(){
-		Images iconMoney = new Images();
-		Images iconEnergy = new Images();
-		Images iconOre = new Images();
-		Images buttonIconMarket = new Images();
-		Images robEnergy = new Images();
-		Images robOre = new Images();
-		Button buttonStage = new Button();
-		Button buttonNextTurn = new Button();
+public class MenuBar extends Table{
+	private int timerTime;
+	private Label menuLabel;
+	private String menuText;
+	private Buttons nextStageButton;
+	@FunctionalInterface
+	interface Action {
+	  void execute();
+	}
+	
+	public void createAndSetNextStageButton(final Runnable methodToCallUponClick){
+		nextStageButton = new Buttons("done with market", "buttons/buttons.pack", "ButtonOn", "ButtonOn", new ClickListener() {
+	        @Override
+			public void clicked(InputEvent event, float x, float y)
+	        {
+	        	methodToCallUponClick.run();
+	        }
+	    } );
+		add(nextStageButton).right();
+	}
+	
+	public void setMenuText(String menuText){
+		this.menuText = menuText;
+		menuLabel.setText(menuText);
 		
-		iconMoney.create("icon/icon-coin.png", 10, 1000, 40, 40);
-		iconEnergy.create("icon/icon-energy.png", 110, 1000, 40, 40);
-		iconOre.create("icon/icon-ore.png", 210, 1000, 40, 40);
+	}
+	
+	public void removeNextStageButton(){
+		nextStageButton.remove();
+		nextStageButton = null; // May not be the best solution?
+	}
+	
+	public void clearTimer(){
+		menuLabel.setText(menuText); // Remove the Time left: part
+		timerTime=0;
+	}
+	
+	public void setTimer(final Runnable methodToCallWhenTimeUp, final int time){
+		timerTime = time;
+		Timer.schedule(new Task(){
+            @Override
+            public void run() {
+            	if(timerTime == 0){ // stops things from being broken if the timer cleared from elsewhere
+            		cancel();
+            	}
+            	else if(timerTime>1){
+            		timerTime-=1;
+            		menuLabel.setText(menuText+" Time left: "+timerTime);
+            	}
+            	else{
+            		methodToCallWhenTimeUp.run();
+            	}
+            }
+        }
+        , 0       //    (delay till start)
+        , 1     //    (execute every x seconds)
+        , timerTime-1 );
+	}
+
+	public MenuBar(){		
 		
-		//Button testButton = new Button();
-		//testButton.create("asdasdasdasd", 900, 800);
+		menuLabel = new Label("", new Skin(Gdx.files.internal("uiskin.json")));
 		
-		buttonNextTurn.create("", 1500, 1000, 40, 40, "buttons/arrow.pack", "arrow", "arrow", new ClickListener() {              
-		    @Override
-		    public void clicked(InputEvent event, float x, float y) {
-		        System.out.println("hello");
-		    }
-		});
+		Image iconMoney = new Image(new Texture(Gdx.files.internal("icon/icon-coin.png")));
+		Image iconEnergy = new Image(new Texture(Gdx.files.internal("icon/icon-energy.png")));
+		Image iconOre = new Image(new Texture(Gdx.files.internal("icon/icon-ore.png")));
+		
+		add(iconMoney).left();
+		add(iconEnergy).left();
+		add(iconOre).left();
+		add(menuLabel).expandX().center();
+		
 		
 	}
 	

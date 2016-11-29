@@ -1,37 +1,24 @@
 package com.topright.roboticon;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 
 /**
  * Contains all 
  * @author jcn509
  *
  */
-public class PopUpWindow {
-	
-	private Images background;
-	private Button buttonClose;
-	private String titleText;
-
-	public void create(String titleText){
-		Images background = new Images();
-		this.titleText = titleText;
-		background.create("buttons/ButtonOn.9.png", 100, 100, 1480, 890);
+public class PopUpWindow extends Window{
+	public PopUpWindow(String titleText){
+		super(titleText, new Skin(Gdx.files.internal("uiskin.json")));
 		
-		buttonClose = new Button();
-		buttonClose.create("", 1535, 945, 40, 40, "buttons/close_button.pack", "close_button", "close_button_flipped", new ClickListener() {              
-		    @Override
-		    public void clicked(InputEvent event, float x, float y) { 
-		        
-		    }
-		});
-		//destroy();
+		
+		setWidth(1000);
+	    align(Align.center | Align.top);
+	    setSize(1480,790);
+	    setPosition(100,100);
+	    setMovable(false);
+	    setResizable(false);
 	}
-	
-	public void destroy(){
-		background.destroy();
-		buttonClose.destroy();
-	}
-	
 }

@@ -1,0 +1,13 @@
+
+unaquired.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+unaquired
+  rotate: false
+  xy: 1, 1
+  size: 1, 1
+  split: 23, 26, 18, 34
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
