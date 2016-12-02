@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.Timer.Task;
@@ -25,7 +26,7 @@ public class MenuBar extends Table{
 	private int timerTime;
 	private Label menuLabel;
 	private String menuText;
-	private ButtonWithIcon nextStageButton;
+	private TextButton nextStageButton;
 	private InventoryTable inventoryTable;
 	
 	/**
@@ -115,9 +116,7 @@ public class MenuBar extends Table{
 	 * @param inventory The inventory that contains the data that is to be displayed.
 	 */
 	public void updatePlayerInventoryData(PlayerInventory inventory){
-		inventoryTable.oreLabel.setText(Integer.toString(inventory.getOreQuantity()));
-		inventoryTable.energyLabel.setText(Integer.toString(inventory.getEnergyQuantity()));
-		inventoryTable.moneyLabel.setText(Integer.toString(inventory.getMoneyQuantity()));
+		inventoryTable.updateData(inventory);
 	}
 	
 	/**
@@ -129,6 +128,8 @@ public class MenuBar extends Table{
 		private Label moneyLabel;
 		private Label energyLabel;
 		private Label oreLabel;
+		private Label energyRoboticonLabel;
+		private Label oreRoboticonLabel;
 		
 		/**
 		 * Constructor
@@ -143,6 +144,10 @@ public class MenuBar extends Table{
 			Image iconOre = new Image(new Texture(Gdx.files.internal("icon/icon-ore.png")));
 			oreLabel = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
 			
+			energyRoboticonLabel  = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
+			
+			oreRoboticonLabel  = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
+			
 			add(iconMoney).left();
 			add(moneyLabel).left().padRight(40); // want separation between the numbers and the icons
 		
@@ -152,7 +157,21 @@ public class MenuBar extends Table{
 			add(iconOre).left();
 			add(oreLabel).left().padRight(40);
 			
+			add(energyRoboticonLabel).left().padRight(40); // want separation between the numbers and the icons
+			
+			
+			add(oreRoboticonLabel).left().padRight(40); // want separation between the numbers and the icon
+			
 			// Add icons and labels for uncustomised roboticons, ore roboticons and energy roboticons
+		}
+		
+		public void updateData(PlayerInventory inventory){
+			inventoryTable.oreLabel.setText(Integer.toString(inventory.getOreQuantity()));
+			inventoryTable.energyLabel.setText(Integer.toString(inventory.getEnergyQuantity()));
+			inventoryTable.moneyLabel.setText(Integer.toString(inventory.getMoneyQuantity()));
+			
+			inventoryTable.energyRoboticonLabel.setText(Integer.toString(inventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY)));
+			inventoryTable.oreRoboticonLabel.setText(Integer.toString(inventory.getRoboticonQuantity(RoboticonCustomisation.ORE)));
 		}
 	}
 	
@@ -167,7 +186,7 @@ public class MenuBar extends Table{
 		menuLabel = new Label("", new Skin(Gdx.files.internal("uiskin.json")));
 		add(menuLabel).expandX().center();
 		
-		nextStageButton = new ButtonWithIcon("", "buttons/buttons.pack", "ButtonOn", "ButtonOn"); // Dont't want to place it right away
+		nextStageButton = new TextButton("", new Skin(Gdx.files.internal("uiskin.json"))); // Dont't want to place it right away
 		                                                                                          // May not be needed and we don't yet know what it should do
 	}
 	

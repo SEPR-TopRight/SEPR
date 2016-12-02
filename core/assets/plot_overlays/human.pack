@@ -6,8 +6,8 @@ repeat: none
 human
   rotate: false
   xy: 1, 1
-  size: 100, 100
+  size: 400, 200
   split: 23, 26, 18, 34
-  orig: 100, 100
+  orig: 400, 200
   offset: 0, 0
   index: -1

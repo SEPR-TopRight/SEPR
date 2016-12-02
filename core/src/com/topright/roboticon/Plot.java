@@ -101,7 +101,14 @@ public class Plot {
 		}
 		else{
 			//TO DO Increase relevant resource in players inventory, 2* if best? (will do once player class is done)
-			player.inventory.increaseEnergyQuantity(1);
+			if(roboticon == RoboticonCustomisation.ENERGY && best == "energy")
+				player.inventory.increaseEnergyQuantity(2);
+			else if(roboticon == RoboticonCustomisation.ORE && best == "ore")
+				player.inventory.increaseOreQuantity(2);
+			else if(roboticon == RoboticonCustomisation.ENERGY)
+				player.inventory.increaseEnergyQuantity(1);
+			else if(roboticon == RoboticonCustomisation.ORE)
+				player.inventory.increaseOreQuantity(1);
 			return;
 		}
 		

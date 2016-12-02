@@ -173,6 +173,18 @@ public class Player {
 		}
 	}
 	
+	public boolean attemptToPlaceRoboticon(Plot plot, RoboticonCustomisation roboticonCustomisation){
+		if(inventory.getRoboticonQuantity(roboticonCustomisation) < 1)
+			return false;
+		else if(plot.hasRoboticon())
+			return false;
+		
+		inventory.decreaseRoboticonQuantity(roboticonCustomisation, 1);
+		plot.setRoboticon(roboticonCustomisation);
+		
+		return true;
+	}
+	
 	
 	
 	

@@ -23,16 +23,32 @@ public class PlotManager extends Table{
 	private String aquisitionColour;
 	private ButtonWithIcon[][] buttons;
 	private Player currentPlayer = null; // Want to throw an exception if used when null.
+	private RoboticonPlaceMenu roboticonPlaceMenu = null;
 	
 	/**
 	 * Called whenever a plot is clicked, ensures that the correct operation (if any) is carried out on the plot.
 	 * @param row The row number of the plot that was clicked.
 	 * @param column The column number of the plot that was clicked.
 	 */
-	public void plotClicked(int row,int column){
+	public void plotClicked(int row,int column, float x, float y){
 		if(clickMode == PlotClickMode.AQUIRE)
 			aquirePlot(row,column);
+		if(clickMode == PlotClickMode.PLACEROBOTICON && plots[row][column].getPlayer() ==currentPlayer)
+			openPlaceRoboticonMenu(plots[row][column],x,y);
 		//TODO add extra case for if placing roboticons
+	}
+	
+	private void openPlaceRoboticonMenu(Plot plot, float x, float y){
+		removeRoboticonPlaceMenu();
+		roboticonPlaceMenu = new RoboticonPlaceMenu(x, y, currentPlayer, plot);
+		addActor(roboticonPlaceMenu);
+	}
+	
+	public void removeRoboticonPlaceMenu(){
+		if(roboticonPlaceMenu != null){
+			roboticonPlaceMenu.remove();
+			roboticonPlaceMenu=null;
+		}
 	}
 	
 	/**
@@ -61,7 +77,7 @@ public class PlotManager extends Table{
 	 * @param player The current player.
 	 */
 	public void setCurrentPlayer(Player player){
-		this.currentPlayer = player;
+		currentPlayer = player;
 	}
 	
 	/**
@@ -125,7 +141,7 @@ public class PlotManager extends Table{
 							@Override
 							public void clicked(InputEvent event, float x, float y)
 							{
-								plotClicked(r,c);
+								plotClicked(r,c,event.getStageX(),event.getStageY());
 							}
 						}
 				);
