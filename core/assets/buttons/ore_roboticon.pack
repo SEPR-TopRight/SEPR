@@ -1,13 +1,14 @@
 
-fence.png
+ore_roboticon.png
 format: RGBA8888
-filter: Linear,Linear
+filter: Nearest,Nearest
 repeat: none
-unaquired
+ore_roboticon
   rotate: false
-  xy: 1, 1
-  size: 1, 1
+  xy: 0, 0
+  size: 40, 40
   split: 23, 26, 18, 34
-  orig: 1, 1
+  orig: 40, 40
   offset: 0, 0
   index: -1
+

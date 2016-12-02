@@ -13,12 +13,20 @@ public class PopUpWindow extends Window{
 	public PopUpWindow(String titleText){
 		super(titleText, new Skin(Gdx.files.internal("uiskin.json")));
 		
-		// Shouldn't really set the size in pixels. Will change later...
-		setWidth(1000);
-	    align(Align.center | Align.top);
-	    setSize(1480,790);
-	    setPosition(100,100);
+	
 	    setMovable(false);
 	    setResizable(false);
 	}
+	
+	protected void moveToMiddleOfScreen(){
+		float windowWidth = getWidth();
+		float windowHeight = getHeight();
+		
+		float screenWidth = Gdx.graphics.getWidth();
+		float screenHeight = Gdx.graphics.getHeight();
+		
+		setX((screenWidth/2)-(windowWidth/2));
+		setY((screenHeight/2)-(windowHeight/2));
+	}
+	
 }
