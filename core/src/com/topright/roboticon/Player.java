@@ -189,8 +189,9 @@ public class Player {
 	
 	
 	//not yet implemented - not sure if should be here
-	public int calculateScore(){
-		return 0;
+	public Integer calculateScore(){
+		Integer score = inventory.getMoneyQuantity();
+		return score;
 	}
 	/*not yet implemented - not sure if should be here or done in the engine itself.
 	public boolean placeRoboticon(Roboticon/RoboticonCusomisation,Plot){

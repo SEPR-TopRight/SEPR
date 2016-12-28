@@ -8,7 +8,7 @@ package com.topright.roboticon;
 public class Market {
 	public MarketInventory mark_inventory; // public for now, random events etc
                                            // no point creating other methdso 
-	
+	private int roboticonOreCost = 4; // How many ore needed to produce a roboticon
 	
 	/**
 	 * Constructor
@@ -137,6 +137,21 @@ public class Market {
 			return 10 * quantity;
 			//TO DO change this when we know more
 		}
+		
+		/**
+		 * 
+		 * If the market has enough ore it will produce another roboticon (at the cost of ore)
+		 * @return true if a roboticon was produced and false if not
+		 */
+		public boolean attemptToProduceRoboticon(){
+			if(mark_inventory.getOreQuantity() >= roboticonOreCost){
+				mark_inventory.increaseRoboticonQuantity(1);
+				mark_inventory.decreaseOreQuantity(roboticonOreCost);
+				return true;
+			}
+			return false;
+		}		
+		
 		/**
 		 * 
 		 * returns the cost of customising a roboticon

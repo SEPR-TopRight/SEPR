@@ -144,11 +144,14 @@ public class MenuBar extends Table{
 		
 			Image iconOre = new Image(new Texture(Gdx.files.internal("icon/icon-ore.png")));
 			oreLabel = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
-			
+
+			Image iconUncustomisedRoboticon = new Image(new Texture(Gdx.files.internal("icon/uncustomisedRoboticon.png")));
 			uncustomisedRoboticonLabel  = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
 			
+			Image iconEnergyRoboticon = new Image(new Texture(Gdx.files.internal("icon/energyRoboticon.png")));			
 			energyRoboticonLabel  = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
 			
+			Image iconOreRoboticon = new Image(new Texture(Gdx.files.internal("icon/oreRoboticon.png")));
 			oreRoboticonLabel  = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
 			
 			add(iconMoney).left();
@@ -160,10 +163,13 @@ public class MenuBar extends Table{
 			add(iconOre).left();
 			add(oreLabel).left().padRight(40);
 
+			add(iconUncustomisedRoboticon).left();
 			add(uncustomisedRoboticonLabel).left().padRight(40); // want separation between the numbers and the icons
 			
+			add(iconEnergyRoboticon).left();
 			add(energyRoboticonLabel).left().padRight(40); // want separation between the numbers and the icons	
 			
+			add(iconOreRoboticon).left();
 			add(oreRoboticonLabel).left().padRight(40); // want separation between the numbers and the icon
 			
 			// Add icons and labels for uncustomised roboticons, ore roboticons and energy roboticons

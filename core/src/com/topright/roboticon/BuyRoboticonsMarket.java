@@ -22,9 +22,16 @@ public class BuyRoboticonsMarket extends PopUpWindow{
                 this.player = player;
 		
 		transactionQuantitySpinBox = new SpinBox("Buy ",0,0, market.mark_inventory.getRoboticonQuantity());
+		transactionQuantitySpinBox.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+	        {
+	        	updateTransactionCostLabel();
+	        }
+		});
 		
 		roboticonsInStockLabel = new Label("Roboticons in stock: "+Integer.toString(market.mark_inventory.getRoboticonQuantity()), new Skin(Gdx.files.internal("uiskin.json")));
-		Label costPerRoboticonLabel = new Label("Price per roboticon: 12", new Skin(Gdx.files.internal("uiskin.json")));
+		Label costPerRoboticonLabel = new Label("Price per roboticon: "+Integer.toString(market.getCostRoboticons(1)), new Skin(Gdx.files.internal("uiskin.json")));
 		transactionCostLabel = new Label("Total cost: 0",new Skin(Gdx.files.internal("uiskin.json")));
 		
 		TextButton completeTransactionButton = new TextButton("Purchase",new Skin(Gdx.files.internal("uiskin.json")));
@@ -33,32 +40,30 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 			public void clicked(InputEvent event, float x, float y)
 	        {
 				attemptTransaction();
-                                
+                         
 	        }
-			
 		});
-		
-		add(roboticonsInStockLabel).expand().fill().left();
-		
-		row();
-		add(costPerRoboticonLabel).expand().fill().right();
-		
-		row();
-		add(transactionQuantitySpinBox).expand().fill().left().padTop(20);
-		
-		row();
-		add(transactionCostLabel).expand().fill().left();
-		
-		row();
-		add(completeTransactionButton).expand().fill().left().padTop(20);
-		
-		transactionQuantitySpinBox.addListener(new ClickListener(){
+
+		TextButton produceRoboticonButton = new TextButton("Produce roboticon", new Skin(Gdx.files.internal("uiskin.json")));
+		produceRoboticonButton.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y)
 	        {
-	        	updateTransactionCostLabel();
+	        	attemptToProduceRoboticon();
 	        }
 		});
+		
+		add(roboticonsInStockLabel).expand().fill().left();
+		row();
+		add(costPerRoboticonLabel).expand().fill().right();
+		row();
+		add(transactionQuantitySpinBox).expand().fill().left().padTop(20);
+		row();
+		add(transactionCostLabel).expand().fill().left();
+		row();
+		add(completeTransactionButton).expand().fill().left().padTop(20);
+		row();
+		add(produceRoboticonButton);
 
 		setSize(getPrefWidth(),getPrefHeight());
 		moveToMiddleOfScreen();
@@ -68,14 +73,19 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 		Integer transactionCost = market.getCostRoboticons(transactionQuantitySpinBox.getValue()); 
 		transactionCostLabel.setText("Total cost: "+transactionCost.toString());
 	}
+	
+	private void attemptToProduceRoboticon(){
+		if(market.attemptToProduceRoboticon())
+			updateRoboticonsInStockLabel();
+		else
+			getParent().addActor(new MessagePopUp("Not enough ore","The market does not have enough ore to producec a roboticon!"));
+	}
 
 	private void attemptTransaction(){
 		if(transactionQuantitySpinBox.getValue()>0){
 			if(player.attemptToBuyRoboticons(market,transactionQuantitySpinBox.getValue())){
-				int roboticonsInStock = market.mark_inventory.getRoboticonQuantity();
 				MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
-				roboticonsInStockLabel.setText("Roboticons in stock: "+Integer.toString(roboticonsInStock));
-				transactionQuantitySpinBox.setMaxValue(roboticonsInStock);
+				updateRoboticonsInStockLabel();
 				updateTransactionCostLabel();			
 			}
 			else{ // As the player cannot attempt to purchase more Roboticons than the market has in stock
@@ -84,5 +94,11 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 				getParent().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
 			}
 		}
+	}
+	
+	private void updateRoboticonsInStockLabel(){
+		int roboticonsInStock = market.mark_inventory.getRoboticonQuantity();
+		roboticonsInStockLabel.setText("Roboticons in stock: "+Integer.toString(roboticonsInStock));
+		transactionQuantitySpinBox.setMaxValue(roboticonsInStock);
 	}
 }

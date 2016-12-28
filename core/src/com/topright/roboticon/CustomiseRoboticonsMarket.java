@@ -52,9 +52,9 @@ public class CustomiseRoboticonsMarket extends PopUpWindow {
 		add(oreCustomisationCostLabel).left().padBottom(20);
 		row();
 		
-		add(energyCustomisationButton).left();
+		add(energyCustomisationButton).left().fillX();
 		row();
-		add(oreCustomisationButton).left();
+		add(oreCustomisationButton).left().fillX();
 
 		setSize(getPrefWidth(),getPrefHeight());
 		moveToMiddleOfScreen();

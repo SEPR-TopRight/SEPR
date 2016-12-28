@@ -1,7 +1,6 @@
 package com.topright.roboticon;
 
 import java.util.EnumMap;
-import java.util.Random;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -12,22 +11,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
-import box2dLight.ConeLight;
-import box2dLight.DirectionalLight;
-import box2dLight.PointLight;
-import box2dLight.RayHandler;
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
-
-
-//TODO: Window, Text, Image
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class Main extends ApplicationAdapter implements Telegraph{
 	private SpriteBatch batch;
@@ -35,16 +20,10 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	private Stage stage;
 	private MenuBar menu;
 	
-	//OrthographicCamera camera;
-   // RayHandler rayHandler;
-    //World world;
-	
 	private PopUpWindow marketWindow;    
 	
-	 // initialise later
-	
 	private Player humanPlayer;
-	private Player AIPlayer;
+	private AIPlayer AIPlayer;
 	private Player currentPlayer;
 	private Player firstPlayer;
 	private PlotManager plotManager;
@@ -57,15 +36,15 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		menu = new MenuBar();
         Gdx.input.setInputProcessor(stage);
        
-        Plot[][] plots = initialisePlots();
-        plotManager = new PlotManager(plots,"backgrounds/map.png");
+        plotManager = new PlotManager("backgrounds/map.png");
         
-       
         EnumMap<RoboticonCustomisation,Integer> HumanRoboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
         EnumMap<RoboticonCustomisation,Integer> AIRoboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
-        humanPlayer = new Player(new PlayerInventory(0, 0, HumanRoboticonQuantities, 100000));
-        humanPlayer.inventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, 5);
-        AIPlayer = new Player(new PlayerInventory(0, 0, AIRoboticonQuantities, 0)); // change to AI player class
+        humanPlayer = new Player(new PlayerInventory(10, 0, HumanRoboticonQuantities, 500));
+        AIPlayer = new AIPlayer(new PlayerInventory(0, 0, AIRoboticonQuantities, 500)); // change to AI player class
+
+	plotManager.setHumanPlayer(humanPlayer);
+	plotManager.setAIPlayer(AIPlayer);
      
         firstPlayer = humanPlayer; //change so is random
         currentPlayer = firstPlayer;
@@ -102,22 +81,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 
 	}
 	
-	public Plot[][] initialisePlots(){
-		Plot[][] plots = new Plot[4][4];
-		for(int row=0;row<plots.length;row++){
-			for(int column=0;column<plots[0].length;column++){
-			    String[] bestAtChoices = {"ore","energy"};
-			    int choice = new Random().nextInt(bestAtChoices.length);
-			
-			    // No Player owns each plot, no roboticon is placed on it and its best at attribute is random
-				plots[row][column]= new Plot(null, bestAtChoices[choice], RoboticonCustomisation.UNCUSTOMISED);
-				
-				// For testing purposes
-				//plots[row][column].setRoboticon(RoboticonCustomisation.ENERGY);
-			}
-		}
-		return plots;
-	}
+	
 	
 
 	@Override
@@ -157,66 +121,86 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		
 		//TODO: create maps
 			//TODO: array to keep all plots
-		menu.updatePlayerInventoryData(currentPlayer.inventory);
+		menu.updatePlayerInventoryData(humanPlayer.inventory);
 		plotManager.setCurrentPlayer(currentPlayer);
-		//plotAquisitionStage();
-		allPlayersMarketStage();
+		plotAquisitionStage();
 	}
 	
 	//called once done with
 	public void roboticonPlacingStage(){
-		menu.clearTimer();
-		marketWindow.remove();
-		marketWindow = null; // No longer need it
-		plotManager.setPlotClickMode(PlotClickMode.PLACEROBOTICON);
-		menu.setMenuText("Place roboticons if you want. Click next once you're done");
-		menu.setAndShowNextStageButton("finished my turn",GameEvents.FINISHEDPLACINGROBOTICONS.ordinal());
+		if(currentPlayer == humanPlayer){
+			menu.clearTimer();
+			marketWindow.remove();
+			marketWindow = null; // No longer need it
+			plotManager.setPlotClickMode(PlotClickMode.PLACEROBOTICON);
+			menu.setMenuText("Place roboticons if you want. Click next once you're done");
+			menu.setAndShowNextStageButton("finished my turn",GameEvents.FINISHEDPLACINGROBOTICONS.ordinal());
+		}
+		else{
+			AIPlayer.placeRoboticons(plotManager);
+			nextPlayersTurn();
+		}
 	}
 	
-	public void plotAquisitionStage(){
-		menu.setMenuText("Choose a plot to aquire");
-		plotManager.setCurrentPlayer(currentPlayer);
-        plotManager.setPlotClickMode(PlotClickMode.AQUIRE);
-		if(currentPlayer == humanPlayer)
-			plotManager.setAqusitionColour("blue");
-		else
-			plotManager.setAqusitionColour("orange");
-		//t.addActor(p);
+	public void plotAquisitionStage(){	
+		if(currentPlayer == humanPlayer){
+			menu.setMenuText("Choose a plot to aquire");
+			plotManager.setCurrentPlayer(currentPlayer);
+        		plotManager.setPlotClickMode(PlotClickMode.AQUIRE);
+		}
+		else{
+			AIPlayer.choosePlot(plotManager);
+		}
+
 		// When done, want to call buying Roboticons phase method
 	}
 	
 	public void buyingRoboticonsStage(){
-		plotManager.setPlotClickMode(PlotClickMode.NOACTION);
-		marketWindow = new BuyRoboticonsMarket(currentPlayer, market);
-		menu.setAndShowNextStageButton("customising roboticons",GameEvents.FINISHEDBUYINGROBOTICONS.ordinal());
+		if(currentPlayer == humanPlayer){
+			plotManager.setPlotClickMode(PlotClickMode.NOACTION);
+			marketWindow = new BuyRoboticonsMarket(currentPlayer, market);
+			menu.setAndShowNextStageButton("customising roboticons",GameEvents.FINISHEDBUYINGROBOTICONS.ordinal());
 		
-        stage.addActor(marketWindow);        
-        menu.setMenuText("Purchase roboticons. Click the next button when you're done.");
-        menu.setTimer(GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal(), 30); // If the timer runs out we may need to skip the customising stage entirely
+        		stage.addActor(marketWindow);        
+        		menu.setMenuText("Purchase roboticons. Click the next button when you're done.");
+        		menu.setTimer(GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal(), 30); // If the timer runs out we may need to skip the customising stage entirely
+		}
+		else{
+			AIPlayer.buyRoboticons(market,plotManager);
+			customisingRoboticonsStage();
+		}
 	}
 	
 	public void customisingRoboticonsStage(){
-		plotManager.setPlotClickMode(PlotClickMode.NOACTION);
-		marketWindow.remove(); // get rid of the old window
-		marketWindow = new CustomiseRoboticonsMarket(currentPlayer,market);
-		menu.setAndShowNextStageButton("place roboticos",GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal());
+		if(currentPlayer == humanPlayer){
+			plotManager.setPlotClickMode(PlotClickMode.NOACTION);
+			marketWindow.remove(); // get rid of the old window
+			marketWindow = new CustomiseRoboticonsMarket(currentPlayer,market);
+			menu.setAndShowNextStageButton("place roboticos",GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal());
 		
-        stage.addActor(marketWindow);        
-        menu.setMenuText("Customise roboticons. Click the next button when you're done.");
-        // Note that the timer is still set from the buying roboticons stage
+       			stage.addActor(marketWindow);        
+        		menu.setMenuText("Customise roboticons. Click the next button when you're done.");
+		}
+		else{
+			AIPlayer.customiseRoboticons(market, plotManager);
+			roboticonPlacingStage();
+		}
+        // Note that the timer is still set from the buying roboticons stage (if human player)
 	}
 	
 	public void allPlayersMarketStage(){
-		marketWindow = new ResourceMarket(currentPlayer,market);
+		AIPlayer.buyAndSellResources(market);// currently only does it once..		
+
+		marketWindow = new ResourceMarket(humanPlayer,market);
 		menu.setAndShowNextStageButton("Finished with the market",GameEvents.FINISHEDWITHTHEMARKET.ordinal());
 		
-        stage.addActor(marketWindow);        
-        menu.setMenuText("Market. Click the finished button when you are done.");
+        	stage.addActor(marketWindow);        
+        	menu.setMenuText("Market. Click the finished button when you are done.");
 	}
 	
 	public void produceResources(){
 		plotManager.produceResources();
-		menu.updatePlayerInventoryData(currentPlayer.inventory);
+		menu.updatePlayerInventoryData(humanPlayer.inventory);
 		allPlayersMarketStage();// must happen straight after
 	}
 	
@@ -224,8 +208,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		marketWindow.remove();
 		menu.hideNextStageButton();
 		currentPlayer = (currentPlayer == humanPlayer)? AIPlayer : humanPlayer; // swap players
-		System.out.println(currentPlayer == humanPlayer);
-		menu.updatePlayerInventoryData(currentPlayer.inventory);
+		menu.updatePlayerInventoryData(humanPlayer.inventory);
 		plotManager.setCurrentPlayer(currentPlayer);
 		if(plotManager.allPlotsAquired())
 			gameOver();
@@ -237,8 +220,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		if(currentPlayer == firstPlayer){// assumes only 2 players...
 			menu.hideNextStageButton();
 			currentPlayer = (currentPlayer == humanPlayer)? AIPlayer : humanPlayer; // swap players
-			System.out.println(currentPlayer == humanPlayer);
-			menu.updatePlayerInventoryData(currentPlayer.inventory);
+			menu.updatePlayerInventoryData(humanPlayer.inventory);
 			plotManager.setCurrentPlayer(currentPlayer);
 			plotAquisitionStage();
 		}
@@ -249,17 +231,20 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	
 	public void gameOver(){
 		// calculate scores, dialog box or something declaring the winner
-		System.out.println("do something");
+		menu.hideNextStageButton();
+		marketWindow.remove();
+		marketWindow = null;
+		stage.addActor(new GameOverWindow(humanPlayer,AIPlayer));
+		
 	}
 
 	@Override
 	public boolean handleMessage(Telegram msg) {
-		// TODO Auto-generated method stub
+		
 		GameEvents event = GameEvents.values()[msg.message]; //convert from the integer to code to an enum for readability
 		switch(event){
 		case PLOTAQUIRED:// When a plot has been acquired we want to move to the buying stage
 			buyingRoboticonsStage();
-			//new PointLight(rayHandler, 50, new Color((float) 0.239215686,(float) 0.796078431,(float) 0.921568627, 1), 10, 0, 0);
 			break;
 		case FINISHEDBUYINGROBOTICONS:
 			customisingRoboticonsStage();
@@ -273,13 +258,16 @@ public class Main extends ApplicationAdapter implements Telegraph{
 			nextPlayersTurn(); // if all players have had their turn, causes production and then market access
 			break;
 		case FINISHEDWITHTHEMARKET:
-			nextRound();
+			if(plotManager.allPlotsAquired())
+				gameOver();
+			else
+				nextRound();
 			break;
 		case ROBOTICONPLACED:
-			menu.updatePlayerInventoryData(currentPlayer.inventory);
+			menu.updatePlayerInventoryData(humanPlayer.inventory);
 			break;
                 case PLAYERPURCHASE:
-			menu.updatePlayerInventoryData(currentPlayer.inventory);
+			menu.updatePlayerInventoryData(humanPlayer.inventory);
 			break;
 		default:
 			throw new IllegalArgumentException("Unable to respond to message type "+event);

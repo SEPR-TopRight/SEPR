@@ -51,15 +51,17 @@ public class ResourceMarket extends PopUpWindow {
 
 			add(new Label("Market stock", new Skin(Gdx.files.internal("uiskin.json")))).left().colspan(3);
 			row();
-			add(new Label("Resource  ", new Skin(Gdx.files.internal("uiskin.json")))).left();
-			add(new Label("Quantity  ", new Skin(Gdx.files.internal("uiskin.json")))).left();
+			add(new Label("Resource  ", new Skin(Gdx.files.internal("uiskin.json")))).left().padRight(5);
+			add(new Label("Quantity  ", new Skin(Gdx.files.internal("uiskin.json")))).left().padRight(5);
 			add(new Label("Price  ", new Skin(Gdx.files.internal("uiskin.json")))).left();
 			row();
 			add(new Label("ore", new Skin(Gdx.files.internal("uiskin.json")))).left();
 			add(oreQuantityLabel).left();
+			add(new Label(Integer.toString(market.getCostOre(1)), new Skin(Gdx.files.internal("uiskin.json")))).left();
 			row();
 			add(new Label("energy", new Skin(Gdx.files.internal("uiskin.json")))).left();
 			add(energyQuantityLabel).left();
+			add(new Label(Integer.toString(market.getCostEnergy(1)), new Skin(Gdx.files.internal("uiskin.json")))).left();
 			setSize(getPrefWidth(),getPrefHeight());
 		}
 
@@ -170,7 +172,7 @@ public class ResourceMarket extends PopUpWindow {
 				else{ // As the player cannot attempt to purchase more Roboticons than the market has in stock
 					// (Due to the upper bound imposed by the spinbox)
                               		// Then if the purchase fails it must be because they don't have enough money!
-					getParent().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
+					getParent().getParent().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
 				}
 			}
 
@@ -188,7 +190,7 @@ public class ResourceMarket extends PopUpWindow {
 				else{ // As the player cannot attempt to purchase more Roboticons than the market has in stock
 					// (Due to the upper bound imposed by the spinbox)
                               		// Then if the purchase fails it must be because they don't have enough money!
-					getParent().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
+					getParent().getParent().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
 				}
 			}
 
