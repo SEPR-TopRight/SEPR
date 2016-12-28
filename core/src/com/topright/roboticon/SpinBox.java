@@ -13,15 +13,13 @@ public class SpinBox extends Table{
 	Integer maxValue;
 	Integer minValue;
 	Label valueLabel;
-	String text;
 	
 	public SpinBox(String text,int initialValue, int minValue, int maxValue){
 		value = initialValue;
-		this.text = text;
 		this.maxValue = maxValue;
 		this.minValue = minValue;
 		
-		valueLabel = new Label(text+Integer.toString(value), new Skin(Gdx.files.internal("uiskin.json")));
+		valueLabel = new Label(Integer.toString(value), new Skin(Gdx.files.internal("uiskin.json")));
 		
 		TextButton increaseQuantityButton = new TextButton("+", new Skin(Gdx.files.internal("uiskin.json")));
 		increaseQuantityButton.addListener(new ClickListener(){
@@ -42,10 +40,10 @@ public class SpinBox extends Table{
 	        }
 			
 		});
-		
-		add(valueLabel).expand().fill().left();
-		add(increaseQuantityButton).expand().fill().right();
-		add(decreaseQuantityButton).expand().fill().right();
+		add(new Label(text,new Skin(Gdx.files.internal("uiskin.json")))).left();
+		add(valueLabel).right().expand().padRight(5);
+		add(increaseQuantityButton).right();
+		add(decreaseQuantityButton).right();
 	}
 	
 	public int getValue(){
@@ -54,6 +52,10 @@ public class SpinBox extends Table{
 	
 	public void setMaxValue(int maxValue){
 		this.maxValue = maxValue;
+		if(value>maxValue){
+			value=maxValue;
+			valueLabel.setText(value.toString());
+		}
 	}
 	
 	public void setMinValue(int minValue){
@@ -63,13 +65,13 @@ public class SpinBox extends Table{
 	private void incrementQuantity(){
 		if(value<maxValue){ //Update later
 			value++;
-			valueLabel.setText(text+value.toString());
+			valueLabel.setText(value.toString());
 		}
 	}
 	private void decrementQuantity(){
 		if(value>minValue){
 			value--;
-			valueLabel.setText(text+value.toString());
+			valueLabel.setText(value.toString());
 		}
 	}
 }

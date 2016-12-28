@@ -12,13 +12,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class BuyRoboticonsMarket extends PopUpWindow{
 	private SpinBox transactionQuantitySpinBox;
 	private Label transactionCostLabel;
+        Player player;
+        Market market;
+	Label roboticonsInStockLabel;
 	
-	public BuyRoboticonsMarket(){	
+	public BuyRoboticonsMarket(Player player, Market market){	
 		super("Market: buy roboticons");
+                this.market = market;
+                this.player = player;
 		
-		transactionQuantitySpinBox = new SpinBox("Buy ",0,0, 100);// update later
+		transactionQuantitySpinBox = new SpinBox("Buy ",0,0, market.mark_inventory.getRoboticonQuantity());
 		
-		Label roboticonsInStockLabel = new Label("Roboticons in stock: 6", new Skin(Gdx.files.internal("uiskin.json")));
+		roboticonsInStockLabel = new Label("Roboticons in stock: "+Integer.toString(market.mark_inventory.getRoboticonQuantity()), new Skin(Gdx.files.internal("uiskin.json")));
 		Label costPerRoboticonLabel = new Label("Price per roboticon: 12", new Skin(Gdx.files.internal("uiskin.json")));
 		transactionCostLabel = new Label("Total cost: 0",new Skin(Gdx.files.internal("uiskin.json")));
 		
@@ -28,6 +33,7 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 			public void clicked(InputEvent event, float x, float y)
 	        {
 				attemptTransaction();
+                                
 	        }
 			
 		});
@@ -59,13 +65,24 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 	}
 
 	private void updateTransactionCostLabel(){
-		Integer transactionCost = transactionQuantitySpinBox.getValue() * 12; // update with cost per roboticon later
+		Integer transactionCost = market.getCostRoboticons(transactionQuantitySpinBox.getValue()); 
 		transactionCostLabel.setText("Total cost: "+transactionCost.toString());
 	}
 
 	private void attemptTransaction(){
 		if(transactionQuantitySpinBox.getValue()>0){
-			// do later
+			if(player.attemptToBuyRoboticons(market,transactionQuantitySpinBox.getValue())){
+				int roboticonsInStock = market.mark_inventory.getRoboticonQuantity();
+				MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
+				roboticonsInStockLabel.setText("Roboticons in stock: "+Integer.toString(roboticonsInStock));
+				transactionQuantitySpinBox.setMaxValue(roboticonsInStock);
+				updateTransactionCostLabel();			
+			}
+			else{ // As the player cannot attempt to purchase more Roboticons than the market has in stock
+                              // (Due to the upper bound imposed by the spinbox)
+                              // Then if the purchase fails it must be because they don't have enough money!
+				getParent().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
+			}
 		}
 	}
 }

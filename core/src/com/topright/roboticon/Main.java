@@ -48,6 +48,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	private Player currentPlayer;
 	private Player firstPlayer;
 	private PlotManager plotManager;
+	private Market market;
 	
 	@Override
 	public void create(){
@@ -55,21 +56,22 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		stage = new Stage();
 		menu = new MenuBar();
         Gdx.input.setInputProcessor(stage);
-        //stage.addActor(menu);
+       
         Plot[][] plots = initialisePlots();
-        plotManager = new PlotManager(plots,"backgrounds/test.png");
+        plotManager = new PlotManager(plots,"backgrounds/map.png");
         
        
         EnumMap<RoboticonCustomisation,Integer> HumanRoboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
         EnumMap<RoboticonCustomisation,Integer> AIRoboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
         humanPlayer = new Player(new PlayerInventory(0, 0, HumanRoboticonQuantities, 100000));
-        humanPlayer.inventory.increaseRoboticonQuantity(RoboticonCustomisation.ORE, 5);
-        humanPlayer.inventory.increaseRoboticonQuantity(RoboticonCustomisation.ENERGY, 5);
+        humanPlayer.inventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, 5);
         AIPlayer = new Player(new PlayerInventory(0, 0, AIRoboticonQuantities, 0)); // change to AI player class
      
         firstPlayer = humanPlayer; //change so is random
         currentPlayer = firstPlayer;
         plotManager.setPlotClickMode(PlotClickMode.NOACTION);
+
+	market = new Market(10,10,10);
         
         Table mainGuiContainer = new Table();
         mainGuiContainer.setFillParent(true);
@@ -152,13 +154,13 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		
 		//TODO: create players
 			//TODO: & inventories
-		//Market market = new Market();
+		
 		//TODO: create maps
 			//TODO: array to keep all plots
 		menu.updatePlayerInventoryData(currentPlayer.inventory);
 		plotManager.setCurrentPlayer(currentPlayer);
-		plotAquisitionStage();
-		
+		//plotAquisitionStage();
+		allPlayersMarketStage();
 	}
 	
 	//called once done with
@@ -185,7 +187,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	
 	public void buyingRoboticonsStage(){
 		plotManager.setPlotClickMode(PlotClickMode.NOACTION);
-		marketWindow = new BuyRoboticonsMarket();
+		marketWindow = new BuyRoboticonsMarket(currentPlayer, market);
 		menu.setAndShowNextStageButton("customising roboticons",GameEvents.FINISHEDBUYINGROBOTICONS.ordinal());
 		
         stage.addActor(marketWindow);        
@@ -196,7 +198,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	public void customisingRoboticonsStage(){
 		plotManager.setPlotClickMode(PlotClickMode.NOACTION);
 		marketWindow.remove(); // get rid of the old window
-		marketWindow = new PopUpWindow("Market");
+		marketWindow = new CustomiseRoboticonsMarket(currentPlayer,market);
 		menu.setAndShowNextStageButton("place roboticos",GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal());
 		
         stage.addActor(marketWindow);        
@@ -205,7 +207,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	}
 	
 	public void allPlayersMarketStage(){
-		marketWindow = new PopUpWindow("Market");
+		marketWindow = new ResourceMarket(currentPlayer,market);
 		menu.setAndShowNextStageButton("Finished with the market",GameEvents.FINISHEDWITHTHEMARKET.ordinal());
 		
         stage.addActor(marketWindow);        
@@ -274,6 +276,9 @@ public class Main extends ApplicationAdapter implements Telegraph{
 			nextRound();
 			break;
 		case ROBOTICONPLACED:
+			menu.updatePlayerInventoryData(currentPlayer.inventory);
+			break;
+                case PLAYERPURCHASE:
 			menu.updatePlayerInventoryData(currentPlayer.inventory);
 			break;
 		default:

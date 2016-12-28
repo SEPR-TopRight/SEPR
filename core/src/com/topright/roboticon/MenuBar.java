@@ -130,6 +130,7 @@ public class MenuBar extends Table{
 		private Label oreLabel;
 		private Label energyRoboticonLabel;
 		private Label oreRoboticonLabel;
+		private Label uncustomisedRoboticonLabel;
 		
 		/**
 		 * Constructor
@@ -144,6 +145,8 @@ public class MenuBar extends Table{
 			Image iconOre = new Image(new Texture(Gdx.files.internal("icon/icon-ore.png")));
 			oreLabel = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
 			
+			uncustomisedRoboticonLabel  = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
+			
 			energyRoboticonLabel  = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
 			
 			oreRoboticonLabel  = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
@@ -156,9 +159,10 @@ public class MenuBar extends Table{
 		
 			add(iconOre).left();
 			add(oreLabel).left().padRight(40);
+
+			add(uncustomisedRoboticonLabel).left().padRight(40); // want separation between the numbers and the icons
 			
-			add(energyRoboticonLabel).left().padRight(40); // want separation between the numbers and the icons
-			
+			add(energyRoboticonLabel).left().padRight(40); // want separation between the numbers and the icons	
 			
 			add(oreRoboticonLabel).left().padRight(40); // want separation between the numbers and the icon
 			
@@ -169,7 +173,8 @@ public class MenuBar extends Table{
 			inventoryTable.oreLabel.setText(Integer.toString(inventory.getOreQuantity()));
 			inventoryTable.energyLabel.setText(Integer.toString(inventory.getEnergyQuantity()));
 			inventoryTable.moneyLabel.setText(Integer.toString(inventory.getMoneyQuantity()));
-			
+
+			inventoryTable.uncustomisedRoboticonLabel.setText(Integer.toString(inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED)));			
 			inventoryTable.energyRoboticonLabel.setText(Integer.toString(inventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY)));
 			inventoryTable.oreRoboticonLabel.setText(Integer.toString(inventory.getRoboticonQuantity(RoboticonCustomisation.ORE)));
 		}
