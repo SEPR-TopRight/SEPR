@@ -8,19 +8,30 @@ import java.util.ArrayList;
  *
  */
 public class Player {
-	public PlayerInventory inventory; // Public as classes may need to access the inventory for random events etc.
-	//private int score; may not be needed may just have method to calculate the score?
+	protected PlayerInventory inventory;
 	
 	/**
 	 * Constructor.
-	 * @param oreQuantity The quantity of ore initially in the players' inventory.
-	 * @param energyQuantity The quantity of energy initially in the player's inventory.
-	 * @param roboticonQuantities The quantity of (uncustomised roboticons) initially in the players inventory.
-	 * @param moneyQuantity The amount of money initially in the player's inventory.
+	 * @param inventory A PlayerInventory object that contains all money, resources and roboticons that the player is initially in possession of.
 	 */
 	public Player(PlayerInventory inventory){
 		this.inventory = inventory;
-		//score = 0;
+	}
+	
+	public int getOreQuantity(){
+		return inventory.getOreQuantity();
+	}
+
+	public int getEnergyQuantity(){
+		return inventory.getEnergyQuantity();
+	}
+
+	public int getMoneyQuantity(){
+		return inventory.getMoneyQuantity();
+	}
+
+	public int getRoboticonQuantity(RoboticonCustomisation customisation){
+		return inventory.getRoboticonQuantity(customisation);
 	}
 	
 	/**
@@ -33,16 +44,15 @@ public class Player {
 	 * Assumes that the market has enough stock (handled elsewhere).
 	 * </p>
 	 * {@link Player#inventory}
-	 * @param market The market object from which the player is purchasing ore.
 	 * @param quantity The amount of ore that the player wants to purchase.
 	 * @return A boolean value: true if the purchase was successful and false if not.
 	 */
-	public boolean attemptToBuyOre(Market market, int quantity){
-		int cost = market.getCostOre(quantity);
+	public boolean attemptToBuyOre(int quantity){
+		int cost = Market.getInstance().getCostOre(quantity);
 		if(cost > inventory.getMoneyQuantity()) // Not enough money to complete the purchase.
 			return false; 
 		else{ // The player has enough money.
-			market.buyOre(quantity);
+			Market.getInstance().buyOre(quantity);
 			inventory.increaseOreQuantity(quantity);
 			inventory.decreaseMoneyQuantity(cost);
 			return true;
@@ -59,16 +69,15 @@ public class Player {
 	 * Assumes that the market has enough stock (handled elsewhere).
 	 * </p>
 	 * {@link Player#inventory}
-	 * @param market The market object from which the player is purchasing energy.
 	 * @param quantity The amount of energy that the player wants to purchase.
 	 * @return A boolean value: true if the purchase was successful and false if not.
 	 */
-	public boolean attemptToBuyEnergy(Market market, int quantity){
-		int cost = market.getCostEnergy(quantity);
+	public boolean attemptToBuyEnergy(int quantity){
+		int cost = Market.getInstance().getCostEnergy(quantity);
 		if(cost > inventory.getMoneyQuantity()) // Not enough money to complete the purchase.
 			return false;
 		else{ // The player has enough money.
-			market.buyEnergy(quantity);
+			Market.getInstance().buyEnergy(quantity);
 			inventory.increaseEnergyQuantity(quantity);
 			inventory.decreaseMoneyQuantity(cost);
 			return true;
@@ -85,16 +94,15 @@ public class Player {
 	 * Assumes that the market has enough stock (handled elsewhere).
 	 * </p>
 	 * {@link Player#inventory}
-	 * @param market The market object from which the player is purchasing roboticons.
 	 * @param quantity The the number of roboticons that the player wants to purchase.
 	 * @return A boolean value: true if the purchase was successful and false if not.
 	 */
-	public boolean attemptToBuyRoboticons(Market market, int quantity){
-		int cost = market.getCostRoboticons(quantity);
+	public boolean attemptToBuyRoboticons(int quantity){
+		int cost = Market.getInstance().getCostRoboticons(quantity);
 		if(cost > inventory.getMoneyQuantity()) // Not enough money to complete the purchase.
 			return false;
 		else{ // The player has enough money.
-			market.buyRoboticons(quantity);
+			Market.getInstance().buyRoboticons(quantity);
 			inventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED,quantity);
 			inventory.decreaseMoneyQuantity(cost);
 			return true;
@@ -108,15 +116,14 @@ public class Player {
 	 * If they do then the cost is fetched from the market and a check is performed to see if the player has enough money.
 	 * If the player has enough money then the purchase is completed and the players inventory updated (1 less uncustomised roboticon and 1 more roboticon with the desired customisation).
 	 * </p>
-	 * @param market The market object through which the customisation is taking placed.
 	 * @param customisation The customisation that the player wishes to apply to a roboticon {@link RoboticonCustomisation#RoboticonCustomisation}
 	 * @return A boolean value: true if the customisation was carried out false if it was not.
 	 */
-	public boolean attemptToCustomiseRoboticon(Market market,RoboticonCustomisation customisation){
+	public boolean attemptToCustomiseRoboticon(RoboticonCustomisation customisation){
 		if(inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED) == 0)
 			return false;
 		
-		int cost = market.getCostRoboticonCustomisation(customisation);
+		int cost = Market.getInstance().getCostRoboticonCustomisation(customisation);
 		
 		if(cost > inventory.getMoneyQuantity())
 			return false;
@@ -135,17 +142,16 @@ public class Player {
 	 * If the player has enough ore the quantities of ore in the player's and market's inventory are updated and money is added to the player's inventory.
 	 * </p>
 	 * {@link Player#inventory}
-	 * @param market The market object to which the player is selling ore.
 	 * @param quantity The amount of ore that the player wants to sell.
 	 * @return A boolean value: true if the sale was successful and false if not.
 	 */
-	public boolean attemptToSellOre(Market market, int quantity){
+	public boolean attemptToSellOre(int quantity){
 		if(quantity > inventory.getOreQuantity()) // Cannot sell energy that is not in player's possession.
 			return false;
 		else{ // The player has enough money.
-			market.sellOre(quantity);
+			Market.getInstance().sellOre(quantity);
 			inventory.decreaseOreQuantity(quantity);
-			inventory.increaseMoneyQuantity(market.getCostOre(quantity));
+			inventory.increaseMoneyQuantity(Market.getInstance().getCostOre(quantity));
 			return true;
 		}
 	}
@@ -158,17 +164,16 @@ public class Player {
 	 * </p>
 	 * <p>
 	 * {@link Player#inventory}
-	 * @param market The market object to which the player is selling energy.
 	 * @param quantity The amount of energy that the player wants to sell.
 	 * @return A boolean value: true if the sale was successful and false if not.
 	 */
-	public boolean attemptToSellEnergy(Market market, int quantity){
+	public boolean attemptToSellEnergy(int quantity){
 		if(quantity > inventory.getEnergyQuantity()) // Cannot sell energy that is not in player's possession.
 			return false;
 		else{ // The player has enough money.
-			market.sellEnergy(quantity);
+			Market.getInstance().sellEnergy(quantity);
 			inventory.decreaseEnergyQuantity(quantity);
-			inventory.increaseMoneyQuantity(market.getCostEnergy(quantity));
+			inventory.increaseMoneyQuantity(Market.getInstance().getCostEnergy(quantity));
 			return true;
 		}
 	}

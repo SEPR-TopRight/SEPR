@@ -12,21 +12,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 public class CustomiseRoboticonsMarket extends PopUpWindow {
 
 	Player player;
-	Market market;
 	TextButton energyCustomisationButton;
 
-	public CustomiseRoboticonsMarket(Player player, Market market){
+	public CustomiseRoboticonsMarket(Player player){
 		super("Market: Customise roboticons");
 		
 		this.player = player;
-		this.market = market;
-		
+
 		Label energyCustomisationCostLabel = new Label("Energy customisation cost: "+
-			Integer.toString(market.getCostRoboticonCustomisation(RoboticonCustomisation.ENERGY)),
+			Integer.toString(Market.getInstance().getCostRoboticonCustomisation(RoboticonCustomisation.ENERGY)),
 			new Skin(Gdx.files.internal("uiskin.json")));
 
 		Label oreCustomisationCostLabel = new Label("Ore customisation cost: "+
-			Integer.toString(market.getCostRoboticonCustomisation(RoboticonCustomisation.ORE)),
+			Integer.toString(Market.getInstance().getCostRoboticonCustomisation(RoboticonCustomisation.ORE)),
 			new Skin(Gdx.files.internal("uiskin.json")));
 		
 		energyCustomisationButton = new TextButton("Customise a roboticon for energy", new Skin(Gdx.files.internal("uiskin.json")));
@@ -61,10 +59,10 @@ public class CustomiseRoboticonsMarket extends PopUpWindow {
 	}
 	
 	private void attemptCustomisation(RoboticonCustomisation customisation){
-		if(player.attemptToCustomiseRoboticon(market,customisation)){
+		if(player.attemptToCustomiseRoboticon(customisation)){
 			MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
 		}
-		else if(player.inventory.getMoneyQuantity()<market.getCostRoboticonCustomisation(customisation)){ // If the purchase was unsuccessful
+		else if(player.inventory.getMoneyQuantity()<Market.getInstance().getCostRoboticonCustomisation(customisation)){ // If the purchase was unsuccessful
 			getParent().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
 		}
 		else if(player.inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED) < 1){

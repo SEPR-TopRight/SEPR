@@ -28,12 +28,12 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 		else if(player.inventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY) ==0 && player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE) ==0)
 			noRoboticons();
 		else
-			placementAllowed(player,plot,plotX,plotY);
+			placementAllowed(player,plotX,plotY);
 		
 		addCloseButton();
 		setSize(getPrefWidth(),getPrefHeight());
 		setX(menuX);
-		setY(menuY);
+		setY(menuY - getHeight()); // We want the menu to open just below the cursor, not above it
 	
 	}
 	
@@ -53,8 +53,7 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 		// Make sure that this window is exactly the right size!
 	}
 	
-	private void placementAllowed(Player player,Plot plot, int plotX, int plotY){
-		Label bestAt = new Label("Suited for: "+plot.getBest(), new Skin(Gdx.files.internal("uiskin.json")));
+	private void placementAllowed(Player player, int plotX, int plotY){
 		
 		TextButton oreRoboticonButton = new TextButton("Ore roboticon ("+player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE)+")", new Skin(Gdx.files.internal("uiskin.json")));
 		oreRoboticonButton.addListener(new ClickListener() {
@@ -73,8 +72,6 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 	        				plotManager.placeEnergyRoboticon(plotX,plotY);
 	        			}
 	    		} );
-			
-		add(bestAt).expand().fill().left();
 		
 		if(player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE)>0){
 			row();

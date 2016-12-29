@@ -38,13 +38,7 @@ public class PlotManager extends Table{
 		super();
 		setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(backgroundImage)))));
 	
-		initialisePlots();
-		
-		buttons = new ButtonWithIcon[plots.length][plots[0].length];
-		
-		if(plots.length == 0 || plots[0].length==0)
-			throw new IllegalArgumentException("the plots array must contain elements!");
-		
+		initialisePlots();		
 		createPlotGrid();
 	}
 	
@@ -73,11 +67,11 @@ public class PlotManager extends Table{
 		plots = new Plot[4][4];
 		for(int row=0;row<plots.length;row++){
 			for(int column=0;column<plots[0].length;column++){
-			    String[] bestAtChoices = {"ore","energy"};
+			    PlotSpecialism[] bestAtChoices = {PlotSpecialism.ORE,PlotSpecialism.ENERGY};
 			    int choice = new Random().nextInt(bestAtChoices.length);
 			
 			    // No Player owns each plot, no roboticon is placed on it and its best at attribute is random
-				plots[row][column]= new Plot(null, bestAtChoices[choice], RoboticonCustomisation.UNCUSTOMISED);
+				plots[row][column]= new Plot(bestAtChoices[choice]);
 				
 				// For testing purposes
 				//plots[row][column].setRoboticon(RoboticonCustomisation.ENERGY);
@@ -132,7 +126,7 @@ public class PlotManager extends Table{
 			plot.setPlayer(currentPlayer);
 			if(currentPlayer == humanPlayer){
 				buttons[row][column].setImage("plot_overlays/human.pack", "human", "human");
-				buttons[row][column].add(new Label("Best at producing "+plot.getBest(),new Skin(Gdx.files.internal("uiskin.json")))).top().row();
+				buttons[row][column].add(new Label("Best at producing "+plot.getSpecialism(),new Skin(Gdx.files.internal("uiskin.json")))).top().row();
 			}
 			else{
 				buttons[row][column].setImage("plot_overlays/AI.pack", "AI", "AI");
@@ -190,6 +184,8 @@ public class PlotManager extends Table{
 		int numRows = plots.length;
 		int numColumns = plots[0].length;
 		
+		buttons = new ButtonWithIcon[plots.length][plots[0].length];
+		
 		for(int row=0; row<numRows; row++){
 			for(int column=0; column<numColumns; column++){
 				
@@ -214,6 +210,7 @@ public class PlotManager extends Table{
 			row();
 		}
 	}
+	
 	
 	public Plot[][] getPlots(){
 		return plots;

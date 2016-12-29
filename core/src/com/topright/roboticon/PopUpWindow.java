@@ -12,10 +12,7 @@ import com.badlogic.gdx.utils.Align;
 public class PopUpWindow extends Window{
 	public PopUpWindow(String titleText){
 		super(titleText, new Skin(Gdx.files.internal("uiskin.json")));
-		
-	
-	    setMovable(false);
-	    setResizable(false);
+		setResizable(false);
 	}
 	
 	protected void moveToMiddleOfScreen(){

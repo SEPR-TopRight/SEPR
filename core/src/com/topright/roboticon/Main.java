@@ -27,63 +27,46 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	private Player currentPlayer;
 	private Player firstPlayer;
 	private PlotManager plotManager;
-	private Market market;
 	
 	@Override
 	public void create(){
 		batch = new SpriteBatch();
 		stage = new Stage();
 		menu = new MenuBar();
-        Gdx.input.setInputProcessor(stage);
+       		Gdx.input.setInputProcessor(stage);
        
-        plotManager = new PlotManager("backgrounds/map.png");
+        	plotManager = new PlotManager("backgrounds/map.png");
         
-        EnumMap<RoboticonCustomisation,Integer> HumanRoboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
-        EnumMap<RoboticonCustomisation,Integer> AIRoboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
-        humanPlayer = new Player(new PlayerInventory(10, 0, HumanRoboticonQuantities, 500));
-        AIPlayer = new AIPlayer(new PlayerInventory(0, 0, AIRoboticonQuantities, 500)); // change to AI player class
+        	EnumMap<RoboticonCustomisation,Integer> HumanRoboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
+        	EnumMap<RoboticonCustomisation,Integer> AIRoboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
+        	humanPlayer = new Player(new PlayerInventory(10, 0, HumanRoboticonQuantities, 500));
+        	AIPlayer = new AIPlayer(new PlayerInventory(0, 0, AIRoboticonQuantities, 500)); // change to AI player class
 
-	plotManager.setHumanPlayer(humanPlayer);
-	plotManager.setAIPlayer(AIPlayer);
+		plotManager.setHumanPlayer(humanPlayer);
+		plotManager.setAIPlayer(AIPlayer);
      
-        firstPlayer = humanPlayer; //change so is random
-        currentPlayer = firstPlayer;
-        plotManager.setPlotClickMode(PlotClickMode.NOACTION);
+        	firstPlayer = humanPlayer; //change so is random
+        	currentPlayer = firstPlayer;
+        	plotManager.setPlotClickMode(PlotClickMode.NOACTION);
 
-	market = new Market(10,10,10);
+		Market.getInstance().setInventory(new MarketInventory(10,10,10));
         
-        Table mainGuiContainer = new Table();
-        mainGuiContainer.setFillParent(true);
-        mainGuiContainer.add(menu).expandX().fillX();
-        mainGuiContainer.row();
-        mainGuiContainer.add(plotManager).fill().expand();
+        	Table mainGuiContainer = new Table();
+        	mainGuiContainer.setFillParent(true);
+        	mainGuiContainer.add(menu).expandX().fillX();
+        	mainGuiContainer.row();
+        	mainGuiContainer.add(plotManager).fill().expand();
         
-    	
-        
-        //this class handles all game events
-        for (GameEvents event : GameEvents.values()) {
-        	  MessageManager.getInstance().addListener(this, event.ordinal());
-        }
+ 		//this class handles all game events
+        	for (GameEvents event : GameEvents.values()) {
+        		MessageManager.getInstance().addListener(this, event.ordinal());
+        	}
   
-        stage.addActor(mainGuiContainer);
+        	stage.addActor(mainGuiContainer);     
         
-        //camera = new OrthographicCamera(48, 32);
-        //camera.update();
-        //world = new World(new Vector2(5, -10), true);
-        //rayHandler = new RayHandler(world);
-        //rayHandler.setAmbientLight(new Color(.1f, .1f, .1f, .2f));
-        //new PointLight(rayHandler, 50, new Color(1,1,1, 1), 100,30,20).setXray(true); // No bodies to collide with...
-        
-     
-        
-        startGame();
-        
-
+        	startGame();
 	}
 	
-	
-	
-
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
@@ -96,11 +79,6 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		stage.draw(); // used to draw UI elements like Buttons & windows
 		
 		batch.end();
-		
-
-      //  rayHandler.setCombinedMatrix(camera.combined);
-       // rayHandler.updateAndRender();
-
 	}
 	
 	@Override
@@ -121,7 +99,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		
 		//TODO: create maps
 			//TODO: array to keep all plots
-		menu.updatePlayerInventoryData(humanPlayer.inventory);
+		menu.updatePlayerInventoryData(humanPlayer);
 		plotManager.setCurrentPlayer(currentPlayer);
 		plotAquisitionStage();
 	}
@@ -158,7 +136,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	public void buyingRoboticonsStage(){
 		if(currentPlayer == humanPlayer){
 			plotManager.setPlotClickMode(PlotClickMode.NOACTION);
-			marketWindow = new BuyRoboticonsMarket(currentPlayer, market);
+			marketWindow = new BuyRoboticonsMarket(currentPlayer);
 			menu.setAndShowNextStageButton("customising roboticons",GameEvents.FINISHEDBUYINGROBOTICONS.ordinal());
 		
         		stage.addActor(marketWindow);        
@@ -166,7 +144,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
         		menu.setTimer(GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal(), 30); // If the timer runs out we may need to skip the customising stage entirely
 		}
 		else{
-			AIPlayer.buyRoboticons(market,plotManager);
+			AIPlayer.buyRoboticons(plotManager);
 			customisingRoboticonsStage();
 		}
 	}
@@ -175,23 +153,23 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		if(currentPlayer == humanPlayer){
 			plotManager.setPlotClickMode(PlotClickMode.NOACTION);
 			marketWindow.remove(); // get rid of the old window
-			marketWindow = new CustomiseRoboticonsMarket(currentPlayer,market);
+			marketWindow = new CustomiseRoboticonsMarket(currentPlayer);
 			menu.setAndShowNextStageButton("place roboticos",GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal());
 		
        			stage.addActor(marketWindow);        
         		menu.setMenuText("Customise roboticons. Click the next button when you're done.");
 		}
 		else{
-			AIPlayer.customiseRoboticons(market, plotManager);
+			AIPlayer.customiseRoboticons(plotManager);
 			roboticonPlacingStage();
 		}
         // Note that the timer is still set from the buying roboticons stage (if human player)
 	}
 	
 	public void allPlayersMarketStage(){
-		AIPlayer.buyAndSellResources(market);// currently only does it once..		
+		AIPlayer.buyAndSellResources();// currently only does it once..		
 
-		marketWindow = new ResourceMarket(humanPlayer,market);
+		marketWindow = new ResourceMarket(humanPlayer);
 		menu.setAndShowNextStageButton("Finished with the market",GameEvents.FINISHEDWITHTHEMARKET.ordinal());
 		
         	stage.addActor(marketWindow);        
@@ -200,7 +178,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	
 	public void produceResources(){
 		plotManager.produceResources();
-		menu.updatePlayerInventoryData(humanPlayer.inventory);
+		menu.updatePlayerInventoryData(humanPlayer);
 		allPlayersMarketStage();// must happen straight after
 	}
 	
@@ -208,7 +186,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		marketWindow.remove();
 		menu.hideNextStageButton();
 		currentPlayer = (currentPlayer == humanPlayer)? AIPlayer : humanPlayer; // swap players
-		menu.updatePlayerInventoryData(humanPlayer.inventory);
+		menu.updatePlayerInventoryData(humanPlayer);
 		plotManager.setCurrentPlayer(currentPlayer);
 		if(plotManager.allPlotsAquired())
 			gameOver();
@@ -220,7 +198,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		if(currentPlayer == firstPlayer){// assumes only 2 players...
 			menu.hideNextStageButton();
 			currentPlayer = (currentPlayer == humanPlayer)? AIPlayer : humanPlayer; // swap players
-			menu.updatePlayerInventoryData(humanPlayer.inventory);
+			menu.updatePlayerInventoryData(humanPlayer);
 			plotManager.setCurrentPlayer(currentPlayer);
 			plotAquisitionStage();
 		}
@@ -264,10 +242,10 @@ public class Main extends ApplicationAdapter implements Telegraph{
 				nextRound();
 			break;
 		case ROBOTICONPLACED:
-			menu.updatePlayerInventoryData(humanPlayer.inventory);
+			menu.updatePlayerInventoryData(humanPlayer);
 			break;
                 case PLAYERPURCHASE:
-			menu.updatePlayerInventoryData(humanPlayer.inventory);
+			menu.updatePlayerInventoryData(humanPlayer);
 			break;
 		default:
 			throw new IllegalArgumentException("Unable to respond to message type "+event);

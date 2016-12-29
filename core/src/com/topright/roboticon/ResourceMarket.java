@@ -13,20 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 public class ResourceMarket extends PopUpWindow {
 
 	Player player;
-	Market market;
-	TextButton energyCustomisationButton;
-	MarketInventoryTable marketInventoryTable;
+	MarketInventoryTable marketInventoryTable; // Need to be able to update the inventory quantity values
 	SaleTable saleTable; // The purchase table requires access to the sale table
 	PurchaseTable purchaseTable; // The sale table requires access to the purchase table
 
-	public ResourceMarket(Player player, Market market){
+	public ResourceMarket(Player player){
 		super("Market: Buy and sell resources");
 
 		this.player = player;
-		this.market = market;
 
 		marketInventoryTable = new MarketInventoryTable();
-		marketInventoryTable.update();
 		
 		purchaseTable = new PurchaseTable();
 		saleTable = new SaleTable();
@@ -57,17 +53,19 @@ public class ResourceMarket extends PopUpWindow {
 			row();
 			add(new Label("ore", new Skin(Gdx.files.internal("uiskin.json")))).left();
 			add(oreQuantityLabel).left();
-			add(new Label(Integer.toString(market.getCostOre(1)), new Skin(Gdx.files.internal("uiskin.json")))).left();
+			add(new Label(Integer.toString(Market.getInstance().getCostOre(1)), new Skin(Gdx.files.internal("uiskin.json")))).left();
 			row();
 			add(new Label("energy", new Skin(Gdx.files.internal("uiskin.json")))).left();
 			add(energyQuantityLabel).left();
-			add(new Label(Integer.toString(market.getCostEnergy(1)), new Skin(Gdx.files.internal("uiskin.json")))).left();
+			add(new Label(Integer.toString(Market.getInstance().getCostEnergy(1)), new Skin(Gdx.files.internal("uiskin.json")))).left();
 			setSize(getPrefWidth(),getPrefHeight());
+			
+			update();
 		}
 
 		public void update(){
-			oreQuantityLabel.setText(Integer.toString(market.mark_inventory.getOreQuantity()));
-			energyQuantityLabel.setText(Integer.toString(market.mark_inventory.getEnergyQuantity()));
+			oreQuantityLabel.setText(Integer.toString(Market.getInstance().getOreQuantity()));
+			energyQuantityLabel.setText(Integer.toString(Market.getInstance().getEnergyQuantity()));
 			
 		}
 	}
@@ -109,7 +107,7 @@ public class ResourceMarket extends PopUpWindow {
 			add(oreSpinBox).colspan(2).expand().fill();
 			row();
 			add(new Label("Cost: ", new Skin(Gdx.files.internal("uiskin.json")))).left();
-			add(oreCostLabel).padRight(5);
+			add(oreCostLabel).padRight(5).left();
 			row();
 			add(oreButton).left().padBottom(20);
 			
@@ -117,7 +115,7 @@ public class ResourceMarket extends PopUpWindow {
 			add(energySpinBox).colspan(2).expand().fill();
 			row();
 			add(new Label("Cost: ", new Skin(Gdx.files.internal("uiskin.json")))).left();
-			add(energyCostLabel).padRight(5);
+			add(energyCostLabel).padRight(5).left();
 			row();
 			add(energyButton).left();
 			
@@ -128,13 +126,13 @@ public class ResourceMarket extends PopUpWindow {
 				
 
 		protected void updateOreCostLabel(){
-			Integer oreCost = market.getCostOre(oreSpinBox.getValue()); 
-			oreCostLabel.setText("Cost: "+oreCost.toString());
+			Integer oreCost = Market.getInstance().getCostOre(oreSpinBox.getValue()); 
+			oreCostLabel.setText(oreCost.toString());
 		}
 
 		protected void updateEnergyCostLabel(){
-			Integer energyCost = market.getCostEnergy(energySpinBox.getValue()); 
-			energyCostLabel.setText("Cost: "+energyCost.toString());
+			Integer energyCost = Market.getInstance().getCostEnergy(energySpinBox.getValue()); 
+			energyCostLabel.setText(energyCost.toString());
 		}
 	}
 	
@@ -156,13 +154,13 @@ public class ResourceMarket extends PopUpWindow {
 	        			attemptEnergyPurchase();
 	       			}
 			});
-			oreSpinBox.setMaxValue(market.mark_inventory.getOreQuantity());
-			energySpinBox.setMaxValue(market.mark_inventory.getEnergyQuantity());
+			oreSpinBox.setMaxValue(Market.getInstance().getOreQuantity());
+			energySpinBox.setMaxValue(Market.getInstance().getEnergyQuantity());
 		}
 		
 		private void attemptOrePurchase(){
 			if(oreSpinBox.getValue()>0){
-				if(player.attemptToBuyOre(market,oreSpinBox.getValue())){
+				if(player.attemptToBuyOre(oreSpinBox.getValue())){
 					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
 					marketInventoryTable.update();
 					updateMaxOreValue();
@@ -180,7 +178,7 @@ public class ResourceMarket extends PopUpWindow {
 		
 		private void attemptEnergyPurchase(){
 			if(energySpinBox.getValue()>0){
-				if(player.attemptToBuyEnergy(market,energySpinBox.getValue())){
+				if(player.attemptToBuyEnergy(energySpinBox.getValue())){
 					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
 					marketInventoryTable.update();
 					updateMaxEnergyValue();
@@ -198,12 +196,12 @@ public class ResourceMarket extends PopUpWindow {
 
 		// When the player makes a sale, then there is more to buy and these values must be updated
 		public void updateMaxOreValue(){
-			int oreInStock = market.mark_inventory.getOreQuantity();
+			int oreInStock = Market.getInstance().getOreQuantity();
 			oreSpinBox.setMaxValue(oreInStock);
 		}
 		
 		public void updateMaxEnergyValue(){
-			int energyInStock = market.mark_inventory.getEnergyQuantity();
+			int energyInStock = Market.getInstance().getEnergyQuantity();
 			energySpinBox.setMaxValue(energyInStock);
 		}
 	}
@@ -231,7 +229,7 @@ public class ResourceMarket extends PopUpWindow {
 		}
 		private void attemptOreSale(){
 			if(oreSpinBox.getValue()>0){
-				if(player.attemptToSellOre(market,oreSpinBox.getValue())){
+				if(player.attemptToSellOre(oreSpinBox.getValue())){
 					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
 					marketInventoryTable.update();
 					updateMaxOreValue();
@@ -244,7 +242,7 @@ public class ResourceMarket extends PopUpWindow {
 	
 		private void attemptEnergySale(){
 			if(energySpinBox.getValue()>0){
-				if(player.attemptToSellEnergy(market,energySpinBox.getValue())){
+				if(player.attemptToSellEnergy(energySpinBox.getValue())){
 					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
 					marketInventoryTable.update();
 					updateMaxEnergyValue();

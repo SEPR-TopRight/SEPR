@@ -115,8 +115,8 @@ public class MenuBar extends Table{
 	 * Updates the inventory data is that is displayed in the menu bar.
 	 * @param inventory The inventory that contains the data that is to be displayed.
 	 */
-	public void updatePlayerInventoryData(PlayerInventory inventory){
-		inventoryTable.updateData(inventory);
+	public void updatePlayerInventoryData(Player player){
+		inventoryTable.updateData(player);
 	}
 	
 	/**
@@ -175,14 +175,14 @@ public class MenuBar extends Table{
 			// Add icons and labels for uncustomised roboticons, ore roboticons and energy roboticons
 		}
 		
-		public void updateData(PlayerInventory inventory){
-			inventoryTable.oreLabel.setText(Integer.toString(inventory.getOreQuantity()));
-			inventoryTable.energyLabel.setText(Integer.toString(inventory.getEnergyQuantity()));
-			inventoryTable.moneyLabel.setText(Integer.toString(inventory.getMoneyQuantity()));
+		public void updateData(Player player){
+			inventoryTable.oreLabel.setText(Integer.toString(player.getOreQuantity()));
+			inventoryTable.energyLabel.setText(Integer.toString(player.getEnergyQuantity()));
+			inventoryTable.moneyLabel.setText(Integer.toString(player.getMoneyQuantity()));
 
-			inventoryTable.uncustomisedRoboticonLabel.setText(Integer.toString(inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED)));			
-			inventoryTable.energyRoboticonLabel.setText(Integer.toString(inventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY)));
-			inventoryTable.oreRoboticonLabel.setText(Integer.toString(inventory.getRoboticonQuantity(RoboticonCustomisation.ORE)));
+			inventoryTable.uncustomisedRoboticonLabel.setText(Integer.toString(player.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED)));			
+			inventoryTable.energyRoboticonLabel.setText(Integer.toString(player.getRoboticonQuantity(RoboticonCustomisation.ENERGY)));
+			inventoryTable.oreRoboticonLabel.setText(Integer.toString(player.getRoboticonQuantity(RoboticonCustomisation.ORE)));
 		}
 	}
 	

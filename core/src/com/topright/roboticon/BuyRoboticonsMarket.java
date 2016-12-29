@@ -13,15 +13,14 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 	private SpinBox transactionQuantitySpinBox;
 	private Label transactionCostLabel;
         Player player;
-        Market market;
 	Label roboticonsInStockLabel;
 	
-	public BuyRoboticonsMarket(Player player, Market market){	
+	public BuyRoboticonsMarket(Player player){	
 		super("Market: buy roboticons");
-                this.market = market;
+
                 this.player = player;
 		
-		transactionQuantitySpinBox = new SpinBox("Buy ",0,0, market.mark_inventory.getRoboticonQuantity());
+		transactionQuantitySpinBox = new SpinBox("Buy ",0,0, Market.getInstance().getRoboticonQuantity());
 		transactionQuantitySpinBox.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y)
@@ -30,8 +29,8 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 	        }
 		});
 		
-		roboticonsInStockLabel = new Label("Roboticons in stock: "+Integer.toString(market.mark_inventory.getRoboticonQuantity()), new Skin(Gdx.files.internal("uiskin.json")));
-		Label costPerRoboticonLabel = new Label("Price per roboticon: "+Integer.toString(market.getCostRoboticons(1)), new Skin(Gdx.files.internal("uiskin.json")));
+		roboticonsInStockLabel = new Label("Roboticons in stock: "+Integer.toString(Market.getInstance().getRoboticonQuantity()), new Skin(Gdx.files.internal("uiskin.json")));
+		Label costPerRoboticonLabel = new Label("Price per roboticon: "+Integer.toString(Market.getInstance().getCostRoboticons(1)), new Skin(Gdx.files.internal("uiskin.json")));
 		transactionCostLabel = new Label("Total cost: 0",new Skin(Gdx.files.internal("uiskin.json")));
 		
 		TextButton completeTransactionButton = new TextButton("Purchase",new Skin(Gdx.files.internal("uiskin.json")));
@@ -70,12 +69,12 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 	}
 
 	private void updateTransactionCostLabel(){
-		Integer transactionCost = market.getCostRoboticons(transactionQuantitySpinBox.getValue()); 
+		Integer transactionCost = Market.getInstance().getCostRoboticons(transactionQuantitySpinBox.getValue()); 
 		transactionCostLabel.setText("Total cost: "+transactionCost.toString());
 	}
 	
 	private void attemptToProduceRoboticon(){
-		if(market.attemptToProduceRoboticon())
+		if(Market.getInstance().attemptToProduceRoboticon())
 			updateRoboticonsInStockLabel();
 		else
 			getParent().addActor(new MessagePopUp("Not enough ore","The market does not have enough ore to producec a roboticon!"));
@@ -83,7 +82,7 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 
 	private void attemptTransaction(){
 		if(transactionQuantitySpinBox.getValue()>0){
-			if(player.attemptToBuyRoboticons(market,transactionQuantitySpinBox.getValue())){
+			if(player.attemptToBuyRoboticons(transactionQuantitySpinBox.getValue())){
 				MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
 				updateRoboticonsInStockLabel();
 				updateTransactionCostLabel();			
@@ -97,7 +96,7 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 	}
 	
 	private void updateRoboticonsInStockLabel(){
-		int roboticonsInStock = market.mark_inventory.getRoboticonQuantity();
+		int roboticonsInStock = Market.getInstance().getRoboticonQuantity();
 		roboticonsInStockLabel.setText("Roboticons in stock: "+Integer.toString(roboticonsInStock));
 		transactionQuantitySpinBox.setMaxValue(roboticonsInStock);
 	}
