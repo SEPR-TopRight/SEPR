@@ -4,10 +4,14 @@ package com.topright.roboticon;
  * @author jcn509
  */
 enum PlotSpecialism {ORE("ore"), ENERGY("energy");
-	private final String name; // A string denoting the name of the category (used when throwing exceptions)
+	private final String name; // A string denoting the name of the category (printed on plots once aquired by the player)
 	
 	private PlotSpecialism(String s) {
 		name = s;
 	}
+	
+	public String toString(){
+		return this.name;
+	}	
 }
 

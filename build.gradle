@@ -6,8 +6,22 @@ buildscript {
         jcenter()
     }
     dependencies {
+    classpath 'eu.appsatori:gradle-fatjar-plugin:0.3'
     }
 }
+
+
+plugins {
+  id "com.github.johnrengelman.shadow" version "1.2.4"
+}
+
+apply plugin: 'eu.appsatori.fatjar'
+
+apply plugin: 'application'
+apply plugin: "com.github.johnrengelman.shadow"
+apply plugin: 'eu.appsatori.fatjar'
+
+mainClassName = 'com.topright.roboticon.desktop.DesktopLauncher'
 
 
 allprojects {
@@ -30,6 +44,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
 }
+
 
 
 
@@ -67,6 +82,18 @@ project(":core") {
 
 tasks.eclipse.doLast {
     delete ".project"
+}
+
+// Configure the shadow jar task
+shadowJar {
+    mergeServiceFiles()
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+}
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
 }
 
 

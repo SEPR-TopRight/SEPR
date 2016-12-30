@@ -125,11 +125,11 @@ public class PlotManager extends Table{
 		if(!plot.hasBeenAquired()){ // If the Plot has yet to be acquired
 			plot.setPlayer(currentPlayer);
 			if(currentPlayer == humanPlayer){
-				buttons[row][column].setImage("plot_overlays/human.pack", "human", "human");
-				buttons[row][column].add(new Label("Best at producing "+plot.getSpecialism(),new Skin(Gdx.files.internal("uiskin.json")))).top().row();
+				buttons[row][column].setImages("plot_overlays/human.pack", "human", "human");
+				buttons[row][column].add(new Label("Specialism: "+plot.getSpecialism().toString(),new Skin(Gdx.files.internal("uiskin.json")))).top().row();
 			}
 			else{
-				buttons[row][column].setImage("plot_overlays/AI.pack", "AI", "AI");
+				buttons[row][column].setImages("plot_overlays/AI.pack", "AI", "AI");
 			}
 			MessageManager.getInstance().dispatchMessage(GameEvents.PLOTAQUIRED.ordinal());
 		}
