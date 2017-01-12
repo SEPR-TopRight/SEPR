@@ -6,46 +6,51 @@ package com.topright.roboticon;
  */
 
 public class Market {
-	public MarketInventory mark_inventory; // public for now, random events etc
-                                           // no point creating other methdso 
+	private MarketInventory inventory; // public as other classes need access
+	private int roboticonOreCost = 4; // How many ore needed to produce a roboticon
+	private int oreCost = 5;
+	private int energyCost = 6;
+	private int uncustomisedRoboticonCost = 10;
+	private int energyCustomisationCost = 11;
+	private int oreCustomisationCost = 12;
+	private static Market market = new Market(new MarketInventory(0,0,0)); 
+	// Create with an empty inventory to stop null pointer exceptions when people attempt to use that market without first setting the inventory...
 	
+	private Market(MarketInventory inventory){this.inventory = inventory;} // Don't allow any other instances of this class to be created
 	
-	/**
-	 * Constructor
-	 * @param oreQuantity The initial quantity of ore to be stored in the market's inventory.
-	 * @param energyQuantity The initial quantity of ore to be stored in the market's inventory.
-	 * @param RoboticonQuantity The initial quantity of ore to be stored in the market's inventory.
-	 */
-	public Market(int oreQuantity, int energyQuantity, int RoboticonQuantity){
-		mark_inventory = new MarketInventory(oreQuantity,energyQuantity,RoboticonQuantity);
+	public static Market getInstance(){
+		return market;
 	}
 	
-	/*
 	/**
 	 * 
 	 * Returns the amount of ore in the market's inventory
+	 */
 	 
 	public int getOreQuantity(){
 		
-		return mark_inventory.getOreQuantity();
+		return inventory.getOreQuantity();
 	}
 	/**
 	 * 
 	 * Returns the amount of energy in the market's inventory
+	 */
 	 
 	public int getEnergyQuantity(){
-		
-		return mark_inventory.getEnergyQuantity();
+		return inventory.getEnergyQuantity();
 	}
 	/**
 	 * 
 	 * Returns the amount of Roboticons in the market's inventory
+	 */
 	 
 	public int getRoboticonQuantity(){
+		return inventory.getRoboticonQuantity();
+	}
 	
-	return mark_inventory.getRoboticonQuantity();
-}
-	*/
+	public void setInventory(MarketInventory inventory){
+		this.inventory = inventory;
+	}
 	
 	
 	
@@ -55,8 +60,8 @@ public class Market {
 	 * @param quantity the quantity of ore the player is trying to buy 
 	 */
 		public void buyOre(int quantity){
-			if (mark_inventory.getOreQuantity() >= quantity){
-			mark_inventory.decreaseOreQuantity(quantity);
+			if (inventory.getOreQuantity() >= quantity){
+				inventory.decreaseOreQuantity(quantity);
 			}
 			else{
 				throw new IllegalStateException("Trying to buy more ore than is available");
@@ -70,7 +75,7 @@ public class Market {
 		 */
 		public void sellEnergy(int quantity){
 			
-			mark_inventory.increaseEnergyQuantity(quantity);
+			inventory.increaseEnergyQuantity(quantity);
 			
 		}
 		/**
@@ -80,7 +85,7 @@ public class Market {
 		 */
 		public void sellOre(int quantity){
 			
-			mark_inventory.increaseOreQuantity(quantity);
+			inventory.increaseOreQuantity(quantity);
 			
 		}
 		/**
@@ -89,8 +94,8 @@ public class Market {
 		 * @param quantity the quantity of Energy the player is trying to buy 
 		 */
 		public void buyEnergy(int quantity){
-			if (mark_inventory.getEnergyQuantity() >= quantity){
-			mark_inventory.decreaseEnergyQuantity(quantity);
+			if (inventory.getEnergyQuantity() >= quantity){
+				inventory.decreaseEnergyQuantity(quantity);
 			}
 			else{
 				throw new IllegalStateException("Trying to buy more Energy than is available");
@@ -102,8 +107,8 @@ public class Market {
 		 * @param quantity the quantity of Roboticons the player is trying to buy 
 		 */
 		public void buyRoboticons(int quantity){
-			if (mark_inventory.getRoboticonQuantity() >= quantity){
-			mark_inventory.decreaseRoboticonQuantity(quantity);
+			if (inventory.getRoboticonQuantity() >= quantity){
+			inventory.decreaseRoboticonQuantity(quantity);
 			//TO DO finish when have robotion class
 			}
 			else{
@@ -116,7 +121,7 @@ public class Market {
 		 * @param quantity the quantity of ore the player is trying to buy
 		 */
 		public int getCostOre(int quantity){
-			return 5 * quantity;
+			return oreCost * quantity;
 			//TO DO change this when we know more
 		}
 		/**
@@ -125,7 +130,7 @@ public class Market {
 		 * @param quantity the quantity of Energy the player is trying to buy
 		 */
 		public int getCostEnergy(int quantity){
-			return 5 * quantity;
+			return energyCost * quantity;
 			//TO DO change this when we know more
 		}
 		/**
@@ -134,30 +139,37 @@ public class Market {
 		 * @param quantity the quantity of Roboticons the player is trying to buy
 		 */
 		public int getCostRoboticons(int quantity){
-			return 10 * quantity;
+			return uncustomisedRoboticonCost * quantity;
 			//TO DO change this when we know more
 		}
+		
+		/**
+		 * 
+		 * If the market has enough ore it will produce another roboticon (at the cost of ore)
+		 * @return true if a roboticon was produced and false if not
+		 */
+		public boolean attemptToProduceRoboticon(){
+			if(inventory.getOreQuantity() >= roboticonOreCost){
+				inventory.increaseRoboticonQuantity(1);
+				inventory.decreaseOreQuantity(roboticonOreCost);
+				return true;
+			}
+			return false;
+		}		
+		
 		/**
 		 * 
 		 * returns the cost of customising a roboticon
 		 * @param customisation the type of roboticon the market should produce
 		 */
 		public int getCostRoboticonCustomisation(RoboticonCustomisation customisation){
-			return 10;
-			//TO DO change this when have roboticon method
-		}
-		/**
-		 * 
-		 * allows the player to produce roboticons from ore
-		 * @param quantity the quantity of roboticons the player wishes to produce
-		 */
-		public void ProduceRoboticon(int quantity){
-			if (mark_inventory.getOreQuantity() >= quantity){
-				mark_inventory.increaseRoboticonQuantity(quantity);
-				mark_inventory.decreaseOreQuantity(quantity);
-			}
-			else {
-				throw new IllegalStateException("Must have ore to produce roboticons");
+			switch (customisation){
+				case ORE:
+					return oreCustomisationCost;
+				case ENERGY:
+					return energyCustomisationCost;
+				default:
+					throw new IllegalArgumentException("Invalid customisation type " + customisation);
 			}
 		}
 }

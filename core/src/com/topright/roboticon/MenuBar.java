@@ -115,8 +115,8 @@ public class MenuBar extends Table{
 	 * Updates the inventory data is that is displayed in the menu bar.
 	 * @param inventory The inventory that contains the data that is to be displayed.
 	 */
-	public void updatePlayerInventoryData(PlayerInventory inventory){
-		inventoryTable.updateData(inventory);
+	public void updatePlayerInventoryData(Player player){
+		inventoryTable.updateData(player);
 	}
 	
 	/**
@@ -130,6 +130,7 @@ public class MenuBar extends Table{
 		private Label oreLabel;
 		private Label energyRoboticonLabel;
 		private Label oreRoboticonLabel;
+		private Label uncustomisedRoboticonLabel;
 		
 		/**
 		 * Constructor
@@ -143,9 +144,14 @@ public class MenuBar extends Table{
 		
 			Image iconOre = new Image(new Texture(Gdx.files.internal("icon/icon-ore.png")));
 			oreLabel = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
+
+			Image iconUncustomisedRoboticon = new Image(new Texture(Gdx.files.internal("icon/uncustomisedRoboticon.png")));
+			uncustomisedRoboticonLabel  = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
 			
+			Image iconEnergyRoboticon = new Image(new Texture(Gdx.files.internal("icon/energyRoboticon.png")));			
 			energyRoboticonLabel  = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
 			
+			Image iconOreRoboticon = new Image(new Texture(Gdx.files.internal("icon/oreRoboticon.png")));
 			oreRoboticonLabel  = new Label("uninitialised", new Skin(Gdx.files.internal("uiskin.json")));
 			
 			add(iconMoney).left();
@@ -156,22 +162,27 @@ public class MenuBar extends Table{
 		
 			add(iconOre).left();
 			add(oreLabel).left().padRight(40);
+
+			add(iconUncustomisedRoboticon).left();
+			add(uncustomisedRoboticonLabel).left().padRight(40); // want separation between the numbers and the icons
 			
-			add(energyRoboticonLabel).left().padRight(40); // want separation between the numbers and the icons
+			add(iconEnergyRoboticon).left();
+			add(energyRoboticonLabel).left().padRight(40); // want separation between the numbers and the icons	
 			
-			
+			add(iconOreRoboticon).left();
 			add(oreRoboticonLabel).left().padRight(40); // want separation between the numbers and the icon
 			
 			// Add icons and labels for uncustomised roboticons, ore roboticons and energy roboticons
 		}
 		
-		public void updateData(PlayerInventory inventory){
-			inventoryTable.oreLabel.setText(Integer.toString(inventory.getOreQuantity()));
-			inventoryTable.energyLabel.setText(Integer.toString(inventory.getEnergyQuantity()));
-			inventoryTable.moneyLabel.setText(Integer.toString(inventory.getMoneyQuantity()));
-			
-			inventoryTable.energyRoboticonLabel.setText(Integer.toString(inventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY)));
-			inventoryTable.oreRoboticonLabel.setText(Integer.toString(inventory.getRoboticonQuantity(RoboticonCustomisation.ORE)));
+		public void updateData(Player player){
+			inventoryTable.oreLabel.setText(Integer.toString(player.getOreQuantity()));
+			inventoryTable.energyLabel.setText(Integer.toString(player.getEnergyQuantity()));
+			inventoryTable.moneyLabel.setText(Integer.toString(player.getMoneyQuantity()));
+
+			inventoryTable.uncustomisedRoboticonLabel.setText(Integer.toString(player.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED)));			
+			inventoryTable.energyRoboticonLabel.setText(Integer.toString(player.getRoboticonQuantity(RoboticonCustomisation.ENERGY)));
+			inventoryTable.oreRoboticonLabel.setText(Integer.toString(player.getRoboticonQuantity(RoboticonCustomisation.ORE)));
 		}
 	}
 	

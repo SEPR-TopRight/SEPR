@@ -15,21 +15,25 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  * The menu that is displayed when you click on a plot during the roboticon placing stage
  */
 public class RoboticonPlaceMenu extends PopUpWindow{
-	public RoboticonPlaceMenu(float x, float y,Player player,Plot plot){
-		
+	PlotManager plotManager;
+	public RoboticonPlaceMenu(float menuX, float menuY, int plotX, int plotY, Player player ,PlotManager plotManager){
+	
 		super("Place roboticon");
-		setX(x);
-		setY(y);
 		
+		this.plotManager = plotManager;	
+		Plot plot = plotManager.getPlots()[plotY][plotX];	
+
 		if(plot.hasRoboticon())
 			alreadyHasRoboticon();
 		else if(player.inventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY) ==0 && player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE) ==0)
 			noRoboticons();
 		else
-			placementAllowed(player,plot);
+			placementAllowed(player,plotX,plotY);
 		
 		addCloseButton();
 		setSize(getPrefWidth(),getPrefHeight());
+		setX(menuX);
+		setY(menuY - getHeight()); // We want the menu to open just below the cursor, not above it
 	
 	}
 	
@@ -44,24 +48,19 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 	    		} );
 		
 		row();
-		row();
 		add(closeButton);
 		
 		// Make sure that this window is exactly the right size!
 	}
 	
-	private void placementAllowed(Player player, Plot plot){
-		Label bestAt = new Label("Suited for: "+plot.getBest(), new Skin(Gdx.files.internal("uiskin.json")));
+	private void placementAllowed(Player player, int plotX, int plotY){
 		
 		TextButton oreRoboticonButton = new TextButton("Ore roboticon ("+player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE)+")", new Skin(Gdx.files.internal("uiskin.json")));
 		oreRoboticonButton.addListener(new ClickListener() {
 	        		@Override
 	        			public void clicked(InputEvent event, float x, float y)
 	        			{
-	        				if(player.attemptToPlaceRoboticon(plot,RoboticonCustomisation.ORE)){
-	        					MessageManager.getInstance().dispatchMessage(GameEvents.ROBOTICONPLACED.ordinal()); // Trigger main to update the menubar
-	        					remove();
-	        				}
+	        				plotManager.placeOreRoboticon(plotX,plotY);
 	        			}
 	    		} );
 	
@@ -70,20 +69,15 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 	        		@Override
 	        			public void clicked(InputEvent event, float x, float y)
 	        			{
-	        				if(player.attemptToPlaceRoboticon(plot,RoboticonCustomisation.ENERGY)){
-	        					MessageManager.getInstance().dispatchMessage(GameEvents.ROBOTICONPLACED.ordinal()); // Trigger main to update the menubar
-	        					remove();
-	        				}
+	        				plotManager.placeEnergyRoboticon(plotX,plotY);
 	        			}
 	    		} );
-			
-		add(bestAt).expand().fill().left();
 		
 		if(player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE)>0){
 			row();
 			add(oreRoboticonButton).expand().fill().left();
 		}
-		if(player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE)>0){
+		if(player.inventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY)>0){
 			row();
 			add(energyRoboticonButton).expand().fill().left();
 		}

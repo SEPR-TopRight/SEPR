@@ -11,7 +11,7 @@ public class MarketInventoryTestCase {
 	private MarketInventory inv;
 	
 	/**
-	 * Runs before each test, creates a market that initially stores 0 ore, 0 energy and 0 roboticons.
+	 * Runs before each test, creates a MarketInventory that initially stores 0 ore, 0 energy and 0 roboticons.
 	 */
 	@Before
 	public void setup(){

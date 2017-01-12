@@ -7,7 +7,7 @@ package com.topright.roboticon;
  *
  */
 public class Plot {
-	private String best;
+	private PlotSpecialism specialism;
 	private Player player;
 	private RoboticonCustomisation roboticon;
 	/**
@@ -16,22 +16,12 @@ public class Plot {
 	 * @param best the resource which the plot produces more of
 	 * @param Roboticon the roboticon type which is on the plot if there is one or none otherwise 
 	 */
-	public Plot(Player player,String best, RoboticonCustomisation roboticon){
-		setPlayer(player);
-		setBest(best);
-		setRoboticon(roboticon);
+	public Plot(PlotSpecialism specialism){
+		player = null;
+		this.specialism = specialism;
+		roboticon = RoboticonCustomisation.UNCUSTOMISED;
 	}
 
-
-	/**
-	 * 
-	 * Sets the resource that the plot is best at producing
-	 * @param best the name of the resource the plot is best at producing( 'ore' or 'energy') 
-	 */
-	public void setBest(String best) {
-		this.best = best;
-		
-	}
 	/**
 	 * 
 	 * Sets the roboticon type on the plot of land
@@ -88,8 +78,8 @@ public class Plot {
 	 * 
 	 * returns the resource that the plot will produce more of ('ore' or 'energy')
 	 */
-	public String getBest(){
-		return best;
+	public PlotSpecialism getSpecialism(){
+		return specialism;
 	}
 	/**
 	 * 
@@ -101,9 +91,9 @@ public class Plot {
 		}
 		else{
 			//TO DO Increase relevant resource in players inventory, 2* if best? (will do once player class is done)
-			if(roboticon == RoboticonCustomisation.ENERGY && best == "energy")
+			if(roboticon == RoboticonCustomisation.ENERGY && specialism == PlotSpecialism.ENERGY)
 				player.inventory.increaseEnergyQuantity(2);
-			else if(roboticon == RoboticonCustomisation.ORE && best == "ore")
+			else if(roboticon == RoboticonCustomisation.ORE && specialism == PlotSpecialism.ORE)
 				player.inventory.increaseOreQuantity(2);
 			else if(roboticon == RoboticonCustomisation.ENERGY)
 				player.inventory.increaseEnergyQuantity(1);

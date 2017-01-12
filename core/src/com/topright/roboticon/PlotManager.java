@@ -9,8 +9,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import java.util.Random;
 
 /**
  * 
@@ -20,10 +24,23 @@ public class PlotManager extends Table{
 	
 	private PlotClickMode clickMode = PlotClickMode.NOACTION;
 	private Plot[][] plots;
-	private String aquisitionColour;
 	private ButtonWithIcon[][] buttons;
-	private Player currentPlayer = null; // Want to throw an exception if used when null.
+	public Player currentPlayer = null;
+	public Player humanPlayer = null;
+	public Player AIPlayer = null;
 	private RoboticonPlaceMenu roboticonPlaceMenu = null;
+
+	/**
+	 * Constructor.
+	 * @param backgroundImage A String that stores the file path of the background image.
+	 */
+	public PlotManager(String backgroundImage){
+		super();
+		setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(backgroundImage)))));
+	
+		initialisePlots();		
+		createPlotGrid();
+	}
 	
 	/**
 	 * Called whenever a plot is clicked, ensures that the correct operation (if any) is carried out on the plot.
@@ -34,13 +51,56 @@ public class PlotManager extends Table{
 		if(clickMode == PlotClickMode.AQUIRE)
 			aquirePlot(row,column);
 		if(clickMode == PlotClickMode.PLACEROBOTICON && plots[row][column].getPlayer() ==currentPlayer)
-			openPlaceRoboticonMenu(plots[row][column],x,y);
+			openPlaceRoboticonMenu(column,row,x,y);
 		//TODO add extra case for if placing roboticons
 	}
+
+	public void setHumanPlayer(Player humanPlayer){
+		this.humanPlayer = humanPlayer;
+	}
 	
-	private void openPlaceRoboticonMenu(Plot plot, float x, float y){
+	public void setAIPlayer(Player AIPlayer){
+		this.AIPlayer = AIPlayer;
+	}
+
+	private void initialisePlots(){
+		plots = new Plot[4][4];
+		for(int row=0;row<plots.length;row++){
+			for(int column=0;column<plots[0].length;column++){
+			    PlotSpecialism[] bestAtChoices = {PlotSpecialism.ORE,PlotSpecialism.ENERGY};
+			    int choice = new Random().nextInt(bestAtChoices.length);
+			
+			    // No Player owns each plot, no roboticon is placed on it and its best at attribute is random
+				plots[row][column]= new Plot(bestAtChoices[choice]);
+				
+				// For testing purposes
+				//plots[row][column].setRoboticon(RoboticonCustomisation.ENERGY);
+			}
+		}
+	}
+
+	public void placeEnergyRoboticon(int plotX, int plotY){
+		if(currentPlayer.attemptToPlaceRoboticon(plots[plotY][plotX],RoboticonCustomisation.ENERGY)){
+	        	MessageManager.getInstance().dispatchMessage(GameEvents.ROBOTICONPLACED.ordinal()); // Trigger main to update the menubar
+	        	removeRoboticonPlaceMenu();
+			Image roboticonImage =  new Image(new Texture(Gdx.files.internal("roboticons/energyRoboticon.png")));
+			buttons[plotY][plotX].add(roboticonImage);
+	        }
+		
+	}
+	
+	public void placeOreRoboticon(int plotX, int plotY){
+		if(currentPlayer.attemptToPlaceRoboticon(plots[plotY][plotX],RoboticonCustomisation.ORE)){
+	        	MessageManager.getInstance().dispatchMessage(GameEvents.ROBOTICONPLACED.ordinal()); // Trigger main to update the menubar
+	        	removeRoboticonPlaceMenu();
+			Image roboticonImage =  new Image(new Texture(Gdx.files.internal("roboticons/oreRoboticon.png")));
+			buttons[plotY][plotX].add(roboticonImage);
+	        }
+	}	
+
+	private void openPlaceRoboticonMenu(int plotX, int plotY, float menuX, float menuY){
 		removeRoboticonPlaceMenu();
-		roboticonPlaceMenu = new RoboticonPlaceMenu(x, y, currentPlayer, plot);
+		roboticonPlaceMenu = new RoboticonPlaceMenu(menuX, menuY, plotX, plotY, currentPlayer, this);
 		addActor(roboticonPlaceMenu);
 	}
 	
@@ -64,10 +124,13 @@ public class PlotManager extends Table{
 		Plot plot = plots[row][column]; // The plot that is being looked at.
 		if(!plot.hasBeenAquired()){ // If the Plot has yet to be acquired
 			plot.setPlayer(currentPlayer);
-			if(aquisitionColour == "blue") // CHANGE THIS!!!!!!!!!!!
-				buttons[row][column].setImage("plot_overlays/human.pack", "human", "human");
-			else
-				buttons[row][column].setImage("plot_overlays/AI.pack", "AI", "AI");
+			if(currentPlayer == humanPlayer){
+				buttons[row][column].setImages("plot_overlays/human.pack", "human", "human");
+				buttons[row][column].add(new Label("Specialism: "+plot.getSpecialism().toString(),new Skin(Gdx.files.internal("uiskin.json")))).top().row();
+			}
+			else{
+				buttons[row][column].setImages("plot_overlays/AI.pack", "AI", "AI");
+			}
 			MessageManager.getInstance().dispatchMessage(GameEvents.PLOTAQUIRED.ordinal());
 		}
 	}
@@ -80,13 +143,6 @@ public class PlotManager extends Table{
 		currentPlayer = player;
 	}
 	
-	/**
-	 * The colour of the overlay to be displayed over a plot acquired by the current player.
-	 * @param colour
-	 */
-	public void setAqusitionColour(String colour){
-		aquisitionColour = colour;// really shouldn't be like this, no validation etc
-	}
 	
 	/**
 	 * Sets what action will be performed when a plot is clicked.
@@ -128,6 +184,8 @@ public class PlotManager extends Table{
 		int numRows = plots.length;
 		int numColumns = plots[0].length;
 		
+		buttons = new ButtonWithIcon[plots.length][plots[0].length];
+		
 		for(int row=0; row<numRows; row++){
 			for(int column=0; column<numColumns; column++){
 				
@@ -153,22 +211,8 @@ public class PlotManager extends Table{
 		}
 	}
 	
-	/**
-	 * Constructor.
-	 * @param plots A 2D array containing all of the games plot objects.
-	 * @param backgroundImage A String that stores the file path of the background image.
-	 */
-	public PlotManager(final Plot[][] plots, String backgroundImage){
-		super();
-		setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(backgroundImage)))));
 	
-		this.plots = plots;
-		
-		buttons = new ButtonWithIcon[plots.length][plots[0].length];
-		
-		if(plots.length == 0 || plots[0].length==0)
-			throw new IllegalArgumentException("the plots array must contain elements!");
-		
-		createPlotGrid();
+	public Plot[][] getPlots(){
+		return plots;
 	}
 }
