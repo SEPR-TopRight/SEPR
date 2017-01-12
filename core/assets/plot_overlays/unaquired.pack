@@ -6,7 +6,7 @@ repeat: none
 unaquired
   rotate: false
   xy: 1, 1
-  size: 1, 1
+  size: 300,200
   split: 23, 26, 18, 34
   orig: 1, 1
   offset: 0, 0

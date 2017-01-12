@@ -113,7 +113,7 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 				// If the purhcase was successful
 				
 				// Other parts of the game need to react (e.g. the players inventory on the menu bar must be updated)
-				MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal()); 
+				MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); 
 				
 				updateRoboticonsInStockLabel();
 				updateTransactionCostLabel();			

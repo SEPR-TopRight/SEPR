@@ -161,7 +161,7 @@ public class ResourceMarket extends PopUpWindow {
 		private void attemptOrePurchase(){
 			if(oreSpinBox.getValue()>0){
 				if(player.attemptToBuyOre(oreSpinBox.getValue())){
-					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
+					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal());
 					marketInventoryTable.update();
 					updateMaxOreValue();
 					updateOreCostLabel();
@@ -179,7 +179,7 @@ public class ResourceMarket extends PopUpWindow {
 		private void attemptEnergyPurchase(){
 			if(energySpinBox.getValue()>0){
 				if(player.attemptToBuyEnergy(energySpinBox.getValue())){
-					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
+					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal());
 					marketInventoryTable.update();
 					updateMaxEnergyValue();
 					updateEnergyCostLabel();
@@ -230,7 +230,7 @@ public class ResourceMarket extends PopUpWindow {
 		private void attemptOreSale(){
 			if(oreSpinBox.getValue()>0){
 				if(player.attemptToSellOre(oreSpinBox.getValue())){
-					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
+					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal());
 					marketInventoryTable.update();
 					updateMaxOreValue();
 					updateOreCostLabel(); // After max value is set, may need to be updated
@@ -243,7 +243,7 @@ public class ResourceMarket extends PopUpWindow {
 		private void attemptEnergySale(){
 			if(energySpinBox.getValue()>0){
 				if(player.attemptToSellEnergy(energySpinBox.getValue())){
-					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERPURCHASE.ordinal());
+					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal());
 					marketInventoryTable.update();
 					updateMaxEnergyValue();
 					updateEnergyCostLabel(); // After max value is set, may need to be updated

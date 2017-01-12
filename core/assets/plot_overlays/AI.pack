@@ -6,7 +6,7 @@ repeat: none
 AI
   rotate: false
   xy: 1, 1
-  size: 400, 200
+  size: 300, 200
   split: 23, 26, 18, 34
   orig: 400, 200
   offset: 0, 0
