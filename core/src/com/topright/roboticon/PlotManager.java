@@ -34,10 +34,12 @@ public class PlotManager extends Table{
 	 * Constructor.
 	 * @param backgroundImage A String that stores the file path of the background image.
 	 */
-	public PlotManager(String backgroundImage){
+	public PlotManager(String backgroundImage, Player humanPlayer, Player AIPlayer){
 		super();
 		setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(backgroundImage)))));
 	
+		this.humanPlayer = humanPlayer;
+		this.AIPlayer = AIPlayer;
 		initialisePlots();		
 		createPlotGrid();
 	}
@@ -55,16 +57,10 @@ public class PlotManager extends Table{
 		//TODO add extra case for if placing roboticons
 	}
 
-	public void setHumanPlayer(Player humanPlayer){
-		this.humanPlayer = humanPlayer;
-	}
 	
-	public void setAIPlayer(Player AIPlayer){
-		this.AIPlayer = AIPlayer;
-	}
 
 	private void initialisePlots(){
-		plots = new Plot[4][4];
+		plots = new Plot[5][5];
 		for(int row=0;row<plots.length;row++){
 			for(int column=0;column<plots[0].length;column++){
 			    PlotSpecialism[] bestAtChoices = {PlotSpecialism.ORE,PlotSpecialism.ENERGY};
@@ -81,7 +77,7 @@ public class PlotManager extends Table{
 
 	public void placeEnergyRoboticon(int plotX, int plotY){
 		if(currentPlayer.attemptToPlaceRoboticon(plots[plotY][plotX],RoboticonCustomisation.ENERGY)){
-	        	MessageManager.getInstance().dispatchMessage(GameEvents.ROBOTICONPLACED.ordinal()); // Trigger main to update the menubar
+	        	MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); // Trigger main to update the menubar
 	        	removeRoboticonPlaceMenu();
 			Image roboticonImage =  new Image(new Texture(Gdx.files.internal("roboticons/energyRoboticon.png")));
 			buttons[plotY][plotX].add(roboticonImage);
@@ -91,7 +87,7 @@ public class PlotManager extends Table{
 	
 	public void placeOreRoboticon(int plotX, int plotY){
 		if(currentPlayer.attemptToPlaceRoboticon(plots[plotY][plotX],RoboticonCustomisation.ORE)){
-	        	MessageManager.getInstance().dispatchMessage(GameEvents.ROBOTICONPLACED.ordinal()); // Trigger main to update the menubar
+	        	MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); // Trigger main to update the menubar
 	        	removeRoboticonPlaceMenu();
 			Image roboticonImage =  new Image(new Texture(Gdx.files.internal("roboticons/oreRoboticon.png")));
 			buttons[plotY][plotX].add(roboticonImage);
