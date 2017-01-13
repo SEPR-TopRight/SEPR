@@ -1,105 +1,122 @@
 package com.topright.roboticon;
 /**
  * 
- * Manages a individual plot
- * A data structure to store the information of an individual plot
+ * Stores the information required by a plot and provides the methods necessary to perform any actions that the plot needs to perform
  * @author Ben
  *
  */
 public class Plot {
-	private PlotSpecialism specialism;
-	private Player player;
+	private PlotSpecialism specialism; // What the plot is best at producing
+	private Player acquiredBy; // the player that owns the plot (null if not yet acquired)
+	
+	// The type of roboticon placed on the plot. 
+	// A value of null indicates that no roboticon has been placed on this plot
 	private RoboticonCustomisation roboticon;
+	
 	/**
-	 * 
 	 * @param Player an integer corresponding to whichever player owns the plot (1 or 2) or  no player owns the plot(0)
 	 * @param best the resource which the plot produces more of
 	 * @param Roboticon the roboticon type which is on the plot if there is one or none otherwise 
 	 */
 	public Plot(PlotSpecialism specialism){
-		player = null;
+		acquiredBy = null; // Indicates that no player has acquired this plot yet
 		this.specialism = specialism;
-		roboticon = RoboticonCustomisation.UNCUSTOMISED;
+		roboticon = null; // Indicates that no roboticon has been placed on this plot yet
 	}
 
 	/**
-	 * 
-	 * Sets the roboticon type on the plot of land
-	 * @param Roboticon the type of roboticon on the plot of land ('ore' or 'energy')
+	 * Sets the customisation type of the roboticon that is on this plot (equivalent to placing a roboticon on the plot)
+	 * @param Roboticon the customisation type of the roboticon
 	 */
-	public void setRoboticon(RoboticonCustomisation roboticon) {
-		this.roboticon = roboticon;
-		
+	public void setRoboticonCustomisation(RoboticonCustomisation roboticonCustomisation) {
+		this.roboticon = roboticonCustomisation;
 	}
+
 	/**
-	 * 
-	 * Initialises the plot to be not owned by a player
-	 */
-	private void initialisePlayer(){
-		this.player = null;
-	}
-	/**
-	 * 
-	 * Changes the plot to be owned by a player
+	 * Sets the player that owns this plot
+	 * <p>
+	 * To be called when a player acquires this plot
+	 * </p>
 	 * @param Player a number referencing the player that owns the plot
 	 */
 	public void setPlayer(Player player){
-		if (this.player == null){
-			this.player = player;
+		if (!hasBeenAquired()){
+			this.acquiredBy = player;
 		}
 		else{
 			throw new IllegalStateException("Cannot take plots owned by another player");
 		}
 	}
 	
+	/**
+	 * Returns true if this plot has been acquired and false otherwise
+	 * @return true if this plot has been acquired and false otherwise
+	 */
 	public boolean hasBeenAquired(){
-		return !(player == null);
+		return !(acquiredBy == null);
 	}
 	
 	/**
-	 * 
-	 * Returns 0 if plot is not owned or a number referencing the player that owns the plot of land
+	 * Returns the Player that owns this plot
+	 * @return The player that owns this plot
 	 */
 	public Player getPlayer(){
-		return player;
+		return acquiredBy;
 	}
+	
 	/**
-	 * 
-	 * returns 'none' if no roboticon on the land or the name of the specialisation of the roboticon on the land
+	 * Returns the customisation type of the roboticon on this plot
 	 */
 	public RoboticonCustomisation getRoboticon(){
 		return roboticon;
 	}
 	
+	/**
+	 * Returns true if this plot has a roboticon on it and false otherwise
+	 * @return true if this plot has a roboticon on it and false otherwise
+	 */
 	public boolean hasRoboticon(){
-		return roboticon != RoboticonCustomisation.UNCUSTOMISED;
+		return roboticon != null;
 	}
 	/**
-	 * 
-	 * returns the resource that the plot will produce more of ('ore' or 'energy')
+	 * Returns the resource type that the plot is best at producing
+	 * @return The resource type that the plot is best at producing
 	 */
 	public PlotSpecialism getSpecialism(){
 		return specialism;
 	}
 	/**
-	 * 
-	 * Adds resources to players inventory if they own the plot and have a roboticon on it 
+	 * Causes the plot to produce resources for the player that owns it (if applicable)
+	 * <p>
+	 * A plot will only produce resources if it has been acquired and had a roboticon placed on it
+	 * The type of resource produced depends on the customisation of the roboticon placed on the plot
+	 * The amount of whatever resource that is produced depends on whether the roboticons customisation matches the plots speciality
+	 * Resources produced are added to the inventory of the player who owns this plot
+	 * </p>
 	 */
 	public void produce(){
-		if ((player == null) ||(roboticon == RoboticonCustomisation.UNCUSTOMISED)){
-			return;
+		
+		// If no player has acquired this plot of if it does not have a roboticon on it
+		if ((acquiredBy == null) ||(!hasRoboticon())){
+			return; 
 		}
 		else{
-			//TO DO Increase relevant resource in players inventory, 2* if best? (will do once player class is done)
-			if(roboticon == RoboticonCustomisation.ENERGY && specialism == PlotSpecialism.ENERGY)
-				player.inventory.increaseEnergyQuantity(2);
-			else if(roboticon == RoboticonCustomisation.ORE && specialism == PlotSpecialism.ORE)
-				player.inventory.increaseOreQuantity(2);
-			else if(roboticon == RoboticonCustomisation.ENERGY)
-				player.inventory.increaseEnergyQuantity(1);
-			else if(roboticon == RoboticonCustomisation.ORE)
-				player.inventory.increaseOreQuantity(1);
-			return;
+			if(roboticon == RoboticonCustomisation.ENERGY){ 
+				if(specialism == PlotSpecialism.ENERGY){
+					acquiredBy.inventory.increaseEnergyQuantity(2);
+				}
+				else{
+					acquiredBy.inventory.increaseEnergyQuantity(1);
+				}
+			}
+			else if(roboticon == RoboticonCustomisation.ORE){
+				if(specialism == PlotSpecialism.ORE){
+					acquiredBy.inventory.increaseOreQuantity(2);
+				}
+				else{
+					acquiredBy.inventory.increaseOreQuantity(1);
+				}
+			}
 		}
 		
 	}

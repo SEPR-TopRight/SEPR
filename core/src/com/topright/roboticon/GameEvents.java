@@ -9,5 +9,9 @@ enum GameEvents {PLOTAQUIRED("plotaquired"), FINISHEDBUYINGROBOTICONS("finishedb
 	private GameEvents(String s) {
 		name = s;
 	}
+	
+	public String toString(){
+		return this.name;
+	}	
 }
 

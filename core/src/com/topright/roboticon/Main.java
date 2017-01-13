@@ -8,29 +8,27 @@ import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.ai.msg.Telegram;
 import com.badlogic.gdx.ai.msg.Telegraph;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import java.lang.Math;
 
 /**
- * Implements the actual game
+ * Sets up the various stages of the game and the GUI
  * @author jcn509
  */
 public class Main extends ApplicationAdapter implements Telegraph{
 	private SpriteBatch batch;
-	private Texture img;
 	private Stage stage;
-	private MenuBar menu;
 	
-	private PopUpWindow marketWindow;    
-	
+	private MenuBar menu;	
+	private PopUpWindow marketWindow;
+	private PlotManager plotManager;
+
 	private Player humanPlayer;
 	private AIPlayer AIPlayer;
 	private Player currentPlayer;
 	private Player firstPlayer;
-	private PlotManager plotManager;
 	
 	/**
 	 * Called when the game is started. Creates and initialises all the objects that are needed and starts the game.
@@ -121,22 +119,20 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	private void startGame() {
 		// Display the human players inventory data on the screen
 		menu.updatePlayerInventoryData(humanPlayer);
-		
-		plotManager.setCurrentPlayer(currentPlayer);
 		plotAcquisitionStage();
 	}
 	
 	/**
-	 * Handles plot acquisition. Makes AI Players choose a plot. Allows the human player choose to a plot.
+	 * Sets the game up for the plot acquisition stage. Makes AI Players choose a plot. Allows the human player choose to a plot.
 	 * <p>
 	 * If a human player is acquiring a plot then the PlotManager is updated
 	 * </p>
 	 */
 	private void plotAcquisitionStage(){	
+		plotManager.setCurrentPlayer(currentPlayer);
 		if(currentPlayer == humanPlayer){
 			menu.setMenuText("Choose a plot to aquire");
-			plotManager.setCurrentPlayer(currentPlayer);
-        	plotManager.setPlotClickMode(PlotClickMode.AQUIRE);
+        	plotManager.setPlotClickMode(PlotClickMode.ACQUIRE);
 		}
 		else{
 			AIPlayer.choosePlot(plotManager);
@@ -146,7 +142,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	}
 	
 	/**
-	 * Handles the roboticon placing stage of the game. 
+	 * Sets the game up for the roboticon placing stage.
 	 * <p>
 	 * Tells AI player to place roboticons if they wish. Allows human players to place roboticons.
 	 * </p>
@@ -167,30 +163,49 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	}
 	
 	/**
-	 * 
+	 * Sets the game up for the roboticon purchasing stage.
+	 * <p>
+	 * Tells AI player to purchase roboticons if they wish. Allows human players to purchase roboticons via a market window.
+	 * </p>
 	 */
 	private void buyingRoboticonsStage(){
 		if(currentPlayer == humanPlayer){
+			
+			// Nothing should happen when a player clicks on a plot
 			plotManager.setPlotClickMode(PlotClickMode.NOACTION);
 			marketWindow = new BuyRoboticonsMarket(currentPlayer);
+			
+			// When the player has finished buying roboticons they can click this button to advance to the next stage
 			menu.setAndShowNextStageButton("customising roboticons",GameEvents.FINISHEDBUYINGROBOTICONS.ordinal());
 		
         	stage.addActor(marketWindow);        
         	menu.setMenuText("Purchase roboticons. Click the next button when you're done.");
-        	menu.setTimer(GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal(), 30); // If the timer runs out we may need to skip the customising stage entirely
+        	
+        	// The player has a limited amount of time in which to purchase and customise roboticons
+        	// If the timer runs out we may need to skip the customising stage entirely
+        	menu.setTimer(GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal(), 30); 
 		}
 		else{
+			// There is no timer for AI player (as it makes decisions very quickly and it would complicate the AI)
 			AIPlayer.buyRoboticons(plotManager);
 			customisingRoboticonsStage();
 		}
 	}
 	
+	/**
+	 * Sets the game up for the roboticon customising stage.
+	 * <p>
+	 * Tells AI player to customise roboticons if they wish. Allows human players to customise roboticons via a market window.
+	 * </p>
+	 */
 	private void customisingRoboticonsStage(){
 		if(currentPlayer == humanPlayer){
-			plotManager.setPlotClickMode(PlotClickMode.NOACTION);
-			marketWindow.remove(); // get rid of the old window
+			
+			marketWindow.remove(); // get rid of the old window (from the roboticon buying phase)
 			marketWindow = new CustomiseRoboticonsMarket(currentPlayer);
-			menu.setAndShowNextStageButton("place roboticos",GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal());
+			
+			// Users may click the next stage button once they have finished customising their roboticons
+			menu.setAndShowNextStageButton("place roboticons",GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal());
 		
        		stage.addActor(marketWindow);        
         	menu.setMenuText("Customise roboticons. Click the next button when you're done.");
@@ -202,39 +217,64 @@ public class Main extends ApplicationAdapter implements Telegraph{
         // Note that the timer is still set from the buying roboticons stage (if human player)
 	}
 	
+	/**
+	 * Sets up the game for the stage where all players can buy and sell from the market.
+	 * <p>
+	 * This stage can only be ended by the human player
+	 * </p>
+	 */
 	private void allPlayersMarketStage(){
-		AIPlayer.buyAndSellResources();// currently only does it once..		
+		
+		// Tell the AI to buy and sell whatever resources it wants to
+		AIPlayer.buyAndSellResources();	
 
 		marketWindow = new ResourceMarket(humanPlayer);
+		
+		// The human player may click the next stage button when they are done with the market
 		menu.setAndShowNextStageButton("Finished with the market",GameEvents.FINISHEDWITHTHEMARKET.ordinal());
 		
         stage.addActor(marketWindow);        
         menu.setMenuText("Market. Click the finished button when you are done.");
 	}
 	
+	/**
+	 * Tells all plots to produce resources for their owners (where applicable) 
+	 * <p> 
+	 * Also updates the players inventory data visible in the menu.
+	 * </p>
+	 */
 	private void produceResources(){
 		plotManager.produceResources();
 		menu.updatePlayerInventoryData(humanPlayer);
-		allPlayersMarketStage();// must happen straight after
+		allPlayersMarketStage();// Go straight to this stage
 	}
 	
+	/**
+	 * Starts the next round of the game (the first player can then acquire a plot again)
+	 * <p>
+	 * To be called once both players have completed their turns in a given round (if the game is not yet over)
+	 * </p>
+	 */
 	private void nextRound(){
 		marketWindow.remove();
-		menu.hideNextStageButton();
+		menu.hideNextStageButton(); // Shouldn't be visible during the plot acquisition stage
 		currentPlayer = (currentPlayer == humanPlayer)? AIPlayer : humanPlayer; // swap players
-		menu.updatePlayerInventoryData(humanPlayer);
-		plotManager.setCurrentPlayer(currentPlayer);
-		if(plotManager.allPlotsAquired())
-			gameOver();
-		else
-			plotAcquisitionStage();
+		plotAcquisitionStage();
 	}
 	
+	/**
+	 * Sets up the game for the next players turn in a given round
+	 * <p>
+	 * To be called when a player has finished their turn for a given round, but another player has yet to have theirs
+	 * </p>
+	 */
 	private void nextPlayersTurn(){
-		if(currentPlayer == firstPlayer){// assumes only 2 players...
+		if(currentPlayer == humanPlayer){
 			menu.hideNextStageButton();
+		}
+		
+		if(currentPlayer == firstPlayer){
 			currentPlayer = (currentPlayer == humanPlayer)? AIPlayer : humanPlayer; // swap players
-			menu.updatePlayerInventoryData(humanPlayer);
 			plotManager.setCurrentPlayer(currentPlayer);
 			plotAcquisitionStage();
 		}
@@ -243,15 +283,23 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		}
 	}
 	
+	/**
+	 * Calculates each players final score and creates a window to tell the user who the winner is
+	 * <p>
+	 * To be called once all plots have been acquired and each player has finished their turn
+	 * </p>
+	 */
 	private void gameOver(){
 		// calculate scores, dialog box or something declaring the winner
 		menu.hideNextStageButton();
 		marketWindow.remove();
 		marketWindow = null;
 		stage.addActor(new GameOverWindow(humanPlayer,AIPlayer));
-		
 	}
 
+	/**
+	 * Other classes may dispatch messages (to inform this class whenever a certain event occurs). They are dealt with here
+	 */
 	@Override
 	public boolean handleMessage(Telegram msg) {
 		
@@ -272,6 +320,8 @@ public class Main extends ApplicationAdapter implements Telegraph{
 			nextPlayersTurn(); // if all players have had their turn, causes production and then market access
 			break;
 		case FINISHEDWITHTHEMARKET:
+			// The game ends when all plots have been acquired and all players finished their turn in the current round
+			// (Both players will have finished their turn once they are both finished using the market in the stage where they both have access to the market)
 			if(plotManager.allPlotsAquired()){
 				gameOver();
 			}
@@ -280,6 +330,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 			}
 			break;
 		case PLAYERINVENTORYUPDATE:
+			// Whenever something happens that means that the players inventory data that is displayed on the screen should be updated
 			menu.updatePlayerInventoryData(humanPlayer);
 			break;
 		default:

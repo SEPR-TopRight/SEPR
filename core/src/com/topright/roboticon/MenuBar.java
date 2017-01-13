@@ -156,25 +156,25 @@ public class MenuBar extends Table{
 			
 			add(iconMoney).left();
 			add(moneyLabel).left().padRight(40); // want separation between the numbers and the icons
-		
 			add(iconEnergy).left();
 			add(energyLabel).left().padRight(40);
-		
 			add(iconOre).left();
 			add(oreLabel).left().padRight(40);
-
 			add(iconUncustomisedRoboticon).left();
 			add(uncustomisedRoboticonLabel).left().padRight(40); // want separation between the numbers and the icons
-			
 			add(iconEnergyRoboticon).left();
 			add(energyRoboticonLabel).left().padRight(40); // want separation between the numbers and the icons	
-			
 			add(iconOreRoboticon).left();
 			add(oreRoboticonLabel).left().padRight(40); // want separation between the numbers and the icon
-			
-			// Add icons and labels for uncustomised roboticons, ore roboticons and energy roboticons
 		}
 		
+		/**
+		 * Update the inventory data that is displayed
+		 * <p>
+		 * To be called whenever the players inventory is updated
+		 * </p>
+		 * @param player The player whos inventory data is to be displayed on screen
+		 */
 		public void updateData(Player player){
 			inventoryTable.oreLabel.setText(Integer.toString(player.getOreQuantity()));
 			inventoryTable.energyLabel.setText(Integer.toString(player.getEnergyQuantity()));
@@ -198,7 +198,7 @@ public class MenuBar extends Table{
 		add(menuLabel).expandX().center();
 		
 		nextStageButton = new TextButton("", new Skin(Gdx.files.internal("uiskin.json"))); // Dont't want to place it right away
-		                                                                                          // May not be needed and we don't yet know what it should do
+		                                                                                   // May not be needed and we don't yet know what it should do
 	}
 	
 }

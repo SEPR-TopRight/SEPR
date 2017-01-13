@@ -25,7 +25,7 @@ class AIPlayer extends Player{
 		for(int row=0;row<plots.length;row++){
 			for(int column=0;column<plots[0].length;column++){
 				if(!plots[row][column].hasBeenAquired()){
-					plotManager.aquirePlot(row,column);
+					plotManager.acquirePlot(row,column);
 					return; // Must only acquire one plot
 				}
 			}

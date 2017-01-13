@@ -26,7 +26,7 @@ public class MarketInventory extends Inventory{
 	}
 	
 	/**
-	 * Set the initial quantity of roboticons to be stored in the market.
+	 * Validates the initial quantity of roboticons to be stored in the market.
 	 * <p>
 	 * Ensures that the number of roboticons to be stored is not negative.
 	 * </p>
