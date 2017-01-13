@@ -35,7 +35,7 @@ public class GameOverWindow extends PopUpWindow {
 		
 		String humanPlayerScore = human.calculateScore().toString();
 		Label humanPlayerScoreLabel = new Label("Your final score: "+humanPlayerScore, new Skin(Gdx.files.internal("uiskin.json")));
-		String AIPlayerScore = human.calculateScore().toString();
+		String AIPlayerScore =  AI.calculateScore().toString();
 		Label AIPlayerScoreLabel = new Label("AI final score: "+AIPlayerScore, new Skin(Gdx.files.internal("uiskin.json")));
 	
 		add(winnerLabel);
