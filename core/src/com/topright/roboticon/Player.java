@@ -1,11 +1,8 @@
 package com.topright.roboticon;
-import java.util.EnumMap;
-import java.util.ArrayList;
 
 /**
- * Class to store all player attributes (including their inventory) and perform all the required actions.
+ * Class to store all player attributes (including their inventory) and handle the buying and selling of resources and the buying and customisation of roboticons
  * @author jcn509
- *
  */
 public class Player {
 	protected PlayerInventory inventory;
@@ -18,18 +15,35 @@ public class Player {
 		this.inventory = inventory;
 	}
 	
+	/**
+	 * Returns the quantity of ore that the player is in possession of
+	 * @return The quantity of ore that the player is in possession of
+	 */
 	public int getOreQuantity(){
 		return inventory.getOreQuantity();
 	}
 
+	/**
+	 * Returns the quantity of energy that the player is in possession of
+	 * @return The quantity of energy that the player is in possession of
+	 */
 	public int getEnergyQuantity(){
 		return inventory.getEnergyQuantity();
 	}
 
+	/**
+	 * Returns the amount of money that the player is in possession of
+	 * @return The amount of money that the player is in possession of
+	 */
 	public int getMoneyQuantity(){
 		return inventory.getMoneyQuantity();
 	}
 
+	/**
+	 * Returns the number of roboticons of a given customisation that the player is in possession of
+	 * @param customisation The customisation type of the roboticons
+	 * @return The number of roboticons of a given customisation that the player is in possession of
+	 */
 	public int getRoboticonQuantity(RoboticonCustomisation customisation){
 		return inventory.getRoboticonQuantity(customisation);
 	}
@@ -49,10 +63,11 @@ public class Player {
 	 */
 	public boolean attemptToBuyOre(int quantity){
 		int cost = Market.getInstance().getCostOre(quantity);
-		if(cost > inventory.getMoneyQuantity()) // Not enough money to complete the purchase.
+		if(cost > inventory.getMoneyQuantity()){ // Not enough money to complete the purchase.
 			return false; 
+		}
 		else{ // The player has enough money.
-			Market.getInstance().buyOre(quantity);
+			Market.getInstance().buyOreFromMarket(quantity);
 			inventory.increaseOreQuantity(quantity);
 			inventory.decreaseMoneyQuantity(cost);
 			return true;
@@ -74,8 +89,9 @@ public class Player {
 	 */
 	public boolean attemptToBuyEnergy(int quantity){
 		int cost = Market.getInstance().getCostEnergy(quantity);
-		if(cost > inventory.getMoneyQuantity()) // Not enough money to complete the purchase.
+		if(cost > inventory.getMoneyQuantity()){ // Not enough money to complete the purchase.
 			return false;
+		}
 		else{ // The player has enough money.
 			Market.getInstance().buyEnergy(quantity);
 			inventory.increaseEnergyQuantity(quantity);
@@ -99,8 +115,9 @@ public class Player {
 	 */
 	public boolean attemptToBuyRoboticons(int quantity){
 		int cost = Market.getInstance().getCostRoboticons(quantity);
-		if(cost > inventory.getMoneyQuantity()) // Not enough money to complete the purchase.
+		if(cost > inventory.getMoneyQuantity()){ // Not enough money to complete the purchase.
 			return false;
+		}
 		else{ // The player has enough money.
 			Market.getInstance().buyRoboticons(quantity);
 			inventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED,quantity);
@@ -120,13 +137,17 @@ public class Player {
 	 * @return A boolean value: true if the customisation was carried out false if it was not.
 	 */
 	public boolean attemptToCustomiseRoboticon(RoboticonCustomisation customisation){
-		if(inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED) == 0)
+		
+		// No roboticons to customise
+		if(inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED) == 0){
 			return false;
+		}
 		
 		int cost = Market.getInstance().getCostRoboticonCustomisation(customisation);
 		
-		if(cost > inventory.getMoneyQuantity())
+		if(cost > inventory.getMoneyQuantity()){ // Not enough money to purchase the customisation
 			return false;
+		}
 		else{
 			inventory.decreaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, 1);
 			inventory.decreaseMoneyQuantity(cost);
@@ -146,10 +167,11 @@ public class Player {
 	 * @return A boolean value: true if the sale was successful and false if not.
 	 */
 	public boolean attemptToSellOre(int quantity){
-		if(quantity > inventory.getOreQuantity()) // Cannot sell energy that is not in player's possession.
+		if(quantity > inventory.getOreQuantity()){ // Cannot sell ore that is not in player's possession.
 			return false;
-		else{ // The player has enough money.
-			Market.getInstance().sellOre(quantity);
+		}
+		else{ // The player has enough ore
+			Market.getInstance().sellOreToMarket(quantity);
 			inventory.decreaseOreQuantity(quantity);
 			inventory.increaseMoneyQuantity(Market.getInstance().getCostOre(quantity));
 			return true;
@@ -168,40 +190,53 @@ public class Player {
 	 * @return A boolean value: true if the sale was successful and false if not.
 	 */
 	public boolean attemptToSellEnergy(int quantity){
-		if(quantity > inventory.getEnergyQuantity()) // Cannot sell energy that is not in player's possession.
+		if(quantity > inventory.getEnergyQuantity()){ // Cannot sell energy that is not in player's possession.
 			return false;
-		else{ // The player has enough money.
-			Market.getInstance().sellEnergy(quantity);
+		}
+		else{ // The player has enough energy
+			Market.getInstance().sellEnergyToMarket(quantity);
 			inventory.decreaseEnergyQuantity(quantity);
 			inventory.increaseMoneyQuantity(Market.getInstance().getCostEnergy(quantity));
 			return true;
 		}
 	}
 	
+	/**
+	 * Tries to place a roboticon of a given customisation type on a given plot
+	 * <p>
+	 * Will fail to do so if:
+	 *   The player does not have a roboticon of the given customisation
+	 *   The plot already has a roboticon on it
+	 *   the plot is not owned by this player
+	 * </p>
+	 * @param plot
+	 * @param roboticonCustomisation
+	 * @return true if a roboticon was placed and false otherwise
+	 */
 	public boolean attemptToPlaceRoboticon(Plot plot, RoboticonCustomisation roboticonCustomisation){
-		if(inventory.getRoboticonQuantity(roboticonCustomisation) < 1)
+		if(inventory.getRoboticonQuantity(roboticonCustomisation) < 1){
 			return false;
-		else if(plot.hasRoboticon())
+		}
+		else if(plot.hasRoboticon()){
 			return false;
+		}
+		else if(plot.getPlayer()!=this){ // Plot not owned by this player
+			return false;
+		}
 		
 		inventory.decreaseRoboticonQuantity(roboticonCustomisation, 1);
-		plot.setRoboticon(roboticonCustomisation);
+		plot.setRoboticonCustomisation(roboticonCustomisation);
 		
 		return true;
 	}
 	
-	
-	
-	
-	//not yet implemented - not sure if should be here
+	/**
+	 * Calculates and returns the Player's score
+	 * @return The Player's score
+	 */
 	public Integer calculateScore(){
 		Integer score = inventory.getMoneyQuantity();
 		return score;
 	}
-	/*not yet implemented - not sure if should be here or done in the engine itself.
-	public boolean placeRoboticon(Roboticon/RoboticonCusomisation,Plot){
-		return something
-	}
-	 */
 	
 }

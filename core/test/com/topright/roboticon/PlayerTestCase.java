@@ -79,7 +79,7 @@ public class PlayerTestCase {
 		assertTrue(player.attemptToBuyOre(6));
 		new Verifications(){{
 			market.getCostOre(6);times=1;
-			market.buyOre(6);times=1;
+			market.buyOreFromMarket(6);times=1;
 			playerInventory.increaseOreQuantity(6);times=1;
 			playerInventory.decreaseMoneyQuantity(10);times=1;
 		}};
@@ -97,7 +97,7 @@ public class PlayerTestCase {
 		assertFalse(player.attemptToBuyOre(1000000));
 		new Verifications(){{
 			market.getCostOre(1000000);times=1;
-			market.buyOre(anyInt);times=0;
+			market.buyOreFromMarket(anyInt);times=0;
 			playerInventory.increaseOreQuantity(anyInt);times=0;
 			playerInventory.decreaseMoneyQuantity(anyInt);times=0;
 		}};
@@ -152,7 +152,7 @@ public class PlayerTestCase {
 		assertFalse(player.attemptToSellOre(1000000));
 		new Verifications(){{
 			market.getCostOre(1000000);times=0;
-			market.sellOre(anyInt);times=0;
+			market.sellOreToMarket(anyInt);times=0;
 			playerInventory.decreaseOreQuantity(anyInt);times=0;
 			playerInventory.increaseMoneyQuantity(anyInt);times=0;
 		}};
@@ -170,7 +170,7 @@ public class PlayerTestCase {
 		assertTrue(player.attemptToSellOre(10));
 		new Verifications(){{
 			market.getCostOre(10);times=1;
-			market.sellOre(10);times=1;
+			market.sellOreToMarket(10);times=1;
 			playerInventory.decreaseOreQuantity(10);times=1;
 			playerInventory.increaseMoneyQuantity(100);times=1;
 		}};
@@ -187,7 +187,7 @@ public class PlayerTestCase {
 		assertFalse(player.attemptToSellEnergy(1000000));
 		new Verifications(){{
 			market.getCostEnergy(anyInt);times=0;
-			market.sellEnergy(anyInt);times=0;
+			market.sellEnergyToMarket(anyInt);times=0;
 			playerInventory.decreaseEnergyQuantity(anyInt);times=0;
 			playerInventory.increaseMoneyQuantity(anyInt);times=0;
 		}};
@@ -205,7 +205,7 @@ public class PlayerTestCase {
 		assertTrue(player.attemptToSellEnergy(10));
 		new Verifications(){{
 			market.getCostEnergy(10);times=1;
-			market.sellEnergy(10);times=1;
+			market.sellEnergyToMarket(10);times=1;
 			playerInventory.decreaseEnergyQuantity(10);times=1;
 			playerInventory.increaseMoneyQuantity(100);times=1;
 		}};

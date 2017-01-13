@@ -41,7 +41,7 @@ public class MarketTestCase {
 	}
 	@Test
 	public void testSellEnergy(){
-		Market.getInstance().sellEnergy(3);
+		Market.getInstance().sellEnergyToMarket(3);
 		new Verifications(){{
 			inventory.increaseEnergyQuantity(anyInt); times=1;
 		}};
@@ -51,14 +51,14 @@ public class MarketTestCase {
 		new Expectations(){{
 			inventory.increaseOreQuantity(3); times=1;
 		}};
-		Market.getInstance().sellOre(3);
+		Market.getInstance().sellOreToMarket(3);
 	}
 	@Test
 	public void testBuyOre(){
 		new Expectations(){{
 			inventory.getOreQuantity(); result = 5;
 		}};
-		Market.getInstance().buyOre(3);
+		Market.getInstance().buyOreFromMarket(3);
 		new Verifications(){{
 			inventory.decreaseOreQuantity(3);
 		}};
@@ -68,7 +68,7 @@ public class MarketTestCase {
 		new Expectations(){{
 			inventory.getOreQuantity(); result = 2;
 		}};
-		Market.getInstance().buyOre(3);
+		Market.getInstance().buyOreFromMarket(3);
 	}
 	@Test
 	public void testEnergyCostZero(){

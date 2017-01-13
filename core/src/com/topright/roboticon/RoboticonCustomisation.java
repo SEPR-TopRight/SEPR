@@ -9,5 +9,9 @@ enum RoboticonCustomisation {ORE("ore"), ENERGY("energy"), UNCUSTOMISED("uncusto
 	private RoboticonCustomisation(String s) {
 		name = s;
 	}
+	
+	public String toString(){
+		return this.name;
+	}	
 }
 

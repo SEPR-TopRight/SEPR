@@ -10,10 +10,13 @@ import java.util.EnumMap;
  * <p>
  * @author jcn509
  */
-
 public class PlayerInventory extends Inventory{
+	
+	// Maps roboticon customisation types onto the number of roboticons of that customisation type stored in the inventory
 	private EnumMap<RoboticonCustomisation, Integer> roboticons = new EnumMap<RoboticonCustomisation, Integer>(RoboticonCustomisation.class);
+	
 	private int moneyQuantity;
+	
 	/**
 	 * Constructor.
 	 * @param oreQuantity The initial quantity of ore stored in the inventory.
@@ -25,6 +28,7 @@ public class PlayerInventory extends Inventory{
 		initialiseRoboticonQuantities(roboticons);
 		initialiseMoneyQuantity(moneyQuantity);
 	}
+	
 	/**
 	 * Initialise the amount of money in the players inventory.
 	 * <p>
@@ -34,10 +38,11 @@ public class PlayerInventory extends Inventory{
 	 */
 	private void initialiseMoneyQuantity(int moneyQuantity){
 		if(moneyQuantity<0) // Cannot have a negative quantity of money.
-			throw new IllegalArgumentException("moneyQuantity must be >= 0");
+			throw new IllegalArgumentException("moneyQuantity must be >= 0. moneyQuantity = "+Integer.toString(moneyQuantity));
 		else
 			this.moneyQuantity = moneyQuantity;
 	}
+	
 	/**
 	 * Initialise the quantities of roboticons with given customisations.
 	 * <p> 
@@ -48,11 +53,13 @@ public class PlayerInventory extends Inventory{
 	private void initialiseRoboticonQuantities(EnumMap<RoboticonCustomisation, Integer> roboticons){
 		for (EnumMap.Entry<RoboticonCustomisation, Integer> entry : roboticons.entrySet()) // For each type of roboticon
 		{
-		    if(entry.getValue()<0) // Player may not have a negative quantity of any type of roboticon.
-		    	throw new IllegalArgumentException(entry.getKey().name()+ " is mapped to a value less than 0 in the roboticons map");
+		    if(entry.getValue()<0){ // Player may not have a negative quantity of any type of roboticon.
+		    	throw new IllegalArgumentException(entry.getKey().name()+ " is mapped to a value less than 0 in the roboticons map (value = "+entry.getValue().toString());
+		    }
 		}
 		this.roboticons = roboticons;
 	}
+	
 	/**
 	 * Adds roboticons with the specified customisation type to the inventory.
 	 * <p>
@@ -62,13 +69,17 @@ public class PlayerInventory extends Inventory{
 	 * @param roboticonQuantityIncrease The number of roboticons to add to the inventory.
 	 */
 	public void increaseRoboticonQuantity(RoboticonCustomisation customisation, int roboticonQuantityIncrease){
-		if(roboticonQuantityIncrease < 0) // Cannot increase the quantity of roboticons by a negative amount.
-			throw new IllegalArgumentException("roboticonQuantityIncrease must be positive");
-		else if(roboticons.containsKey(customisation)) // If some roboticons with this customisation are already stored (or have been stored previously).
+		if(roboticonQuantityIncrease < 0){ // Cannot increase the quantity of roboticons by a negative amount.
+			throw new IllegalArgumentException("roboticonQuantityIncrease must be positive. roboticonQuantityIncrease = "+Integer.toString(roboticonQuantityIncrease));
+		}
+		else if(roboticons.containsKey(customisation)){ // If some roboticons with this customisation are already stored (or have been stored previously).
 			roboticons.put(customisation,roboticons.get(customisation)+roboticonQuantityIncrease);
-		else // If no roboticons with this customisation are stored.
+		}
+		else{ // If no roboticons with this customisation are stored.
 			roboticons.put(customisation, roboticonQuantityIncrease);
+		}
 	}
+	
 	/**
 	 * Removes roboticons of a specified customisation type from the inventory.
 	 * <p>
@@ -78,20 +89,30 @@ public class PlayerInventory extends Inventory{
 	 * @param customisation specifies the customisation type that the roboticon to be removed has
 	 */
 	public void decreaseRoboticonQuantity(RoboticonCustomisation customisation, int roboticonQuantityDecrease){
-		if((!roboticons.containsKey(customisation)) || (roboticons.get(customisation) < roboticonQuantityDecrease))// Inventory contains no roboticons with this customisation.
-			throw new IllegalArgumentException("The inventory does not contain enough roboticons with customisation "+customisation.name());
-		else if(roboticonQuantityDecrease < 0) // Cannot decrease the number of roboticons by a negative amount.
-			throw new IllegalArgumentException("roboticonQuantityDecrease must be positive");
+		
+		// If the inventory contains no roboticons with this customisation.
+		if(!roboticons.containsKey(customisation)){
+			throw new IllegalArgumentException("The inventory does not contain enough roboticons with customisation. "+customisation.name());
+		}
+		else if(roboticons.get(customisation) < roboticonQuantityDecrease){
+			throw new IllegalArgumentException("The inventory does not contain enough roboticons with customisation. "+customisation.name()+ roboticons.get(customisation).toString()+ "in the inventory, tried to decrease this number by "+Integer.toString(roboticonQuantityDecrease));
+		}
+		else if(roboticonQuantityDecrease < 0){ // Cannot decrease the number of roboticons by a negative amount.
+			throw new IllegalArgumentException("roboticonQuantityDecrease must be positive. roboticonQuantityDecrease = "+Integer.toString(roboticonQuantityDecrease));
+		}
+		
 		roboticons.put(customisation, roboticons.get(customisation)-roboticonQuantityDecrease);
 	}
+	
 	/**
 	 * Returns the quantity of roboticons stored in the inventory with a given customisation.
 	 * @param customisation The customisation type of the roboticons.
 	 * @return The quantity of roboticons stored with the specified customisation type.
 	 */
 	public int getRoboticonQuantity(RoboticonCustomisation customisation){
-		if(roboticons.containsKey(customisation)) // If roboticons of this type are stored (or have previously been stored) in the inventory.
+		if(roboticons.containsKey(customisation)){ // If roboticons of this type are stored (or have previously been stored) in the inventory.
 			return roboticons.get(customisation);
+		}
 		return 0;
 	}
 	
@@ -111,10 +132,12 @@ public class PlayerInventory extends Inventory{
 	 * @param moneyQuantityIncrease The amount of money to add to the inventory.
 	 */
 	public void increaseMoneyQuantity(int moneyQuantityIncrease){
-		if(moneyQuantityIncrease < 0) // Cannot add a negative quantity of money to the inventory.
-			throw new IllegalArgumentException("moneyQuantityIncrease must be positive");
-		else
+		if(moneyQuantityIncrease < 0){ // Cannot add a negative quantity of money to the inventory.
+			throw new IllegalArgumentException("moneyQuantityIncrease must be positive. moneyQuantityIncrease = "+Integer.toString(moneyQuantityIncrease));
+		}
+		else{
 			moneyQuantity +=  moneyQuantityIncrease;
+		}
 	}
 	
 	/**
@@ -126,11 +149,14 @@ public class PlayerInventory extends Inventory{
 	 * @param moneyQuantityDecrease The amount of money to take from the inventory.
 	 */
 	public void decreaseMoneyQuantity(int moneyQuantityDecrease){
-		if(moneyQuantityDecrease < 0) // Cannot take a negative quantity of money from the inventory.
-			throw new IllegalArgumentException("moneyQuantityDecrease must be positive");
-		else if (moneyQuantity - moneyQuantityDecrease < 0) // Cannot cause the amount of money stored in the inventory to be negative.
-			throw new IllegalArgumentException("moneyQuantityDecrease must not be greater than moneyQuantity");
-		else
+		if(moneyQuantityDecrease < 0){ // Cannot take a negative quantity of money from the inventory.
+			throw new IllegalArgumentException("moneyQuantityDecrease must be positive. moneyQuantityDecrease = "+Integer.toString(moneyQuantityDecrease));
+		}
+		else if (moneyQuantity - moneyQuantityDecrease < 0){ // Cannot cause the amount of money stored in the inventory to be negative.
+			throw new IllegalArgumentException("moneyQuantityDecrease must not be greater than moneyQuantity. moneyQuantity = "+Integer.toString(moneyQuantity)+" moneyQauntityDecrease = "+Integer.toString(moneyQuantityDecrease));
+		}
+		else{ // moneyDecreaseQuantity > 0 and moneyDecreaseQuantity < moneyQuantity
 			moneyQuantity -= moneyQuantityDecrease;
+		}
 	}
 }
