@@ -21,15 +21,24 @@ class AIPlayer extends Player{
 	 */
 	public void choosePlot(PlotManager plotManager){
 		Plot[][] plots = plotManager.getPlots();
-		// There is no reason to choose any one plot over another, so the first anacquired plot is chosen
+		// There is no reason to choose any one plot over another, so the first unacquired plot is chosen
 		for(int row=0;row<plots.length;row++){
 			for(int column=0;column<plots[0].length;column++){
-				if(!plots[row][column].hasBeenAquired()){
+				if(!plots[row][column].hasBeenAcquired()){
 					plotManager.acquirePlot(row,column);
 					return; // Must only acquire one plot
 				}
 			}
 		}
+		throw new IllegalStateException("Choose plot called when all plots have been acquired! Must be at least one empty plot!");
+	}
+	
+	private int getTotalNumberOfRoboticons(){
+		int numberOfRoboticons=0;
+		for(RoboticonCustomisation customisation : RoboticonCustomisation.values()){
+			numberOfRoboticons += inventory.getRoboticonQuantity(customisation);
+		}
+		return numberOfRoboticons;
 	}
 	
 	/**
@@ -46,8 +55,8 @@ class AIPlayer extends Player{
 	public void buyRoboticons(PlotManager plotManager){
 		int numberOfEmptyPlots = getNumberOfEmptyPlots(plotManager);
 		
-		// Assume always customise then instantly place so that we don't need to see how many customised roboticons we have
-		int numberOfRoboticonsToBuy = numberOfEmptyPlots - inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);
+		
+		int numberOfRoboticonsToBuy = numberOfEmptyPlots - getTotalNumberOfRoboticons();
 		
 		while(numberOfRoboticonsToBuy > 0){
 			
