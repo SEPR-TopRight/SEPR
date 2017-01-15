@@ -149,7 +149,7 @@ public class PlotManager extends Table{
 	 */
 	public void acquirePlot(int row, int column){
 		Plot plot = plots[row][column]; // The plot that is being looked at.
-		if(!plot.hasBeenAquired()){ // If the Plot has yet to be acquired
+		if(!plot.hasBeenAcquired()){ // If the Plot has yet to be acquired
 			plot.setPlayer(currentPlayer);
 			if(currentPlayer == humanPlayer){
 				buttons[row][column].setImages("plot_overlays/human.pack", "human", "human");
@@ -197,7 +197,7 @@ public class PlotManager extends Table{
 	public boolean allPlotsAquired(){
 		for(int row = 0; row<plots.length;row++){
 			for(int column = 0;column<plots[0].length;column++){
-				if(!plots[row][column].hasBeenAquired())// if a plot has not been acquired
+				if(!plots[row][column].hasBeenAcquired())// if a plot has not been acquired
 					return false;                       // then not all of the plots have been acquired
 			}
 		}

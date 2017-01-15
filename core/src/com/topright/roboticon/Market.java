@@ -73,8 +73,14 @@ public class Market {
 	 * Ensures that the player is not trying to buy more energy than is available and subtracts the amount of energy the player is trying to buy from the market
 	 * @param quantity The quantity of energy the player is trying to buy 
 	 */
-	public void buyEnergy(int quantity){
-		if (inventory.getEnergyQuantity() >= quantity){
+	public void buyEnergyFromMarket(int quantity){
+		if(quantity<0){
+			throw new IllegalArgumentException("Cannot add buy a negative quantity of energy from the market! quantity = "+Integer.toString(quantity));
+		}
+		else if(quantity == 0){
+			return; // Nothing happens if quantity = 0
+		}
+		else if (inventory.getEnergyQuantity() >= quantity){
 			inventory.decreaseEnergyQuantity(quantity);
 		}
 		else{
@@ -87,10 +93,16 @@ public class Market {
 	 * @param quantity the quantity of ore the player is trying to buy 
 	 */
 	public void buyOreFromMarket(int quantity){
-		if (inventory.getOreQuantity() >= quantity){
+		if(quantity<0){
+			throw new IllegalArgumentException("Cannot add buy a negative quantity of ore from the market! quantity = "+Integer.toString(quantity));
+		}
+		else if(quantity == 0){
+			return; // Nothing happens if quantity = 0
+		}
+		else if (inventory.getOreQuantity() >= quantity){
 			inventory.decreaseOreQuantity(quantity);
 		}
-		else{
+		else {
 			throw new IllegalArgumentException("Trying to buy more ore than is available the market has "+Integer.toString(inventory.getOreQuantity())+" ore. The player tried to buy "+Integer.toString(quantity));
 		}
 	}
@@ -100,7 +112,13 @@ public class Market {
 	* @param quantity the quantity of Energy the player is trying to sell 
 	*/
 	public void sellEnergyToMarket(int quantity){	
-		inventory.increaseEnergyQuantity(quantity);	
+		if(quantity<0){
+			throw new IllegalArgumentException("Cannot add sell a negative quantity of energy to the market! quantity = "+Integer.toString(quantity));
+		}
+		else if(quantity>0){
+			inventory.increaseEnergyQuantity(quantity);	
+		}
+		// Nothing happens if quantity = 0
 	}
 	
 	/**
@@ -108,20 +126,33 @@ public class Market {
 	* @param quantity The quantity of Ore the player is trying to sell 
 	*/
 	public void sellOreToMarket(int quantity){
-		inventory.increaseOreQuantity(quantity);
+		if(quantity<0){
+			throw new IllegalArgumentException("Cannot add sell a negative quantity of ore to the market! quantity = "+Integer.toString(quantity));
+		}
+		else if(quantity>0){
+			inventory.increaseOreQuantity(quantity);
+		}
+		// Nothing happens if quantity = 0
 	}
 		
 	/**
 	*Ensures that the player is not trying to buy more roboticons than are available and subtracts the number of roboticons the player is trying to buy from the market
 	* @param quantity The quantity of Roboticons the player is trying to buy 
 	*/
-	public void buyRoboticons(int quantity){
-		if (inventory.getRoboticonQuantity() >= quantity){
+	public void buyRoboticonsFromMarket(int quantity){
+		if(quantity<0){
+			throw new IllegalArgumentException("Cannot add buy a negative number of roboticons from the market! quantity = "+Integer.toString(quantity));
+		}
+		else if(quantity == 0){
+			return; // Nothing happens if quantity = 0
+		}
+		else if (inventory.getRoboticonQuantity() >= quantity){
 			inventory.decreaseRoboticonQuantity(quantity);
 		}
 		else{
 			throw new IllegalArgumentException("Trying to buy more roboticons than are available the market has "+Integer.toString(inventory.getRoboticonQuantity())+" roboticons. The player tried to buy "+Integer.toString(quantity));
 		}
+		
 	}
 	
 	/**
@@ -131,6 +162,9 @@ public class Market {
 	 * @return The cost of the given quantity of ore
 	 */
 	public int getCostOre(int quantity){
+		if(quantity < 0){
+			throw new IllegalArgumentException("Cannot calculate the cost of a negative quantity of ore. quantity = "+Integer.toString(quantity));
+		}
 		return oreCost * quantity;
 	}
 	
@@ -140,6 +174,9 @@ public class Market {
 	 * @return The cost of the given quantity of energy
 	 */
 	public int getCostEnergy(int quantity){
+		if(quantity < 0){
+			throw new IllegalArgumentException("Cannot calculate the cost of a negative quantity of energy. quantity = "+Integer.toString(quantity));
+		}
 		return energyCost * quantity;
 	}
 	
@@ -149,6 +186,9 @@ public class Market {
 	 * @return The cost of the given number of roboticons
 	 */
 	public int getCostRoboticons(int quantity){
+		if(quantity < 0){
+			throw new IllegalArgumentException("Cannot calculate the cost of a negative quantity of roboticons. quantity = "+Integer.toString(quantity));
+		}
 		return uncustomisedRoboticonCost * quantity;
 	}
 	
@@ -181,5 +221,9 @@ public class Market {
 			default:
 				throw new IllegalArgumentException("Invalid customisation type " + customisation);
 		}
+	}
+	
+	public int getRoboticonOreConversionRate(){
+		return roboticonOreConversionRate;
 	}
 }

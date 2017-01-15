@@ -53,7 +53,7 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 		});
 
 		// A button that can be clicked to try and make the market produce another roboticon
-		TextButton produceRoboticonButton = new TextButton("Produce roboticon", new Skin(Gdx.files.internal("uiskin.json")));
+		TextButton produceRoboticonButton = new TextButton("Make the market produce another roboticon", new Skin(Gdx.files.internal("uiskin.json")));
 		produceRoboticonButton.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y)
@@ -61,6 +61,9 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 	        	attemptToProduceRoboticon();
 	        }
 		});
+		
+		Label roboticonOreConversionRateLabel = new Label("It costs the market " +Integer.toString(Market.getInstance().getRoboticonOreConversionRate()) 
+				                                          +" ore to produce 1 roboticon", new Skin(Gdx.files.internal("uiskin.json")));
 		
 		// Place all items on the screen in the desired places 
 		add(roboticonsInStockLabel).expand().fill().left();
@@ -72,6 +75,8 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 		add(transactionCostLabel).expand().fill().left();
 		row();
 		add(completeTransactionButton).expand().fill().left().padTop(20);
+		row();
+		add(roboticonOreConversionRateLabel).padTop(20);
 		row();
 		add(produceRoboticonButton);
 
@@ -96,7 +101,7 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 		}
 		else{
 			// Add the pop up to the parent widget of this window (otherwise it will be contained within the window itself)
-			getParent().addActor(new MessagePopUp("Not enough ore","The market does not have enough ore to producec a roboticon!"));
+			getParent().addActor(new MessagePopUp("Not enough ore","The market does not have enough ore to produce a roboticon!"));
 		}
 	}
 
@@ -110,7 +115,7 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 		// If the player is not trying to buy 0 roboticons
 		if(transactionQuantitySpinBox.getValue()>0){ 
 			if(currentPlayer.attemptToBuyRoboticons(transactionQuantitySpinBox.getValue())){
-				// If the purhcase was successful
+				// If the purchase was successful
 				
 				// Other parts of the game need to react (e.g. the players inventory on the menu bar must be updated)
 				MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); 

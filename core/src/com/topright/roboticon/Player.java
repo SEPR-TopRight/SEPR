@@ -93,7 +93,7 @@ public class Player {
 			return false;
 		}
 		else{ // The player has enough money.
-			Market.getInstance().buyEnergy(quantity);
+			Market.getInstance().buyEnergyFromMarket(quantity);
 			inventory.increaseEnergyQuantity(quantity);
 			inventory.decreaseMoneyQuantity(cost);
 			return true;
@@ -119,7 +119,7 @@ public class Player {
 			return false;
 		}
 		else{ // The player has enough money.
-			Market.getInstance().buyRoboticons(quantity);
+			Market.getInstance().buyRoboticonsFromMarket(quantity);
 			inventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED,quantity);
 			inventory.decreaseMoneyQuantity(cost);
 			return true;

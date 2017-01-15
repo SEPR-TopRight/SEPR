@@ -42,7 +42,7 @@ public class PlayerTestCase {
 		assertTrue(player.attemptToBuyEnergy(6));
 		new Verifications(){{
 			market.getCostEnergy(6);times=1;
-			market.buyEnergy(anyInt);times=1;
+			market.buyEnergyFromMarket(anyInt);times=1;
 			playerInventory.increaseEnergyQuantity(6);times=1;
 			playerInventory.decreaseMoneyQuantity(10);times=1;
 		}};
@@ -61,7 +61,7 @@ public class PlayerTestCase {
 		assertFalse(player.attemptToBuyEnergy(1000000));
 		new Verifications(){{
 			market.getCostEnergy(1000000);times=1;
-			market.buyEnergy(anyInt);times=0;
+			market.buyEnergyFromMarket(anyInt);times=0;
 			playerInventory.increaseEnergyQuantity(anyInt);times=0;
 			playerInventory.decreaseMoneyQuantity(anyInt);times=0;
 		}};
@@ -117,7 +117,7 @@ public class PlayerTestCase {
 		assertTrue(player.attemptToBuyRoboticons(6));
 		new Verifications(){{
 			market.getCostRoboticons(6);times=1;
-			market.buyRoboticons(6);times=1;
+			market.buyRoboticonsFromMarket(6);times=1;
 			playerInventory.decreaseMoneyQuantity(10);times=1;
 			playerInventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, 6);times=1;
 		}};
@@ -135,7 +135,7 @@ public class PlayerTestCase {
 		assertFalse(player.attemptToBuyRoboticons(1000000));
 		new Verifications(){{
 			market.getCostRoboticons(1000000);times=1;
-			market.buyRoboticons(anyInt);times=0;
+			market.buyRoboticonsFromMarket(anyInt);times=0;
 			playerInventory.increaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED,anyInt);times=0;
 			playerInventory.decreaseMoneyQuantity(anyInt);times=0;
 		}};

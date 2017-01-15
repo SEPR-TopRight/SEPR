@@ -40,7 +40,7 @@ public class Plot {
 	 * @param Player a number referencing the player that owns the plot
 	 */
 	public void setPlayer(Player player){
-		if (!hasBeenAquired()){
+		if (!hasBeenAcquired()){
 			this.acquiredBy = player;
 		}
 		else{
@@ -52,7 +52,7 @@ public class Plot {
 	 * Returns true if this plot has been acquired and false otherwise
 	 * @return true if this plot has been acquired and false otherwise
 	 */
-	public boolean hasBeenAquired(){
+	public boolean hasBeenAcquired(){
 		return !(acquiredBy == null);
 	}
 	
