@@ -1,5 +1,6 @@
 package com.topright.roboticon;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import org.junit.Before;
@@ -583,5 +584,29 @@ public class MarketTestCase {
 		new Verifications(){{
 			inventory.increaseRoboticonQuantity(anyInt); times=0;
 		}};
+	}
+	
+	/**
+	 * Tests {@link Market#getCostRoboticonCustomisation}. Ensures that a non-zero value is returned for an energy customisation.
+	 */
+	@Test
+	public void testGetCostRoboticonEnergy(){
+		assertNotEquals(0,Market.getInstance().getCostRoboticonCustomisation(RoboticonCustomisation.ENERGY));
+	}
+	
+	/**
+	 * Tests {@link Market#getCostRoboticonCustomisation}. Ensures that a non-zero value is returned for an ore customisation.
+	 */
+	@Test
+	public void testGetCostRoboticonOre(){
+		assertNotEquals(0,Market.getInstance().getCostRoboticonCustomisation(RoboticonCustomisation.ORE));
+	}
+	
+	/**
+	 * Tests {@link Market#getCostRoboticonCustomisation}. Ensures that an exception is thrown if RoboticionCustomisation.UNCUSTOMISED is passed to it.
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	public void testGetCostRoboticonExceptionUnustomised(){
+		Market.getInstance().getCostRoboticonCustomisation(RoboticonCustomisation.UNCUSTOMISED);
 	}
 }

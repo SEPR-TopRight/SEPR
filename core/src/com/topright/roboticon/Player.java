@@ -62,6 +62,13 @@ public class Player {
 	 * @return A boolean value: true if the purchase was successful and false if not.
 	 */
 	public boolean attemptToBuyOre(int quantity){
+		if(quantity == 0){
+			return true; // Don't want to do anything
+		}
+		else if(quantity<0){
+			return false; // Invalid use of the method
+		}
+		
 		int cost = Market.getInstance().getCostOre(quantity);
 		if(cost > inventory.getMoneyQuantity()){ // Not enough money to complete the purchase.
 			return false; 
@@ -88,6 +95,13 @@ public class Player {
 	 * @return A boolean value: true if the purchase was successful and false if not.
 	 */
 	public boolean attemptToBuyEnergy(int quantity){
+		if(quantity == 0){
+			return true; // Don't want to do anything
+		}
+		else if(quantity<0){
+			return false; // Invalid use of the method
+		}
+		
 		int cost = Market.getInstance().getCostEnergy(quantity);
 		if(cost > inventory.getMoneyQuantity()){ // Not enough money to complete the purchase.
 			return false;
@@ -114,6 +128,13 @@ public class Player {
 	 * @return A boolean value: true if the purchase was successful and false if not.
 	 */
 	public boolean attemptToBuyRoboticons(int quantity){
+		if(quantity == 0){
+			return true; // Don't want to do anything
+		}
+		else if(quantity<0){
+			return false; // Invalid use of the method
+		}
+		
 		int cost = Market.getInstance().getCostRoboticons(quantity);
 		if(cost > inventory.getMoneyQuantity()){ // Not enough money to complete the purchase.
 			return false;
@@ -167,6 +188,13 @@ public class Player {
 	 * @return A boolean value: true if the sale was successful and false if not.
 	 */
 	public boolean attemptToSellOre(int quantity){
+		if(quantity == 0){
+			return true; // Don't want to do anything
+		}
+		else if(quantity<0){
+			return false; // Invalid use of the method
+		}
+		
 		if(quantity > inventory.getOreQuantity()){ // Cannot sell ore that is not in player's possession.
 			return false;
 		}
@@ -190,6 +218,13 @@ public class Player {
 	 * @return A boolean value: true if the sale was successful and false if not.
 	 */
 	public boolean attemptToSellEnergy(int quantity){
+		if(quantity == 0){
+			return true; // Don't want to do anything
+		}
+		else if(quantity<0){
+			return false; // Invalid use of the method
+		}
+		
 		if(quantity > inventory.getEnergyQuantity()){ // Cannot sell energy that is not in player's possession.
 			return false;
 		}
@@ -214,7 +249,10 @@ public class Player {
 	 * @return true if a roboticon was placed and false otherwise
 	 */
 	public boolean attemptToPlaceRoboticon(Plot plot, RoboticonCustomisation roboticonCustomisation){
-		if(inventory.getRoboticonQuantity(roboticonCustomisation) < 1){
+		if(roboticonCustomisation == RoboticonCustomisation.UNCUSTOMISED){
+			return false; // Can't place uncustomised roboticons
+		}
+		else if(inventory.getRoboticonQuantity(roboticonCustomisation) < 1){
 			return false;
 		}
 		else if(plot.hasRoboticon()){
