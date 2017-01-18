@@ -71,7 +71,7 @@ class AIPlayer extends Player{
 			}
 			else if(Market.getInstance().getRoboticonQuantity()<1){ // Attempt to make the market produce a roboticon, if it doesn't have any
 				if(!Market.getInstance().attemptToProduceRoboticon())				
-					return; // Return if no more roboticons can be produced (and therefor can't be purchased)
+					return; // Return if no more roboticons can be produced (and therefore can't be purchased)
 			}
 			
 			if(!attemptToBuyRoboticons(1)){ // Attempt to buy a roboticon

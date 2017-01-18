@@ -30,6 +30,22 @@ public class Player {
 	public int getEnergyQuantity(){
 		return inventory.getEnergyQuantity();
 	}
+	
+	/**
+	 * Increases the quantity of ore that the player is in possession of
+	 * @param oreQuantityIncrease the amount of ore that is to be added
+	 */
+	public void increaseOreQuantity(int oreQuantityIncrease){
+		inventory.increaseOreQuantity(oreQuantityIncrease);
+	}
+	
+	/**
+	 * Increases the quantity of energy that the player is in possession of
+	 * @return The quantity of energy that the player is in possession of
+	 */
+	public void increaseEnergyQuantity(int energyQuantityIncrease){
+		inventory.increaseEnergyQuantity(energyQuantityIncrease);
+	}
 
 	/**
 	 * Returns the amount of money that the player is in possession of

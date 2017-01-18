@@ -84,11 +84,206 @@ public class PlotTestCase {
 	}
 	
 	/**
-	 * Tests {@link Plot#setPlayer(Player)} and ensures that a newly created plot does not yet have a roboticon on it
+	 * Tests {@link Plot#setPlayer(Player)} ensures that when a plot has not yet been acquired (does not yet have a player) and this method is called the plots player attribute is set correctly
 	 */
 	@Test
-	public void testSetPlayer(){
-		assertFalse(plot.hasRoboticon());
+	public void testSetPlayerCurrentlyNoPlayerCorrectPlayer(){
+		plot.setPlayer(player);
+		assertEquals(player,plot.getPlayer());
+		
+	}
+	
+	/**
+	 * Tests {@link Plot#setPlayer(Player)} ensures that when a plot has not yet been acquired (does not yet have a player) and this method is called that afterwards the plot will register as being acquired
+	 */
+	@Test
+	public void testSetPlayerCurrentlyNoPlayerHasBeenAcquired(){
+		plot.setPlayer(player);
+		assertTrue(plot.hasBeenAcquired());
+		
+	}
+	
+	/**
+	 * Tests {@link Plot#setPlayer(Player)} ensures that when a plot has been acquired and this method is called and a new player tries to acquire the plot an exception is thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetPlayerAlreadyAcquiredNewPlayer(){
+		plot.setPlayer(player); // Acquire by the current player
+		
+		// Try and acquire by a new player
+		plot.setPlayer(new Player(new PlayerInventory(0,0,new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class),0)));
+		
+	}
+	
+	/**
+	 * Tests {@link Plot#setPlayer(Player)} ensures that when a plot has been acquired and this method is called and the same player tries to acquire the plot again an exception is thrown
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetPlayerAlreadyAcquiredSamePlayer(){
+		plot.setPlayer(player); // Acquire by the current player
+		
+		// Try and acquire again
+		plot.setPlayer(player);
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that (for a plot specialising in ore) when the plot hasn't got a roboticon on it, it wont produce any resources for the player
+	 */
+	@Test
+	public void testProduceNoRoboticonOrePlot(){
+		plot = new Plot(PlotSpecialism.ORE);
+		plot.setPlayer(player); // Acquire by player
+		plot.produce();
+		new Verifications(){{
+			player.increaseOreQuantity(anyInt); times=0;
+			player.increaseEnergyQuantity(anyInt); times=0;
+		}};
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that (for a plot specialising in energy) when the plot hasn't got a roboticon on it, it wont produce any resources for the player
+	 */
+	@Test
+	public void testProduceNoRoboticonEnergyPlot(){
+		plot = new Plot(PlotSpecialism.ENERGY);
+		plot.setPlayer(player); // Acquire by player
+		plot.produce();
+		new Verifications(){{
+			player.increaseOreQuantity(anyInt); times=0;
+			player.increaseEnergyQuantity(anyInt); times=0;
+		}};
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that (for a plot specialising in energy) when the plot hasn't got a player on it, an exception won't be thrown
+	 */
+	@Test
+	public void testProduceNoPlayerEnergyPlot(){
+		plot = new Plot(PlotSpecialism.ENERGY);
+		
+		plot.produce(); // Ensure no exceptions thrown
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that (for a plot specialising in ore) when the plot hasn't got a player on it, an exception won't be thrown
+	 */
+	@Test
+	public void testProduceNoPlayerOrePlot(){
+		plot = new Plot(PlotSpecialism.ORE);
+		
+		plot.produce(); // Ensure no exceptions thrown
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that for a plot specialising in energy production when the plot has an energy roboticon on it, it will produce 2 energy for its player
+	 */
+	@Test
+	public void testProduceEnergyPlotEnergyRoboticonProduce2Energy(){
+		plot = new Plot(PlotSpecialism.ENERGY); // Energy plot
+		plot.setPlayer(player); // Acquire by player
+		plot.placeRoboticon(RoboticonCustomisation.ENERGY); // Energy roboticon
+		plot.produce();
+		new Verifications(){{
+			player.increaseEnergyQuantity(2); times=1; // Produce 2 energy
+		}};
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that for a plot specialising in energy production when the plot has an energy roboticon on it, it will produce 0 ore for its player
+	 */
+	@Test
+	public void testProduceEnergyPlotEnergyRoboticonProduceNoOre(){
+		plot = new Plot(PlotSpecialism.ENERGY); // Energy plot
+		plot.setPlayer(player); // Acquire by player
+		plot.placeRoboticon(RoboticonCustomisation.ENERGY); // Energy roboticon
+		plot.produce();
+		new Verifications(){{
+			player.increaseOreQuantity(anyInt); times=0; // Produce no ore
+		}};
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that for a plot specialising in energy production when the plot has an ore roboticon on it, it will produce 1 ore for its player
+	 */
+	@Test
+	public void testProduceEnergyPlotOreRoboticonProduce1Ore(){
+		plot = new Plot(PlotSpecialism.ENERGY); // Energy plot
+		plot.setPlayer(player); // Acquire by player
+		plot.placeRoboticon(RoboticonCustomisation.ORE); // Ore roboticon
+		plot.produce();
+		new Verifications(){{
+			player.increaseOreQuantity(1); times=1; // Produce 1 ore
+		}};
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that for a plot specialising in energy production when the plot has an ore roboticon on it, it will produce 0 energy for its player
+	 */
+	@Test
+	public void testProduceEnergyPlotOreRoboticonProduceNoEnergy(){
+		plot = new Plot(PlotSpecialism.ENERGY); // Energy plot
+		plot.setPlayer(player); // Acquire by player
+		plot.placeRoboticon(RoboticonCustomisation.ORE); // Ore roboticon
+		plot.produce();
+		new Verifications(){{
+			player.increaseEnergyQuantity(anyInt); times=0; // Produce no energy
+		}};
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that for a plot specialising in ore production when the plot has an ore roboticon on it, it will produce 2 ore for its player
+	 */
+	@Test
+	public void testProduceOrePlotOreRoboticonProduce2Ore(){
+		plot = new Plot(PlotSpecialism.ORE); // Ore plot
+		plot.setPlayer(player); // Acquire by player
+		plot.placeRoboticon(RoboticonCustomisation.ORE); // Ore roboticon
+		plot.produce();
+		new Verifications(){{
+			player.increaseOreQuantity(2); times=1;  // Produce 2 ore
+		}};
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that for a plot specialising in ore when the plot has an ore roboticon on it, it will produce 0 energy for its player
+	 */
+	@Test
+	public void testProduceOrePlotOreRoboticonProduceNoEnergy(){
+		plot = new Plot(PlotSpecialism.ORE); // Ore plot
+		plot.setPlayer(player); // Acquire by player
+		plot.placeRoboticon(RoboticonCustomisation.ORE); // Ore roboticon
+		plot.produce();
+		new Verifications(){{
+			player.increaseEnergyQuantity(anyInt); times=0; // Produce no energy
+		}};
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that for a plot specialising in ore when the plot has an energy roboticon on it, it will produce 1 energy for its player
+	 */
+	@Test
+	public void testProduceOrePlotEnergyRoboticonProduce1Energy(){
+		plot = new Plot(PlotSpecialism.ORE); // Ore plot
+		plot.setPlayer(player); // Acquire by player
+		plot.placeRoboticon(RoboticonCustomisation.ENERGY); // Energy roboticon
+		plot.produce();
+		new Verifications(){{
+			player.increaseEnergyQuantity(1); times=1; // Produce 1 energy
+		}};
+	}
+	
+	/**
+	 * Tests {@link Plot#produce()} ensure that for a plot specialising in ore when the plot has an energy roboticon on it, it will produce 0 ore for its player
+	 */
+	@Test
+	public void testProduceOrePlotEnergyRoboticonProduceNoOre(){
+		plot = new Plot(PlotSpecialism.ORE); // Ore plot
+		plot.setPlayer(player); // Acquire by player
+		plot.placeRoboticon(RoboticonCustomisation.ENERGY); // Energy roboticon
+		plot.produce();
+		new Verifications(){{
+			player.increaseOreQuantity(anyInt); times=0; // Produce no ore
+		}};
 	}
 	
 }

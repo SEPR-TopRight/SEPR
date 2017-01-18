@@ -31,7 +31,29 @@ public class PlayerTestCase {
 		plot = new Plot(PlotSpecialism.ORE);
 	}
 	
+	///////////////////////////////////////////////////////////////// increaseOreQuantity
 	
+	/**
+	 * Tests {@link Player#increaseOreQuantity} ensures that it calls the increaseOreQuantity method from the playerInventory class (only needs one test as it is just a simple wrapper method)
+	 */
+	@Test
+	public void testIncreaseOreQuantity(){
+		player.increaseOreQuantity(5);
+		new Verifications(){{
+			playerInventory.increaseOreQuantity(5);
+		}};
+	}
+	
+	/**
+	 * Tests {@link Player#increaseEnergyQuantity} ensures that it calls the increaseEnergyQuantity method from the playerInventory class (only needs one test as it is just a simple wrapper method)
+	 */
+	@Test
+	public void testIncreaseEnergyQuantity(){
+		player.increaseEnergyQuantity(5);
+		new Verifications(){{
+			playerInventory.increaseEnergyQuantity(5);
+		}};
+	}
 	
 	
 	
