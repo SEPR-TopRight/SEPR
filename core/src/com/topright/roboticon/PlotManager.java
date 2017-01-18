@@ -30,12 +30,12 @@ public class PlotManager extends Table{
 	public Player humanPlayer = null;
 	public Player AIPlayer = null;
 	
-	// The menu should be open initially
+	// The menu should not be open initially
 	private RoboticonPlaceMenu roboticonPlaceMenu = null;
 
 	/**
 	 * Constructor.
-	 * @param backgroundImage A String that stores the file path of the background image (i.e. a picture of map to be displayed behind the plots).
+	 * @param backgroundImage A String that stores the file path of the background image (i.e. a picture of a map to be displayed behind the plots).
 	 */
 	public PlotManager(String backgroundImage, Player humanPlayer, Player AIPlayer){
 		super();
@@ -52,11 +52,11 @@ public class PlotManager extends Table{
 	 * @param row The row number of the plot that was clicked.
 	 * @param column The column number of the plot that was clicked.
 	 */
-	public void plotClicked(int row,int column, float x, float y){
+	private void plotClicked(int row,int column, float x, float y){
 		if(clickMode == PlotClickMode.ACQUIRE){
 			acquirePlot(row,column);
 		}
-		if(clickMode == PlotClickMode.PLACEROBOTICON && plots[row][column].getPlayer() == currentPlayer){
+		else if(clickMode == PlotClickMode.PLACEROBOTICON && plots[row][column].getPlayer() == currentPlayer){
 			openPlaceRoboticonMenu(column,row,x,y);
 		}
 	}
@@ -90,15 +90,18 @@ public class PlotManager extends Table{
 	 * @param plotRow The row number of the plot
 	 */
 	public void placeEnergyRoboticon(int plotColumn, int plotRow){
-		if(currentPlayer.attemptToPlaceRoboticon(plots[plotRow][plotColumn],RoboticonCustomisation.ENERGY)){
-				if(currentPlayer == humanPlayer){
-					MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); // Trigger main to update the menubar
-					removeRoboticonPlaceMenu();
-				}
-			Image roboticonImage =  new Image(new Texture(Gdx.files.internal("roboticons/energyRoboticon.png")));
+		placeRoboticon(plotColumn,plotRow,RoboticonCustomisation.ENERGY,"roboticons/energyRoboticon.png");
+	}
+	
+	private void placeRoboticon(int plotColumn, int plotRow, RoboticonCustomisation customisation, String imagePath){
+		if(currentPlayer.attemptToPlaceRoboticon(plots[plotRow][plotColumn],customisation)){
+			if(currentPlayer == humanPlayer){
+				MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); // Trigger main to update the menubar
+				removeRoboticonPlaceMenu(); // A roboticon has been placed on the given plot
+			}
+			Image roboticonImage =  new Image(new Texture(Gdx.files.internal(imagePath)));
 			buttons[plotRow][plotColumn].add(roboticonImage);
-	    }
-		
+		}
 	}
 	
 	/**
@@ -107,12 +110,7 @@ public class PlotManager extends Table{
 	 * @param plotRow The row number of the plot
 	 */
 	public void placeOreRoboticon(int plotColumn, int plotRow){
-		if(currentPlayer.attemptToPlaceRoboticon(plots[plotRow][plotColumn],RoboticonCustomisation.ORE)){
-	        	MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); // Trigger main to update the menubar
-	        	removeRoboticonPlaceMenu();
-			Image roboticonImage =  new Image(new Texture(Gdx.files.internal("roboticons/oreRoboticon.png")));
-			buttons[plotRow][plotColumn].add(roboticonImage);
-	        }
+		placeRoboticon(plotColumn,plotRow,RoboticonCustomisation.ORE,"roboticons/oreRoboticon.png");
 	}	
 
 	/**
@@ -154,6 +152,7 @@ public class PlotManager extends Table{
 			if(currentPlayer == humanPlayer){
 				buttons[row][column].setImages("plot_overlays/human.pack", "human", "human");
 				buttons[row][column].add(new Label("Specialism: "+plot.getSpecialism().toString(),new Skin(Gdx.files.internal("uiskin.json")))).top().row();
+				buttons[row][column].row(); // add a new row to the table so that when a roboticon is placed, it will be appear below the specialism label
 			}
 			else{
 				buttons[row][column].setImages("plot_overlays/AI.pack", "AI", "AI");
@@ -197,17 +196,18 @@ public class PlotManager extends Table{
 	public boolean allPlotsAquired(){
 		for(int row = 0; row<plots.length;row++){
 			for(int column = 0;column<plots[0].length;column++){
-				if(!plots[row][column].hasBeenAcquired())// if a plot has not been acquired
-					return false;                       // then not all of the plots have been acquired
+				if(!plots[row][column].hasBeenAcquired()){// If a plot has not been acquired
+					return false;  // Then not all of the plots have been acquired
+				}
 			}
 		}
-		return true; //if not returned yet, then all plots have been acquired
+		return true; // If not returned yet, then all plots have been acquired
 	}
 	
 	/**
 	 * Create a grid of buttons that can be clicked on so that users can interact with the plots.
 	 */
-	public void createPlotGrid(){
+	private void createPlotGrid(){
 		int numRows = plots.length;
 		int numColumns = plots[0].length;
 		
