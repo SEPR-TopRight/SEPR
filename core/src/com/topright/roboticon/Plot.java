@@ -44,7 +44,7 @@ public class Plot {
 			this.acquiredBy = player;
 		}
 		else{
-			throw new IllegalStateException("Cannot take plots owned by another player");
+			throw new IllegalArgumentException("Cannot acquire a plot that has already been acquired!");
 		}
 	}
 	
@@ -103,18 +103,18 @@ public class Plot {
 		else{
 			if(roboticon == RoboticonCustomisation.ENERGY){ 
 				if(specialism == PlotSpecialism.ENERGY){
-					acquiredBy.inventory.increaseEnergyQuantity(2);
+					acquiredBy.increaseEnergyQuantity(2);
 				}
 				else{
-					acquiredBy.inventory.increaseEnergyQuantity(1);
+					acquiredBy.increaseEnergyQuantity(1);
 				}
 			}
 			else if(roboticon == RoboticonCustomisation.ORE){
 				if(specialism == PlotSpecialism.ORE){
-					acquiredBy.inventory.increaseOreQuantity(2);
+					acquiredBy.increaseOreQuantity(2);
 				}
 				else{
-					acquiredBy.inventory.increaseOreQuantity(1);
+					acquiredBy.increaseOreQuantity(1);
 				}
 			}
 		}
