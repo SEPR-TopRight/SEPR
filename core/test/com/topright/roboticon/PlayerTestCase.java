@@ -2377,7 +2377,7 @@ public class PlayerTestCase {
 		}};
 		player.attemptToPlaceRoboticon(plot, RoboticonCustomisation.ORE);
 		new Verifications(){{
-			plot.setRoboticonCustomisation(RoboticonCustomisation.ORE);times=1; // Check if roboticon placed
+			plot.placeRoboticon(RoboticonCustomisation.ORE);times=1; // Check if roboticon placed
 		}};
 		
 	}
@@ -2425,7 +2425,7 @@ public class PlayerTestCase {
 		}};
 		player.attemptToPlaceRoboticon(plot, RoboticonCustomisation.ORE);
 		new Verifications(){{
-			plot.setRoboticonCustomisation(RoboticonCustomisation.ORE);times=1; // Check if roboticon placed
+			plot.placeRoboticon(RoboticonCustomisation.ORE);times=1; // Check if roboticon placed
 		}};
 		
 	}
@@ -2517,7 +2517,7 @@ public class PlayerTestCase {
 		}};
 		player.attemptToPlaceRoboticon(plot, RoboticonCustomisation.ENERGY);
 		new Verifications(){{
-			plot.setRoboticonCustomisation(RoboticonCustomisation.ENERGY);times=1; // Check if roboticon placed
+			plot.placeRoboticon(RoboticonCustomisation.ENERGY);times=1; // Check if roboticon placed
 		}};
 		
 	}
@@ -2565,7 +2565,7 @@ public class PlayerTestCase {
 		}};
 		player.attemptToPlaceRoboticon(plot, RoboticonCustomisation.ENERGY);
 		new Verifications(){{
-			plot.setRoboticonCustomisation(RoboticonCustomisation.ENERGY);times=1; // Check if roboticon placed
+			plot.placeRoboticon(RoboticonCustomisation.ENERGY);times=1; // Check if roboticon placed
 		}};
 		
 	}
