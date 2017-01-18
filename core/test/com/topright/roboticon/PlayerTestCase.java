@@ -44,6 +44,7 @@ public class PlayerTestCase {
 		}};
 	}
 	
+	///////////////////////////////////////////////////////////////// increaseEnergyQuantity
 	/**
 	 * Tests {@link Player#increaseEnergyQuantity} ensures that it calls the increaseEnergyQuantity method from the playerInventory class (only needs one test as it is just a simple wrapper method)
 	 */
@@ -625,6 +626,8 @@ public class PlayerTestCase {
 			playerInventory.increaseOreQuantity(anyInt);times=0;
 		}};
 	}	
+	
+	
 	
 	
 	
@@ -1737,7 +1740,7 @@ public class PlayerTestCase {
 			playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);result=1;
 			playerInventory.getMoneyQuantity();result=10;
 		}};
-		assertFalse(player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY));
+		player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY);
 		new Verifications(){{
 			playerInventory.decreaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, 1);times=0;
 		}};
@@ -1753,7 +1756,7 @@ public class PlayerTestCase {
 			playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);result=1;
 			playerInventory.getMoneyQuantity();result=10;
 		}};
-		assertFalse(player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY));
+		player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY);
 		new Verifications(){{
 			playerInventory.decreaseMoneyQuantity(11);times=0;
 		}};
@@ -1769,7 +1772,7 @@ public class PlayerTestCase {
 			playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);result=1;
 			playerInventory.getMoneyQuantity();result=10;
 		}};
-		assertFalse(player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY));
+		player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY);
 		new Verifications(){{
 			playerInventory.increaseRoboticonQuantity(RoboticonCustomisation.ENERGY, anyInt);times=0;
 		}};
@@ -2160,7 +2163,7 @@ public class PlayerTestCase {
 			playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);result=1;
 			playerInventory.getMoneyQuantity();result=10;
 		}};
-		assertFalse(player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY));
+		player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY);
 		new Verifications(){{
 			playerInventory.decreaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, 1);times=0;
 		}};
@@ -2176,7 +2179,7 @@ public class PlayerTestCase {
 			playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);result=1;
 			playerInventory.getMoneyQuantity();result=10;
 		}};
-		assertFalse(player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY));
+		player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY);
 		new Verifications(){{
 			playerInventory.decreaseMoneyQuantity(11);times=0;
 		}};
@@ -2192,7 +2195,7 @@ public class PlayerTestCase {
 			playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);result=1;
 			playerInventory.getMoneyQuantity();result=10;
 		}};
-		assertFalse(player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY));
+		player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY);
 		new Verifications(){{
 			playerInventory.increaseRoboticonQuantity(RoboticonCustomisation.ENERGY, anyInt);times=0;
 		}};
@@ -2319,7 +2322,11 @@ public class PlayerTestCase {
 	 */
 	@Test
 	public void testReturnFalsePlaceRoboticonUnownedPlotOre(){
-		
+		new Expectations(){{
+			playerInventory.getRoboticonQuantity(RoboticonCustomisation.ORE); result=5; // Have enough to place one
+			plot.hasRoboticon(); result = false;
+			plot.getPlayer(); result = null;
+		}};
 		assertFalse(player.attemptToPlaceRoboticon(plot, RoboticonCustomisation.ORE));
 		
 	}
@@ -2329,7 +2336,10 @@ public class PlayerTestCase {
 	 */
 	@Test
 	public void testReturnFalsePlaceRoboticonAlreadyHasRoboticonOre(){
-		
+		new Expectations(){{
+			playerInventory.getRoboticonQuantity(RoboticonCustomisation.ORE); result=5; // Have enough to place one
+			plot.hasRoboticon(); result = true;
+		}};
 		assertFalse(player.attemptToPlaceRoboticon(plot, RoboticonCustomisation.ORE));
 		
 	}
@@ -2459,7 +2469,11 @@ public class PlayerTestCase {
 	 */
 	@Test
 	public void testReturnFalsePlaceRoboticonUnownedPlotEnergy(){
-		
+		new Expectations(){{
+			playerInventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY); result=5; // Have enough to place one
+			plot.hasRoboticon(); result = false;
+			plot.getPlayer(); result = null;
+		}};
 		assertFalse(player.attemptToPlaceRoboticon(plot, RoboticonCustomisation.ENERGY));
 		
 	}
@@ -2469,7 +2483,10 @@ public class PlayerTestCase {
 	 */
 	@Test
 	public void testReturnFalsePlaceRoboticonAlreadyHasRoboticonEnergy(){
-		
+		new Expectations(){{
+			playerInventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY); result=5; // Have enough to place one
+			plot.hasRoboticon(); result = true;
+		}};
 		assertFalse(player.attemptToPlaceRoboticon(plot, RoboticonCustomisation.ENERGY));
 		
 	}
