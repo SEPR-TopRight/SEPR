@@ -263,7 +263,7 @@ public class Player {
 		}
 		
 		inventory.decreaseRoboticonQuantity(roboticonCustomisation, 1);
-		plot.setRoboticonCustomisation(roboticonCustomisation);
+		plot.placeRoboticon(roboticonCustomisation);
 		
 		return true;
 	}

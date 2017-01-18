@@ -28,7 +28,7 @@ public class Plot {
 	 * Sets the customisation type of the roboticon that is on this plot (equivalent to placing a roboticon on the plot)
 	 * @param Roboticon the customisation type of the roboticon
 	 */
-	public void setRoboticonCustomisation(RoboticonCustomisation roboticonCustomisation) {
+	public void placeRoboticon(RoboticonCustomisation roboticonCustomisation) {
 		this.roboticon = roboticonCustomisation;
 	}
 
