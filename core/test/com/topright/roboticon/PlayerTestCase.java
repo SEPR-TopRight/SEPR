@@ -343,9 +343,6 @@ public class PlayerTestCase {
 	
 	
 	
-	
-	
-	
 	///////////////////////////////////////////////////////////////// attempttoBuyOre
 	
 	/**

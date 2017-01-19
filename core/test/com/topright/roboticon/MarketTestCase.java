@@ -9,13 +9,14 @@ import org.junit.runner.RunWith;
 import mockit.*;
 import mockit.integration.junit4.*;
 
+/**
+ * Test case for the Market class
+ * @author Ben
+ *
+ */
 @RunWith(JMockit.class)
 public class MarketTestCase {
-	/**
-	 * Test case for the Market class
-	 * @author Ben
-	 *
-	 */
+
 	
 	
 	@Mocked MarketInventory inventory;
@@ -117,7 +118,7 @@ public class MarketTestCase {
 	}
 	
 	/**
-	 * Tests {@link Market#sellEnergyToMarket}. Ensures that when three energy is sold to the market 3 energy is added to the markets inventory
+	 * Tests {@link Market#sellEnergyToMarket}. Ensures that when three energy is sold to the market 3 energy is added to the market's inventory
 	 */
 	@Test
 	public void testSellThreeEnergyEnergyStoredIncreasedByThree(){
@@ -128,7 +129,7 @@ public class MarketTestCase {
 	}
 	
 	/**
-	 * Tests {@link Market#sellEnergyToMarket}. Ensures that when six energy is sold to the market 6 energy is added to the markets inventory
+	 * Tests {@link Market#sellEnergyToMarket}. Ensures that when six energy is sold to the market 6 energy is added to the market's inventory
 	 */
 	@Test
 	public void testSellSixEnergyEnergyStoredIncreasedBySix(){
@@ -245,7 +246,7 @@ public class MarketTestCase {
 	}
 	
 	/**
-	 * Tests {@link Market#sellOreToMarket}. Ensures that when three ore is sold to the market 3 ore is added to the markets inventory
+	 * Tests {@link Market#sellOreToMarket}. Ensures that when three ore is sold to the market 3 ore is added to the market's inventory
 	 */
 	@Test
 	public void testSellThreeOreOreStoredIncreasedByThree(){
@@ -256,7 +257,7 @@ public class MarketTestCase {
 	}
 	
 	/**
-	 * Tests {@link Market#sellOreToMarket}. Ensures that when six ore is sold to the market 6 ore is added to the markets inventory
+	 * Tests {@link Market#sellOreToMarket}. Ensures that when six ore is sold to the market 6 ore is added to the market's inventory
 	 */
 	@Test
 	public void testSellSixOreOreStoredIncreasedBySix(){
@@ -481,7 +482,7 @@ public class MarketTestCase {
 	}
 	
 	/**
-	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures that a roboticon is added to the markets inventory when it is called if the market has more than enough ore to produce a roboticon
+	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures that a roboticon is added to the market's inventory when it is called if the market has more than enough ore to produce a roboticon
 	 */
 	@Test
 	public void testAttemptToProduceRoboticonsHaveMoreThanEnoughOreRoboticonAdded(){
@@ -495,7 +496,7 @@ public class MarketTestCase {
 	}
 	
 	/**
-	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures that the correct amount of ore is removed from the markets inventory when it is called if the market has more than enough ore to produce a roboticon
+	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures that the correct amount of ore is removed from the market's inventory when it is called if the market has more than enough ore to produce a roboticon
 	 */
 	@Test
 	public void testAttemptToProduceRoboticonsHaveMoreThanEnoughOreOreReduced(){
@@ -520,7 +521,7 @@ public class MarketTestCase {
 	}
 	
 	/**
-	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures that a roboticon is added to the markets inventory when it is called if the market has the exact amount of ore needed to produce a roboticon
+	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures that a roboticon is added to the market's inventory when it is called if the market has the exact amount of ore needed to produce a roboticon
 	 */
 	@Test
 	public void testAttemptToProduceRoboticonsHaveExactlyEnoughOreRoboticonAdded(){
@@ -534,7 +535,7 @@ public class MarketTestCase {
 	}
 	
 	/**
-	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures that the correct amount of ore is removed from the markets inventory when it is called if the market has the exact amount of ore needed to produce a roboticon
+	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures that the correct amount of ore is removed from the market's inventory when it is called if the market has the exact amount of ore needed to produce a roboticon
 	 */
 	@Test
 	public void testAttemptToProduceRoboticonsHaveExactlyEnoughOreOreReduced(){
@@ -559,7 +560,7 @@ public class MarketTestCase {
 	}
 	
 	/**
-	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures no ore is removed from the markets inventory when the market does not have enough ore to produce a roboticon
+	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures no ore is removed from the market's inventory when the market does not have enough ore to produce a roboticon
 	 */
 	@Test
 	public void testProduceRoboticonsNotEnoughOreNoOreRemoved(){
@@ -573,7 +574,7 @@ public class MarketTestCase {
 	}
 	
 	/**
-	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures no roboticons are added to the markets inventory when the market does not have enough ore to produce a roboticon
+	 * Tests {@link Market#attemptToProduceRoboticon}. Ensures no roboticons are added to the market's inventory when the market does not have enough ore to produce a roboticon
 	 */
 	@Test
 	public void testProduceRoboticonsNotEnoughOreNoRoboticonsAdded(){

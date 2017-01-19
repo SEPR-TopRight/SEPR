@@ -24,7 +24,7 @@ public class PlayerIntegrationTests {
 		EnumMap<RoboticonCustomisation,Integer> roboticonQuantities;
 		roboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
 		
-		// Initialise quantities
+		// Initialise the quantity of all roboticons to 0
 		roboticonQuantities.put(RoboticonCustomisation.UNCUSTOMISED, 0);
 		roboticonQuantities.put(RoboticonCustomisation.ORE, 0);
 		roboticonQuantities.put(RoboticonCustomisation.ENERGY, 0);
@@ -40,7 +40,8 @@ public class PlayerIntegrationTests {
 	///////////////////////////////////////////////////////////////// increaseOreQuantity
 	
 	/**
-	 * Tests {@link Player#increaseOreQuantity} ensures that the quantity of ore in the players inventory is increased correctly (only needs one test as it is just a simple wrapper method)
+	 * Tests {@link Player#increaseOreQuantity} ensures that the quantity of ore in the 
+	 * players inventory is increased correctly (only needs one test as it is just a simple wrapper method)
 	 */
 	@Test
 	public void testIncreaseOreQuantity(){
@@ -51,7 +52,8 @@ public class PlayerIntegrationTests {
 	
 	///////////////////////////////////////////////////////////////// increaseOreQuantity
 	/**
-	 * Tests {@link Player#increaseEnergyQuantity} ensures that the quantity of energy in the players inventory is increased correctly (only needs one test as it is just a simple wrapper method)
+	 * Tests {@link Player#increaseEnergyQuantity} ensures that the quantity of energy in the 
+	 * players inventory is increased correctly (only needs one test as it is just a simple wrapper method)
 	 */
 	@Test
 	public void testIncreaseEnergyQuantity(){
@@ -63,32 +65,35 @@ public class PlayerIntegrationTests {
 	///////////////////////////////////////////////////////////////// attemptToBuyEnergy
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that that it returns true when the player has more than enough money and tries to buy 6 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that that it returns true when the player 
+	 * has more than enough money and tries to buy 6 energy.
 	 */
 	@Test
 	public void testReturnTrueBuyEnergyHaveMenergyThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostEnergy(7)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(7)); // More than enough money in the player's inventory
 		
 		assertTrue(player.attemptToBuyEnergy(6));
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that it increases the quantity of energy stored in the inventory by 6 when the player has more than enough money and tries to buy 6 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that it increases the quantity of energy stored 
+	 * in the player's inventory by 6 when the player has more than enough money and tries to buy 6 energy.
 	 */
 	@Test
 	public void testIncreaseEnergyBuyEnergyHaveMenergyThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostEnergy(7)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(7)); // More than enough money in the player's inventory
 		int energyBefore = playerInventory.getEnergyQuantity();
 		player.attemptToBuyEnergy(6);
 		assertEquals(energyBefore+6,playerInventory.getEnergyQuantity());
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that it decreases the quantity of money stored in the inventory by the correct amount when the player has more than enough money and tries to buy 6 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that it decreases the quantity of money stored in the 
+	 * inventory by the correct amount when the player has more than enough money and tries to buy 6 energy.
 	 */
 	@Test
 	public void testReduceMoneyBuyEnergyHaveMenergyThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostEnergy(7)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(7)); // More than enough money in the player's inventory
 		int moneyBefore = playerInventory.getMoneyQuantity();
 		
 		player.attemptToBuyEnergy(6);
@@ -96,11 +101,12 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that the quantity of energy in the market reduces by 6 when the player has more than enough money and tries to buy 6 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that the quantity of energy in the market 
+	 * reduces by 6 when the player has more than enough money and tries to buy 6 energy.
 	 */
 	@Test
-	public void testCallMarketBuyEnergyHaveMenergyThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostEnergy(7)); // more than enough money in the inventory
+	public void testMarketEnergyBuyEnergyHaveMenergyThanEnoughMoneySix(){
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(7)); // More than enough money in the player's inventory
 		int energyBefore = marketInventory.getEnergyQuantity();
 		
 		player.attemptToBuyEnergy(6);
@@ -108,32 +114,35 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that that it returns true when the player has more than enough money and tries to buy 1 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that that it returns true when
+	 * the player has more than enough money and tries to buy 1 energy.
 	 */
 	@Test
 	public void testReturnTrueBuyEnergyHaveMenergyThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostEnergy(2)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(2)); // More than enough money in the player's inventory
 		
 		assertTrue(player.attemptToBuyEnergy(1));
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that it increases the quantity of energy stored in the inventory by 1 when the player has more than enough money and tries to buy 1 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that it increases the quantity 
+	 * of energy stored in the player's inventory by 1 when the player has more than enough money and tries to buy 1 energy.
 	 */
 	@Test
 	public void testIncreaseEnergyBuyEnergyHaveMenergyThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostEnergy(2)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(2)); // More than enough money in the player's inventory
 		int energyBefore = playerInventory.getEnergyQuantity();
 		player.attemptToBuyEnergy(1);
 		assertEquals(energyBefore+1,playerInventory.getEnergyQuantity());
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that it decreases the quantity of money stored in the inventory by the correct amount when the player has more than enough money and tries to buy 1 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that it decreases the quantity of 
+	 * money stored in the player's inventory by the correct amount when the player has more than enough money and tries to buy 1 energy.
 	 */
 	@Test
 	public void testReduceMoneyBuyEnergyHaveMenergyThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostEnergy(2)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(2)); // More than enough money in the player's inventory
 		int moneyBefore = playerInventory.getMoneyQuantity();
 		
 		player.attemptToBuyEnergy(1);
@@ -141,11 +150,12 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that the quantity of energy in the market reduces by 1 when the player has more than enough money and tries to buy 1 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that the quantity of energy in the 
+	 * market reduces by 1 when the player has more than enough money and tries to buy 1 energy.
 	 */
 	@Test
-	public void testCallMarketBuyEnergyHaveMenergyThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostEnergy(2)); // more than enough money in the inventory
+	public void testMarketEnergyBuyEnergyHaveMenergyThanEnoughMoneyOne(){
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(2)); // More than enough money in the player's inventory
 		int energyBefore = marketInventory.getEnergyQuantity();
 		
 		player.attemptToBuyEnergy(1);
@@ -162,7 +172,7 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that no energy is added to the inventory when the player tries to buy 0 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that no energy is added to the player's inventory when the player tries to buy 0 energy.
 	 */
 	@Test
 	public void testIncreaseEnergyBuyEnergyZero(){
@@ -172,7 +182,7 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that no money is removed from the inventory when the player tries to buy 0 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that no money is removed from the player's inventory when the player tries to buy 0 energy.
 	 */
 	@Test
 	public void testReduceMoneyBuyEnergyZero(){
@@ -196,18 +206,19 @@ public class PlayerIntegrationTests {
 	 */
 	@Test
 	public void testReturnTrueBuyEnergyHaveExactlyEnoughMoney(){
-		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the inventory
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the player's inventory
 		playerInventory.increaseMoneyQuantity(market.getCostEnergy(3)); // Left with the exact amount of money required
 		
 		assertTrue(player.attemptToBuyEnergy(3));
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that it increases the quantity of energy stored in the inventory by 3 when the player has more than enough money and tries to buy 3 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that it increases the quantity of energy stored in the player's inventory by 3 when 
+	 * the player has more than enough money and tries to buy 3 energy.
 	 */
 	@Test
 	public void testIncreaseEnergyBuyEnergyHaveExactlyEnoughMoney(){
-		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the inventory
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the player's inventory
 		playerInventory.increaseMoneyQuantity(market.getCostEnergy(3)); // Left with the exact amount of money required
 		
 		int energyBefore = playerInventory.getEnergyQuantity();
@@ -217,11 +228,12 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures that it decreases the quantity of money stored in the inventory by the correct amount when the player has more than enough money and tries to buy 6 energy.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures that it decreases the quantity of money stored in the 
+	 * inventory by the correct amount when the player has more than enough money and tries to buy 3 energy.
 	 */
 	@Test
 	public void testReduceMoneyBuyEnergyHaveExactlyEnoughMoney(){
-		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the inventory
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the player's inventory
 		playerInventory.increaseMoneyQuantity(market.getCostEnergy(3)); // Left with the exact amount of money required
 		
 		player.attemptToBuyEnergy(3);
@@ -237,7 +249,7 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures no money is taken from the inventory when the player attempts to buy a negative quantity.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures no money is taken from the player's inventory when the player attempts to buy a negative quantity.
 	 */
 	@Test
 	public void testBuyEnergyDecreaseMoneyNegativeQuantity(){
@@ -247,7 +259,7 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures no energy is added to the inventory when the player attempts to buy a negative quantity
+	 * Tests {@link Player#attemptToBuyEnergy} ensures no energy is added to the player's inventory when the player attempts to buy a negative quantity
 	 */
 	@Test
 	public void testBuyEnergyIncreaseEnergyNegativeQuantity(){
@@ -269,7 +281,7 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures no money is taken from the inventory when the player does not have enough money.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures no money is taken from the player's inventory when the player does not have enough money.
 	 */
 	@Test
 	public void testBuyEnergyDecreaseMoneyNotEnoughMoney(){
@@ -282,7 +294,7 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToBuyEnergy} ensures no energy is added to the inventory when the player does not have enough money.
+	 * Tests {@link Player#attemptToBuyEnergy} ensures no energy is added to the player's inventory when the player does not have enough money.
 	 */
 	@Test
 	public void testBuyEnergyIncreaseEnergyNotEnoughMoney(){
@@ -294,7 +306,19 @@ public class PlayerIntegrationTests {
 		assertEquals(energyBefore,playerInventory.getEnergyQuantity());
 	}
 	
-	
+	/**
+	 * Tests {@link Player#attemptToBuyEnergy} ensures no energy is taken from the market's 
+	 * inventory when the player does not have enough money.
+	 */
+	@Test
+	public void testBuyEnergyMarketsEnergyNotEnoughMoney(){
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(1000000) -1); // Not enough money
+
+		int EnergyBefore = marketInventory.getEnergyQuantity();
+		player.attemptToBuyEnergy(1000000);
+		assertEquals(EnergyBefore,marketInventory.getEnergyQuantity());
+	}	
 	
 	
     ///////////////////////////////////////////////////////////////// attemptToBuyOre
@@ -304,28 +328,28 @@ public class PlayerIntegrationTests {
 	 */
 	@Test
 	public void testReturnTrueBuyOreHaveMoreThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostOre(7)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostOre(7)); // more than enough money in the player's inventory
 
 		assertTrue(player.attemptToBuyOre(6));
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures that it increases the quantity of ore stored in the inventory by 6 when the player has more than enough money and tries to buy 6 ore.
+	 * Tests {@link Player#attemptToBuyOre} ensures that it increases the quantity of ore stored in the player's inventory by 6 when the player has more than enough money and tries to buy 6 ore.
 	 */
 	@Test
 	public void testIncreaseOreBuyOreHaveMoreThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostOre(7)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostOre(7)); // more than enough money in the player's inventory
 		int oreBefore = playerInventory.getOreQuantity();
 		player.attemptToBuyOre(6);
 		assertEquals(oreBefore+6,playerInventory.getOreQuantity());
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures that it decreases the quantity of money stored in the inventory by the correct amount when the player has more than enough money and tries to buy 6 ore.
+	 * Tests {@link Player#attemptToBuyOre} ensures that it decreases the quantity of money stored in the player's inventory by the correct amount when the player has more than enough money and tries to buy 6 ore.
 	 */
 	@Test
 	public void testReduceMoneyBuyOreHaveMoreThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostOre(7)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostOre(7)); // more than enough money in the player's inventory
 		int moneyBefore = playerInventory.getMoneyQuantity();
 
 		player.attemptToBuyOre(6);
@@ -336,8 +360,8 @@ public class PlayerIntegrationTests {
 	 * Tests {@link Player#attemptToBuyOre} ensures that the quantity of ore in the market reduces by 6 when the player has more than enough money and tries to buy 6 ore.
 	 */
 	@Test
-	public void testCallMarketBuyOreHaveMoreThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostOre(7)); // more than enough money in the inventory
+	public void testMarketOreBuyOreHaveMoreThanEnoughMoneySix(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(7)); // more than enough money in the player's inventory
 		int oreBefore = marketInventory.getOreQuantity();
 
 		player.attemptToBuyOre(6);
@@ -349,28 +373,28 @@ public class PlayerIntegrationTests {
 	 */
 	@Test
 	public void testReturnTrueBuyOreHaveMoreThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostOre(2)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostOre(2)); // more than enough money in the player's inventory
 
 		assertTrue(player.attemptToBuyOre(1));
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures that it increases the quantity of ore stored in the inventory by 1 when the player has more than enough money and tries to buy 1 ore.
+	 * Tests {@link Player#attemptToBuyOre} ensures that it increases the quantity of ore stored in the player's inventory by 1 when the player has more than enough money and tries to buy 1 ore.
 	 */
 	@Test
 	public void testIncreaseOreBuyOreHaveMoreThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostOre(2)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostOre(2)); // more than enough money in the player's inventory
 		int oreBefore = playerInventory.getOreQuantity();
 		player.attemptToBuyOre(1);
 		assertEquals(oreBefore+1,playerInventory.getOreQuantity());
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures that it decreases the quantity of money stored in the inventory by the correct amount when the player has more than enough money and tries to buy 1 ore.
+	 * Tests {@link Player#attemptToBuyOre} ensures that it decreases the quantity of money stored in the player's inventory by the correct amount when the player has more than enough money and tries to buy 1 ore.
 	 */
 	@Test
 	public void testReduceMoneyBuyOreHaveMoreThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostOre(2)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostOre(2)); // more than enough money in the player's inventory
 		int moneyBefore = playerInventory.getMoneyQuantity();
 
 		player.attemptToBuyOre(1);
@@ -381,8 +405,8 @@ public class PlayerIntegrationTests {
 	 * Tests {@link Player#attemptToBuyOre} ensures that the quantity of ore in the market reduces by 1 when the player has more than enough money and tries to buy 1 ore.
 	 */
 	@Test
-	public void testCallMarketBuyOreHaveMoreThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostOre(2)); // more than enough money in the inventory
+	public void testMarketOreBuyOreHaveMoreThanEnoughMoneyOne(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(2)); // more than enough money in the player's inventory
 		int oreBefore = marketInventory.getOreQuantity();
 
 		player.attemptToBuyOre(1);
@@ -399,7 +423,7 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures that no ore is added to the inventory when the player tries to buy 0 ore.
+	 * Tests {@link Player#attemptToBuyOre} ensures that no ore is added to the player's inventory when the player tries to buy 0 ore.
 	 */
 	@Test
 	public void testIncreaseOreBuyOreZero(){
@@ -409,7 +433,7 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures that no money is removed from the inventory when the player tries to buy 0 ore.
+	 * Tests {@link Player#attemptToBuyOre} ensures that no money is removed from the player's inventory when the player tries to buy 0 ore.
 	 */
 	@Test
 	public void testReduceMoneyBuyOreZero(){
@@ -433,18 +457,19 @@ public class PlayerIntegrationTests {
 	 */
 	@Test
 	public void testReturnTrueBuyOreHaveExactlyEnoughMoney(){
-		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the inventory
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the player's inventory
 		playerInventory.increaseMoneyQuantity(market.getCostOre(3)); // Left with the exact amount of money required
 
 		assertTrue(player.attemptToBuyOre(3));
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures that it increases the quantity of ore stored in the inventory by 3 when the player has more than enough money and tries to buy 3 ore.
+	 * Tests {@link Player#attemptToBuyOre} ensures that it increases the quantity of ore stored in the player's inventory 
+	 * by 3 when the player has more than enough money and tries to buy 3 ore.
 	 */
 	@Test
 	public void testIncreaseOreBuyOreHaveExactlyEnoughMoney(){
-		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the inventory
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the player's inventory
 		playerInventory.increaseMoneyQuantity(market.getCostOre(3)); // Left with the exact amount of money required
 
 		int oreBefore = playerInventory.getOreQuantity();
@@ -454,11 +479,12 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures that it decreases the quantity of money stored in the inventory by the correct amount when the player has more than enough money and tries to buy 6 ore.
+	 * Tests {@link Player#attemptToBuyOre} ensures that it decreases the quantity of money stored 
+	 * in the player's inventory by the correct amount when the player has more than enough money and tries to buy 3 ore.
 	 */
 	@Test
 	public void testReduceMoneyBuyOreHaveExactlyEnoughMoney(){
-		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the inventory
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the player's inventory
 		playerInventory.increaseMoneyQuantity(market.getCostOre(3)); // Left with the exact amount of money required
 
 		player.attemptToBuyOre(3);
@@ -474,7 +500,7 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures no money is taken from the inventory when the player attempts to buy a negative quantity.
+	 * Tests {@link Player#attemptToBuyOre} ensures no money is taken from the player's inventory when the player attempts to buy a negative quantity.
 	 */
 	@Test
 	public void testBuyOreDecreaseMoneyNegativeQuantity(){
@@ -484,7 +510,7 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures no ore is added to the inventory when the player attempts to buy a negative quantity
+	 * Tests {@link Player#attemptToBuyOre} ensures no ore is added to the player's inventory when the player attempts to buy a negative quantity
 	 */
 	@Test
 	public void testBuyOreIncreaseOreNegativeQuantity(){
@@ -506,7 +532,7 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures no money is taken from the inventory when the player does not have enough money.
+	 * Tests {@link Player#attemptToBuyOre} ensures no money is taken from the player's inventory when the player does not have enough money.
 	 */
 	@Test
 	public void testBuyOreDecreaseMoneyNotEnoughMoney(){
@@ -519,7 +545,7 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyOre} ensures no ore is added to the inventory when the player does not have enough money.
+	 * Tests {@link Player#attemptToBuyOre} ensures no ore is added to the player's inventory when the player does not have enough money.
 	 */
 	@Test
 	public void testBuyOreIncreaseOreNotEnoughMoney(){
@@ -531,36 +557,53 @@ public class PlayerIntegrationTests {
 		assertEquals(oreBefore,playerInventory.getOreQuantity());
 	}		
 	
+	/**
+	 * Tests {@link Player#attemptToBuyOre} ensures no ore is taken from the market's 
+	 * inventory when the player does not have enough money.
+	 */
+	@Test
+	public void testBuyOreMarketsOreNotEnoughMoney(){
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money
+		playerInventory.increaseMoneyQuantity(market.getCostOre(1000000) -1); // Not enough money
+
+		int oreBefore = marketInventory.getOreQuantity();
+		player.attemptToBuyOre(1000000);
+		assertEquals(oreBefore,marketInventory.getOreQuantity());
+	}	
+	
 
 ///////////////////////////////////////////////////////////////// attemptToBuyRoboticons
 	
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that that it returns true when the player has more than enough money and tries to buy 6 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that that it returns true when the player has 
+	 * more than enough money and tries to buy 6 roboticons.
 	 */
 	@Test
 	public void testReturnTrueBuyRoboticonsHaveMoreThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(7)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(7)); // more than enough money in the player's inventory
 
 		assertTrue(player.attemptToBuyRoboticons(6));
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it increases the quantity of roboticons stored in the inventory by 6 when the player has more than enough money and tries to buy 6 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it increases the quantity of roboticons stored in the 
+	 * inventory by 6 when the player has more than enough money and tries to buy 6 roboticons.
 	 */
 	@Test
 	public void testIncreaseRoboticonsBuyRoboticonsHaveMoreThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(7)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(7)); // more than enough money in the player's inventory
 		int roboticonsBefore = playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);
 		player.attemptToBuyRoboticons(6);
 		assertEquals(roboticonsBefore+6,playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED));
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it decreases the quantity of money stored in the inventory by the correct amount when the player has more than enough money and tries to buy 6 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it decreases the quantity of money 
+	 * stored in the player's inventory by the correct amount when the player has more than enough money and tries to buy 6 roboticons.
 	 */
 	@Test
 	public void testReduceMoneyBuyRoboticonsHaveMoreThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(7)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(7)); // more than enough money in the player's inventory
 		int moneyBefore = playerInventory.getMoneyQuantity();
 
 		player.attemptToBuyRoboticons(6);
@@ -568,11 +611,12 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that the quantity of roboticons in the market reduces by 6 when the player has more than enough money and tries to buy 6 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that the quantity of roboticons 
+	 * in the market reduces by 6 when the player has more than enough money and tries to buy 6 roboticons.
 	 */
 	@Test
 	public void testMarketRoboticonsBuyRoboticonsHaveMoreThanEnoughMoneySix(){
-		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(7)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(7)); // more than enough money in the player's inventory
 		int roboticonsBefore = marketInventory.getRoboticonQuantity();
 
 		player.attemptToBuyRoboticons(6);
@@ -580,21 +624,23 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that that it returns true when the player has more than enough money and tries to buy 1 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that that it returns true 
+	 * when the player has more than enough money and tries to buy 1 roboticon.
 	 */
 	@Test
 	public void testReturnTrueBuyRoboticonsHaveMoreThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(2)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(2)); // more than enough money in the player's inventory
 
 		assertTrue(player.attemptToBuyRoboticons(1));
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it increases the quantity of roboticons stored in the inventory by 1 when the player has more than enough money and tries to buy 1 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it increases the quantity of roboticons stored in the player's inventory by 1 when 
+	 * the player has more than enough money and tries to buy 1 roboticon.
 	 */
 	@Test
 	public void testIncreaseRoboticonsBuyRoboticonsHaveMoreThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(2)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(2)); // more than enough money in the player's inventory
 		int roboticonsBefore = playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);
 		player.attemptToBuyRoboticons(1);
 		int roboticonsAfter = playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);
@@ -602,11 +648,12 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it decreases the quantity of money stored in the inventory by the correct amount when the player has more than enough money and tries to buy 1 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it decreases the quantity of money stored in 
+	 * the player's inventory by the correct amount when the player has more than enough money and tries to buy 1 roboticon.
 	 */
 	@Test
 	public void testReduceMoneyBuyRoboticonsHaveMoreThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(2)); // more than enough money in the inventory
+		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(2)); // more than enough money in the player's inventory
 		int moneyBefore = playerInventory.getMoneyQuantity();
 
 		player.attemptToBuyRoboticons(1);
@@ -614,11 +661,12 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that the quantity of ore in the market reduces by 1 when the player has more than enough money and tries to buy 1 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that the quantity of roboticons in the market 
+	 * reduces by 1 when the player has more than enough money and tries to buy 1 roboticon.
 	 */
 	@Test
-	public void testCallMarketBuyRoboticonsHaveMoreThanEnoughMoneyOne(){
-		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(2)); // more than enough money in the inventory
+	public void testMarketRoboticonsBuyRoboticonsHaveMoreThanEnoughMoneyOne(){
+		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(2)); // more than enough money in the player's inventory
 		int roboticonsBefore = marketInventory.getRoboticonQuantity();
 
 		player.attemptToBuyRoboticons(1);
@@ -635,7 +683,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that no roboticons are added to the inventory when the player tries to buy 0 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that no roboticons are added to the player's inventory 
+	 * when the player tries to buy 0 roboticons.
 	 */
 	@Test
 	public void testIncreaseRoboticonsBuyRoboticonsZero(){
@@ -645,7 +694,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that no money is removed from the inventory when the player tries to buy 0 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that no money is removed from 
+	 * the player's inventory when the player tries to buy 0 roboticons.
 	 */
 	@Test
 	public void testReduceMoneyBuyRoboticonsZero(){
@@ -655,13 +705,14 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that no ore is removed from the market when the player tries to buy 0 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that no roboticons are removed from the 
+	 * market when the player tries to buy 0 roboticons.
 	 */
 	@Test
-	public void testReduceMarketOreBuyRoboticonsZero(){
-		int oreQuantity = marketInventory.getOreQuantity();	
+	public void testReduceMarketRoboticonsBuyRoboticonsZero(){
+		int roboticonQuantity = marketInventory.getRoboticonQuantity();	
 		player.attemptToBuyRoboticons(0);
-		assertEquals(oreQuantity,marketInventory.getOreQuantity());
+		assertEquals(roboticonQuantity,marketInventory.getRoboticonQuantity());
 	}
 
 	/**
@@ -669,18 +720,19 @@ public class PlayerIntegrationTests {
 	 */
 	@Test
 	public void testReturnTrueBuyRoboticonsHaveExactlyEnoughMoney(){
-		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the inventory
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the player's inventory
 		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(3)); // Left with the exact amount of money required
 
 		assertTrue(player.attemptToBuyRoboticons(3));
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it increases the quantity of roboticons stored in the inventory by 3 when the player has more than enough money and tries to buy 3 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it increases the quantity of uncustomised roboticons 
+	 * stored in the player's inventory by 3 when the player has more than enough money and tries to buy 3 roboticons.
 	 */
 	@Test
 	public void testIncreaseRoboticonsBuyRoboticonsHaveExactlyEnoughMoney(){
-		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the inventory
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the player's inventory
 		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(3)); // Left with the exact amount of money required
 
 		int roboticonsBefore = playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);
@@ -690,15 +742,16 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it decreases the quantity of money stored in the inventory by the correct amount when the player has more than enough money and tries to buy 6 roboticons.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures that it decreases the quantity of money stored 
+	 * in the player's inventory by the correct amount when the player has more than enough money and tries to buy 6 roboticons.
 	 */
 	@Test
 	public void testReduceMoneyBuyRoboticonsHaveExactlyEnoughMoney(){
-		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the inventory
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money in the player's inventory
 		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(3)); // Left with the exact amount of money required
 
 		player.attemptToBuyRoboticons(3);
-		assertEquals(0,playerInventory.getMoneyQuantity());
+		assertEquals(0,playerInventory.getMoneyQuantity()); // Should be left with no money (as started with the exact amount required)
 	}
 
 	/**
@@ -710,7 +763,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures no money is taken from the inventory when the player attempts to buy a negative quantity.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures no money is taken from the 
+	 * inventory when the player attempts to buy a negative quantity.
 	 */
 	@Test
 	public void testBuyRoboticonsDecreaseMoneyNegativeQuantity(){
@@ -720,7 +774,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures no roboticons are added to the inventory when the player attempts to buy a negative quantity
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures no roboticons are added to the player's inventory 
+	 * when the player attempts to buy a negative quantity
 	 */
 	@Test
 	public void testBuyRoboticonsIncreaseRoboticonsNegativeQuantity(){
@@ -742,7 +797,7 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures no money is taken from the inventory when the player does not have enough money.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures no money is taken from the player's inventory when the player does not have enough money.
 	 */
 	@Test
 	public void testBuyRoboticonsDecreaseMoneyNotEnoughMoney(){
@@ -755,7 +810,7 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToBuyRoboticons} ensures no roboticons are added to the inventory when the player does not have enough money.
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures no roboticons are added to the player's inventory when the player does not have enough money.
 	 */
 	@Test
 	public void testBuyRoboticonsIncreaseRoboticonsNotEnoughMoney(){
@@ -767,11 +822,27 @@ public class PlayerIntegrationTests {
 		assertEquals(roboticonsBefore,playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED));
 	}	
 	
+	/**
+	 * Tests {@link Player#attemptToBuyRoboticons} ensures no roboticons are taken from the market's 
+	 * inventory when the player does not have enough money.
+	 */
+	@Test
+	public void testBuyRoboticonsMarketsRoboticonsNotEnoughMoney(){
+		playerInventory.decreaseMoneyQuantity(playerInventory.getMoneyQuantity()); // Left with no money
+		playerInventory.increaseMoneyQuantity(market.getCostRoboticons(1000000) -1); // Not enough money
+
+		int roboticonsBefore = marketInventory.getRoboticonQuantity();
+		player.attemptToBuyRoboticons(1000000);
+		assertEquals(roboticonsBefore,marketInventory.getRoboticonQuantity());
+	}	
+	
+	
 	
 	///////////////////////////////////////////////////////////////// attemptToSellEnergy
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that that it returns true when the player has more than enough energy and tries to sell 5 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that that it returns true when 
+	 * the player has more than enough energy and tries to sell 5 energy.
 	 */
 	@Test
 	public void testReturnTrueSellEnergyHaveMoreThanEnoughEnergyFive(){
@@ -781,7 +852,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that it decreases the quantity of energy stored in the inventory by 5 when the player has more than enough money and tries to sell 5 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that it decreases the quantity of energy 
+	 * stored in the player's inventory by 5 when the player has more than enough money and tries to sell 5 energy.
 	 */
 	@Test
 	public void testDecreaseEnergySellEnergyHaveMoreThanEnoughEnergyFive(){
@@ -793,7 +865,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that it increases the quantity of money stored in the inventory by the correct amount when the player has more than enough energy and tries to sell 5 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that it increases the quantity of money stored 
+	 * in the player's inventory by the correct amount when the player has more than enough energy and tries to sell 5 energy.
 	 */
 	@Test
 	public void testIncreaseMoneySellEnergyHaveMoreThanEnoughEnergyFive(){
@@ -805,10 +878,11 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that the quantity of energy stored by the market is increased by 5 when the player has more than enough energy and tries to sell 5 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that the quantity of energy stored by the market 
+	 * is increased by 5 when the player has more than enough energy and tries to sell 5 energy.
 	 */
 	@Test
-	public void testCallMarketSellEnergyHaveMoreThanEnoughEnergyFive(){
+	public void testMarketEnergySellEnergyHaveMoreThanEnoughEnergyFive(){
 		playerInventory.increaseEnergyQuantity(6); // Have more than enough energy 
 		
 		int energyBefore = marketInventory.getEnergyQuantity();
@@ -817,7 +891,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that that it returns true when the player has more than enough energy and tries to sell 1 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that that it returns true when the player 
+	 * has more than enough energy and tries to sell 1 energy.
 	 */
 	@Test
 	public void testReturnTrueSellEnergyHaveMoreThanEnoughEnergyOne(){
@@ -827,7 +902,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that it decreases the quantity of energy stored in the inventory by 1 when the player has more than enough money and tries to sell 1 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that it decreases the quantity of energy 
+	 * stored in the player's inventory by 1 when the player has more than enough money and tries to sell 1 energy.
 	 */
 	@Test
 	public void testDecreaseEnergySellEnergyHaveMoreThanEnoughEnergyOne(){
@@ -839,7 +915,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that it increases the quantity of money stored in the inventory by the correct amount when the player has more than enough energy and tries to sell 1 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that it increases the quantity of money 
+	 * stored in the player's inventory by the correct amount when the player has more than enough energy and tries to sell 1 energy.
 	 */
 	@Test
 	public void testIncreaseMoneySellEnergyHaveMoreThanEnoughEnergyOne(){
@@ -851,10 +928,11 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that the quantity of energy stored by the market is increased by 1 when the player has more than enough energy and tries to sell 1 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that the quantity of energy stored by 
+	 * the market is increased by 1 when the player has more than enough energy and tries to sell 1 energy.
 	 */
 	@Test
-	public void testCallMarketSellEnergyHaveMoreThanEnoughEnergyOne(){
+	public void testMarketEnergySellEnergyHaveMoreThanEnoughEnergyOne(){
 		playerInventory.increaseEnergyQuantity(2); // Have more than enough energy 
 		
 		int energyBefore = marketInventory.getEnergyQuantity();
@@ -872,7 +950,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that no energy is removed from the inventory when the player tries to sell 0 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that no energy is removed from 
+	 * the player's inventory when the player tries to sell 0 energy.
 	 */
 	@Test
 	public void testDecreaseEnergySellEnergyZero(){
@@ -883,7 +962,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that no money is added to the inventory when the player tries to sell 0 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that no money is added 
+	 * to the player's inventory when the player tries to sell 0 energy.
 	 */
 	@Test
 	public void testIncreaseMoneySellEnergyZero(){
@@ -894,7 +974,20 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that that it returns true when the player has energy and tries to sell 3 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that no energy is taken from 
+	 * the market's inventory when the player tries to sell 0 energy.
+	 */
+	@Test
+	public void testMarketEnergySellEnergyZero(){
+		
+		int energyBefore = marketInventory.getEnergyQuantity();
+		player.attemptToSellEnergy(0);
+		assertEquals(energyBefore,marketInventory.getEnergyQuantity());
+	}
+	
+	/**
+	 * Tests {@link Player#attemptToSellEnergy} ensures that that it returns true 
+	 * when the player has 3 energy and tries to sell 3 energy.
 	 */
 	@Test
 	public void testReturnTrueSellEnergyHaveExactlyEnoughEnergy(){
@@ -905,7 +998,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that it decreases the quantity of energy stored in the inventory by 3 when the player has 3 energy and tries to sell 3 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that it decreases the quantity of energy stored in 
+	 * the player's inventory by 3 when the player has 3 energy and tries to sell 3 energy.
 	 */
 	@Test
 	public void testDecreaseEnergySellEnergyHaveExactlyEnoughEnergy(){
@@ -913,11 +1007,12 @@ public class PlayerIntegrationTests {
 		playerInventory.increaseEnergyQuantity(3); // Left with exactly 3 energy
 		
 		player.attemptToSellEnergy(3);
-		assertEquals(0,player.getEnergyQuantity());
+		assertEquals(0,player.getEnergyQuantity()); // Should be left with no energy (as the player started with 3 and then sold 3
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that it increases the quantity of money stored in the inventory by the correct amount when the player has more than enough money and tries to sell 6 energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that it increases the quantity of money 
+	 * stored in the player's inventory by the correct amount when the player has more than enough money and tries to sell 3 energy.
 	 */
 	@Test
 	public void testIncreaseMoneySellEnergyHaveExactlyEnoughEnergy(){
@@ -930,7 +1025,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that the quantity of energy stored in the market is increased by 3 when the player has exactly 3 energy and tires to sell 3 energy
+	 * Tests {@link Player#attemptToSellEnergy} ensures that the quantity of energy stored in the market is
+	 * increased by 3 when the player has exactly 3 energy and tires to sell 3 energy
 	 */
 	@Test
 	public void testIncreaseMarketEnergySellEnergyHaveExactlyEnoughEnergy(){
@@ -951,7 +1047,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures no money is added to the inventory when the player attempts to sell a negative quantity of energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures no money is added to the 
+	 * player's inventory when the player attempts to sell a negative quantity of energy.
 	 */
 	@Test
 	public void testSellEnergyIncreaseMoneyNegativeQuantity(){
@@ -962,7 +1059,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures no energy is taken from the inventory when the player attempts to sell a negative quantity
+	 * Tests {@link Player#attemptToSellEnergy} ensures no energy is taken from the 
+	 * player's inventory when the player attempts to sell a negative quantity
 	 */
 	@Test
 	public void testSellEnergyDecreaseEnergyNegativeQuantity(){
@@ -970,25 +1068,39 @@ public class PlayerIntegrationTests {
 		
 		player.attemptToSellEnergy(-1);
 		assertEquals(energyBefore,playerInventory.getEnergyQuantity());
+	}
+	
+	/**
+	 * Tests {@link Player#attemptToSellEnergy} ensures no energy is added to the 
+	 * market's inventory when the player attempts to sell a negative quantity
+	 */
+	@Test
+	public void testMarketsEnergySellEnergyNegativeQuantity(){
+		int energyBefore = marketInventory.getEnergyQuantity();
+		
+		player.attemptToSellEnergy(-1);
+		assertEquals(energyBefore,marketInventory.getEnergyQuantity());
 	}	
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures that that it returns false when the player does not have enough energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures that that it returns 
+	 * false when the player does not have enough energy.
 	 */
 	@Test
 	public void testSellEnergyReturnFalseNotEnoughEnergy(){
-		playerInventory.decreaseEnergyQuantity(playerInventory.getEnergyQuantity()); // Left with no energy in the inventory
+		playerInventory.decreaseEnergyQuantity(playerInventory.getEnergyQuantity()); // Left with no energy in the player's inventory
 		playerInventory.increaseEnergyQuantity(1000000-1); // Left with 1 less energy than is needed
 		
 		assertFalse(player.attemptToSellEnergy(1000000));
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures no money is added to the inventory when the player does not have enough energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures no money is added to the 
+	 * player's inventory when the player does not have enough energy.
 	 */
 	@Test
 	public void testBuyEnergyIncreaseMoneyNotEnoughEnergy(){
-		playerInventory.decreaseEnergyQuantity(playerInventory.getEnergyQuantity()); // Left with no energy in the inventory
+		playerInventory.decreaseEnergyQuantity(playerInventory.getEnergyQuantity()); // Left with no energy in the player's inventory
 		playerInventory.increaseEnergyQuantity(1000000-1); // Left with 1 less energy than is needed
 		
 		int moneyBefore = playerInventory.getMoneyQuantity();
@@ -997,11 +1109,12 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellEnergy} ensures no energy is taken from the inventory when the player does not have enough energy.
+	 * Tests {@link Player#attemptToSellEnergy} ensures no energy is taken from 
+	 * the player's inventory when the player does not have enough energy.
 	 */
 	@Test
 	public void testSellEnergyDecreaseEnergyNotEnoughEnergy(){
-		playerInventory.decreaseEnergyQuantity(playerInventory.getEnergyQuantity()); // Left with no energy in the inventory
+		playerInventory.decreaseEnergyQuantity(playerInventory.getEnergyQuantity()); // Left with no energy in the player's inventory
 		playerInventory.increaseEnergyQuantity(1000000-1); // Left with 1 less energy than is needed
 		
 		int energyBefore = playerInventory.getEnergyQuantity();
@@ -1009,11 +1122,26 @@ public class PlayerIntegrationTests {
 		assertEquals(energyBefore,playerInventory.getEnergyQuantity());
 	}	
 	
+	/**
+	 * Tests {@link Player#attemptToSellEnergy} ensures no energy is added to the market's 
+	 * inventory when the player does not have enough energy.
+	 */
+	@Test
+	public void testSellEnergyMarketsEnergyNotEnoughEnergy(){
+		playerInventory.decreaseEnergyQuantity(playerInventory.getEnergyQuantity()); // Left with no energy in the player's inventory
+		playerInventory.increaseEnergyQuantity(1000000-1); // Left with 1 less energy than is needed
+		
+		int energyBefore = marketInventory.getEnergyQuantity();
+		player.attemptToSellEnergy(1000000);
+		assertEquals(energyBefore,marketInventory.getEnergyQuantity());
+	}
+	
 	
 	///////////////////////////////////////////////////////////////// attemptToSellOre
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that that it returns true when the player has more than enough ore and tries to sell 5 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that that it returns true when 
+	 * the player has more than enough ore and tries to sell 5 ore.
 	 */
 	@Test
 	public void testReturnTrueSellOreHaveMoreThanEnoughOreFive(){
@@ -1023,7 +1151,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that it decreases the quantity of ore stored in the inventory by 5 when the player has more than enough money and tries to sell 5 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that it decreases the quantity of ore 
+	 * stored in the player's inventory by 5 when the player has more than enough money and tries to sell 5 ore.
 	 */
 	@Test
 	public void testDecreaseOreSellOreHaveMoreThanEnoughOreFive(){
@@ -1035,7 +1164,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that it increases the quantity of money stored in the inventory by the correct amount when the player has more than enough ore and tries to sell 5 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that it increases the quantity of money stored 
+	 * in the player's inventory by the correct amount when the player has more than enough ore and tries to sell 5 ore.
 	 */
 	@Test
 	public void testIncreaseMoneySellOreHaveMoreThanEnoughOreFive(){
@@ -1047,10 +1177,11 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that the quantity of ore stored by the market is increased by 5 when the player has more than enough ore and tries to sell 5 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that the quantity of ore stored by the market 
+	 * is increased by 5 when the player has more than enough ore and tries to sell 5 ore.
 	 */
 	@Test
-	public void testIncreaseMarketsOreSellOreHaveMoreThanEnoughOreFive(){
+	public void testMarketOreSellOreHaveMoreThanEnoughOreFive(){
 		playerInventory.increaseOreQuantity(6); // Have more than enough ore 
 		
 		int oreBefore = marketInventory.getOreQuantity();
@@ -1059,7 +1190,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that that it returns true when the player has more than enough ore and tries to sell 1 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that that it returns true when the player 
+	 * has more than enough ore and tries to sell 1 ore.
 	 */
 	@Test
 	public void testReturnTrueSellOreHaveMoreThanEnoughOreOne(){
@@ -1069,7 +1201,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that it decreases the quantity of ore stored in the inventory by 1 when the player has more than enough money and tries to sell 1 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that it decreases the quantity of ore 
+	 * stored in the player's inventory by 1 when the player has more than enough money and tries to sell 1 ore.
 	 */
 	@Test
 	public void testDecreaseOreSellOreHaveMoreThanEnoughOreOne(){
@@ -1081,7 +1214,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that it increases the quantity of money stored in the inventory by the correct amount when the player has more than enough ore and tries to sell 1 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that it increases the quantity of money 
+	 * stored in the player's inventory by the correct amount when the player has more than enough ore and tries to sell 1 ore.
 	 */
 	@Test
 	public void testIncreaseMoneySellOreHaveMoreThanEnoughOreOne(){
@@ -1093,10 +1227,11 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that the quantity of ore stored by the market is increased by 1 when the player has more than enough ore and tries to sell 1 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that the quantity of ore stored by 
+	 * the market is increased by 1 when the player has more than enough ore and tries to sell 1 ore.
 	 */
 	@Test
-	public void testIncreaseMarketsOreSellOreHaveMoreThanEnoughOreOne(){
+	public void testMarketOreSellOreHaveMoreThanEnoughOreOne(){
 		playerInventory.increaseOreQuantity(2); // Have more than enough ore 
 		
 		int oreBefore = marketInventory.getOreQuantity();
@@ -1114,7 +1249,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that no ore is removed from the inventory when the player tries to sell 0 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that no ore is removed from 
+	 * the player's inventory when the player tries to sell 0 ore.
 	 */
 	@Test
 	public void testDecreaseOreSellOreZero(){
@@ -1125,7 +1261,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that no money is added to the inventory when the player tries to sell 0 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that no money is added 
+	 * to the player's inventory when the player tries to sell 0 ore.
 	 */
 	@Test
 	public void testIncreaseMoneySellOreZero(){
@@ -1136,7 +1273,20 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that that it returns true when the player has ore and tries to sell 3 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that no ore is taken from 
+	 * the market's inventory when the player tries to sell 0 ore.
+	 */
+	@Test
+	public void testMarketOreSellOreZero(){
+		
+		int oreBefore = marketInventory.getOreQuantity();
+		player.attemptToSellOre(0);
+		assertEquals(oreBefore,marketInventory.getOreQuantity());
+	}
+	
+	/**
+	 * Tests {@link Player#attemptToSellOre} ensures that that it returns true 
+	 * when the player has 3 ore and tries to sell 3 ore.
 	 */
 	@Test
 	public void testReturnTrueSellOreHaveExactlyEnoughOre(){
@@ -1147,7 +1297,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that it decreases the quantity of ore stored in the inventory by 3 when the player has 3 ore and tries to sell 3 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that it decreases the quantity of ore stored in 
+	 * the player's inventory by 3 when the player has 3 ore and tries to sell 3 ore.
 	 */
 	@Test
 	public void testDecreaseOreSellOreHaveExactlyEnoughOre(){
@@ -1155,11 +1306,12 @@ public class PlayerIntegrationTests {
 		playerInventory.increaseOreQuantity(3); // Left with exactly 3 ore
 		
 		player.attemptToSellOre(3);
-		assertEquals(0,player.getOreQuantity());
+		assertEquals(0,player.getOreQuantity()); // Should be left with no ore (as the player started with 3 and then sold 3
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that it increases the quantity of money stored in the inventory by the correct amount when the player has more than enough money and tries to sell 6 ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that it increases the quantity of money 
+	 * stored in the player's inventory by the correct amount when the player has more than enough money and tries to sell 3 ore.
 	 */
 	@Test
 	public void testIncreaseMoneySellOreHaveExactlyEnoughOre(){
@@ -1172,7 +1324,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that the quantity of ore stored in the market is increased by 3 when the player has exactly 3 ore and tires to sell 3 ore
+	 * Tests {@link Player#attemptToSellOre} ensures that the quantity of ore stored in the market is
+	 * increased by 3 when the player has exactly 3 ore and tires to sell 3 ore
 	 */
 	@Test
 	public void testIncreaseMarketOreSellOreHaveExactlyEnoughOre(){
@@ -1193,7 +1346,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures no money is added to the inventory when the player attempts to sell a negative quantity of ore.
+	 * Tests {@link Player#attemptToSellOre} ensures no money is added to the 
+	 * player's inventory when the player attempts to sell a negative quantity of ore.
 	 */
 	@Test
 	public void testSellOreIncreaseMoneyNegativeQuantity(){
@@ -1204,7 +1358,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures no ore is taken from the inventory when the player attempts to sell a negative quantity
+	 * Tests {@link Player#attemptToSellOre} ensures no ore is taken from the 
+	 * player's inventory when the player attempts to sell a negative quantity
 	 */
 	@Test
 	public void testSellOreDecreaseOreNegativeQuantity(){
@@ -1212,25 +1367,39 @@ public class PlayerIntegrationTests {
 		
 		player.attemptToSellOre(-1);
 		assertEquals(oreBefore,playerInventory.getOreQuantity());
+	}
+	
+	/**
+	 * Tests {@link Player#attemptToSellOre} ensures no ore is added to the 
+	 * market's inventory when the player attempts to sell a negative quantity
+	 */
+	@Test
+	public void testMarketsOreSellOreNegativeQuantity(){
+		int oreBefore = marketInventory.getOreQuantity();
+		
+		player.attemptToSellOre(-1);
+		assertEquals(oreBefore,marketInventory.getOreQuantity());
 	}	
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures that that it returns false when the player does not have enough ore.
+	 * Tests {@link Player#attemptToSellOre} ensures that that it returns 
+	 * false when the player does not have enough ore.
 	 */
 	@Test
 	public void testSellOreReturnFalseNotEnoughOre(){
-		playerInventory.decreaseOreQuantity(playerInventory.getOreQuantity()); // Left with no ore in the inventory
+		playerInventory.decreaseOreQuantity(playerInventory.getOreQuantity()); // Left with no ore in the player's inventory
 		playerInventory.increaseOreQuantity(1000000-1); // Left with 1 less ore than is needed
 		
 		assertFalse(player.attemptToSellOre(1000000));
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures no money is added to the inventory when the player does not have enough ore.
+	 * Tests {@link Player#attemptToSellOre} ensures no money is added to the 
+	 * player's inventory when the player does not have enough ore.
 	 */
 	@Test
 	public void testBuyOreIncreaseMoneyNotEnoughOre(){
-		playerInventory.decreaseOreQuantity(playerInventory.getOreQuantity()); // Left with no ore in the inventory
+		playerInventory.decreaseOreQuantity(playerInventory.getOreQuantity()); // Left with no ore in the player's inventory
 		playerInventory.increaseOreQuantity(1000000-1); // Left with 1 less ore than is needed
 		
 		int moneyBefore = playerInventory.getMoneyQuantity();
@@ -1239,28 +1408,39 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToSellOre} ensures no ore is taken from the inventory when the player does not have enough ore.
+	 * Tests {@link Player#attemptToSellOre} ensures no ore is taken from 
+	 * the player's inventory when the player does not have enough ore.
 	 */
 	@Test
 	public void testSellOreDecreaseOreNotEnoughOre(){
-		playerInventory.decreaseOreQuantity(playerInventory.getOreQuantity()); // Left with no ore in the inventory
+		playerInventory.decreaseOreQuantity(playerInventory.getOreQuantity()); // Left with no ore in the player's inventory
 		playerInventory.increaseOreQuantity(1000000-1); // Left with 1 less ore than is needed
 		
 		int oreBefore = playerInventory.getOreQuantity();
 		player.attemptToSellOre(1000000);
 		assertEquals(oreBefore,playerInventory.getOreQuantity());
 	}	
+	
+	/**
+	 * Tests {@link Player#attemptToSellOre} ensures no ore is added to the market's 
+	 * inventory when the player does not have enough ore.
+	 */
+	@Test
+	public void testSellOreMarketsOreNotEnoughOre(){
+		playerInventory.decreaseOreQuantity(playerInventory.getOreQuantity()); // Left with no ore in the player's inventory
+		playerInventory.increaseOreQuantity(1000000-1); // Left with 1 less ore than is needed
 		
-	
-	
-	
-	
-	
+		int oreBefore = marketInventory.getOreQuantity();
+		player.attemptToSellOre(1000000);
+		assertEquals(oreBefore,marketInventory.getOreQuantity());
+	}
+		
 	
 	
 	/////////////////////////////////////////////////////////////////// attemptToCustomiseRoboticon energy
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has more than enough money and more than 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player 
+	 * has more than enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testReturnTrueCustomiseRoboticonHaveMoreThanEnoughMoneyAndRoboticonsEnergy(){
@@ -1273,7 +1453,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has more than enough money and exactly 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has more 
+	 * than enough money and exactly 1 uncustomised roboticon and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testReturnTrueCustomiseRoboticonHaveMoreThanEnoughMoneyAndOneRoboticonEnergy(){
@@ -1290,7 +1471,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has exactly enough money and more than 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has 
+	 * exactly enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testReturnTrueCustomiseRoboticonHaveExactMoneyAndMoreThanOneRoboticonEnergy(){
@@ -1303,7 +1485,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has exactly enough money and exactly 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has exactly enough money and 
+	 * exactly 1 uncustomised roboticon and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testReturnTrueCustomiseRoboticonHaveExactMoneyAndOneRoboticonEnergy(){
@@ -1319,7 +1502,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons stored by 1 when the player has more than enough money and more than 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised 
+	 * roboticons stored by 1 when the player has more than enough money and more than 1 uncustomised 
+	 * roboticon and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testDecreaseRoboticonsCustomiseRoboticonHaveMoreThanEnoughMoneyAndRoboticonsEnergy(){
@@ -1335,7 +1520,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons stored by 1 when the player has more than enough money and exactly 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons stored by 1 when the player 
+	 * has more than enough money and exactly 1 uncustomised roboticon and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testDecreaseRoboticonsCustomiseRoboticonHaveMoreThanEnoughMoneyAndOneRoboticonEnergy(){
@@ -1355,7 +1541,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons stored by 1 when the player has exactly enough money and more than 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons stored 
+	 * by 1 when the player has exactly enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testDecreaseRoboticonsCustomiseRoboticonHaveExactMoneyAndMoreThanOneRoboticonEnergy(){
@@ -1371,7 +1558,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons stored by 1 when the player has exactly enough money and exactly 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons stored by 1 
+	 * when the player has exactly enough money and exactly 1 uncustomised roboticon and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testDecreaseRoboticonsCustomiseRoboticonHaveExactMoneyAndOneRoboticonEnergy(){
@@ -1391,7 +1579,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct amount when the player has more than enough money and more than 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored 
+	 * by the correct amount when the player has more than enough money and more than 1 uncustomised roboticon 
+	 * and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testDecreaseMoneyCustomiseRoboticonHaveMoreThanEnoughMoneyAndRoboticonsEnergy(){
@@ -1405,7 +1595,9 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct amount when the player has more than enough money and exactly 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored 
+	 * by the correct amount when the player has more than enough money and exactly 1 uncustomised roboticon 
+	 * and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testDecreaseMoneyCustomiseRoboticonHaveMoreThanEnoughMoneyAndOneRoboticonEnergy(){
@@ -1424,7 +1616,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct amount when the player has exactly enough money and more than 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct 
+	 * amount when the player has exactly enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testDecreaseMoneyCustomiseRoboticonHaveExactMoneyAndMoreThanOneRoboticonEnergy(){
@@ -1439,7 +1632,9 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct amount when the player has exactly enough money and exactly 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money 
+	 * stored by the correct amount when the player has exactly enough money and exactly 1 uncustomised 
+	 * roboticon and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testDecreaseMoneyCustomiseRoboticonHaveExactMoneyAndOneRoboticonEnergy(){
@@ -1458,7 +1653,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of energy roboticons stored by 1 when the player has more than enough money and more than 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of energy
+	 * roboticons stored by 1 when the player has more than enough money and more than 1 uncustomised roboticon 
+	 * and tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testIncreaseRoboticonsCustomiseRoboticonHaveMoreThanEnoughMoneyAndRoboticonsEnergy(){
@@ -1475,7 +1672,9 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of energy roboticons stored by 1 stored when the player has more than enough money and exactly 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of energy roboticons 
+	 * stored by 1 stored when the player has more than enough money and exactly 1 uncustomised roboticon and 
+	 * tries to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testIncreaseRoboticonsCustomiseRoboticonHaveMoreThanEnoughMoneyAndOneRoboticonEnergy(){
@@ -1496,7 +1695,9 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of energy roboticons stored by 1 stored when the player has exactly enough money and more than 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of energy roboticons 
+	 * stored by 1 stored when the player has exactly enough money and more than 1 uncustomised roboticon and tries 
+	 * to customise a roboticon for energy production.
 	 */
 	@Test
 	public void testIncreaseRoboticonsCustomiseRoboticonHaveExactMoneyAndMoreThanOneRoboticonEnergy(){
@@ -1513,7 +1714,9 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of energy roboticons stored by 1 stored when the player has exactly enough money and exactly 1 roboticon and tries to customise a roboticon for energy production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of energy roboticons stored by
+	 *  1 stored when the player has exactly enough money and exactly 1 uncustomised roboticon and tries to customise
+	 *   a roboticon for energy production.
 	 */
 	@Test
 	public void testIncreaseRoboticonsCustomiseRoboticonHaveExactMoneyAndOneRoboticonEnergy(){
@@ -1534,7 +1737,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does not have enough money in their inventory to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does not have 
+	 * enough money in their inventory to get an energy customisation.
 	 */
 	@Test
 	public void testReturnFalseNotEnoughMoneyCustomiseRoboticonsEnergy(){
@@ -1552,7 +1756,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised roboticons stored does not decrease if player does not have enough money in their inventory to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised roboticons stored 
+	 * does not decrease if player does not have enough money in their inventory to get an energy customisation.
 	 */
 	@Test
 	public void testDecreaseRoboticonsNotEnoughMoneyCustomiseRoboticonsEnergy(){
@@ -1572,7 +1777,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored does not decrease if player does not have enough money in their inventory to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored does not 
+	 * decrease if player does not have enough money in their inventory to get an energy customisation.
 	 */
 	@Test
 	public void testDecreaseMoneyNotEnoughMoneyCustomiseRoboticonsEnergy(){
@@ -1592,7 +1798,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of energy roboticons stored does not increase if player does not have enough money in their inventory to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of energy roboticons 
+	 * stored does not increase if player does not have enough money in their inventory to get an energy customisation.
 	 */
 	@Test
 	public void testIncreaseRoboticonsNotEnoughMoneyCustomiseRoboticonsEnergy(){
@@ -1612,7 +1819,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does not have enough money in their inventory to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player 
+	 * does not have enough money in their inventory to get an energy customisation.
 	 */
 	@Test
 	public void testReturnFalseNotEnoughMoneyCustomiseRoboticonsEnergy2(){
@@ -1630,7 +1838,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised roboticons stored does not decrease if player does not have enough money in their inventory to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised roboticons 
+	 * stored does not decrease if player does not have enough money in their inventory to get an energy customisation.
 	 */
 	@Test
 	public void testDecreaseRoboticonsNotEnoughMoneyCustomiseRoboticonsEnergy2(){
@@ -1650,7 +1859,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored does not decrease if player does not have enough money in their inventory to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored does 
+	 * not decrease if player does not have enough money in their inventory to get an energy customisation.
 	 */
 	@Test
 	public void testDecreaseMoneyNotEnoughMoneyCustomiseRoboticonsEnergy2(){
@@ -1670,7 +1880,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of energy roboticons stored does not increase if player does not have enough money in their inventory to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of energy roboticons 
+	 * stored does not increase if player does not have enough money in their inventory to get an energy customisation.
 	 */
 	@Test
 	public void testIncreaseRoboticonsNotEnoughMoneyCustomiseRoboticonsEnergy2(){
@@ -1690,7 +1901,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does not have any uncustomised roboticons in their inventory and tries to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does not have 
+	 * any uncustomised roboticons in their inventory and tries to get an energy customisation.
 	 */
 	@Test
 	public void testReturnFalseNoUncustomisedRoboticonsCustomiseRoboticonsEnergy(){
@@ -1699,7 +1911,6 @@ public class PlayerIntegrationTests {
 		playerInventory.increaseMoneyQuantity(market.getCostRoboticonCustomisation(RoboticonCustomisation.ENERGY));
 		
 		int uncustomisedRoboticonsInInventory = playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);
-		
 		// Left with no uncustomised roboticons
 		playerInventory.decreaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, uncustomisedRoboticonsInInventory);
 		
@@ -1707,7 +1918,8 @@ public class PlayerIntegrationTests {
 	}	
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised roboticons stored is not reduced when the player does not have any uncustomised roboticons in their inventory and tries to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised 
+	 * roboticons stored is not reduced when the player does not have any uncustomised roboticons in their inventory and tries to get an energy customisation.
 	 */
 	@Test
 	public void testDecreaseRoboticonsNoUncustomisedRoboticonsCustomiseRoboticonsEnergy(){
@@ -1724,15 +1936,15 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored is not reduced when the player does not have any uncustomised roboticons in their inventory and tries to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored is 
+	 * not reduced when the player does not have any uncustomised roboticons in their inventory and tries to get an energy customisation.
 	 */
 	@Test
 	public void testDecreaseMoneyNoUncustomisedRoboticonsCustomiseRoboticonsEnergy(){
 		// Has enough money
 		playerInventory.increaseMoneyQuantity(market.getCostRoboticonCustomisation(RoboticonCustomisation.ENERGY));
 						
-		int uncustomisedRoboticonsInInventory = playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);
-						
+		int uncustomisedRoboticonsInInventory = playerInventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED);				
 		// Left with no uncustomised roboticons
 		playerInventory.decreaseRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED, uncustomisedRoboticonsInInventory);
 		
@@ -1742,7 +1954,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of energy roboticons stored is not increased when the player does not have any uncustomised roboticons in their inventory and tries to get an energy customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of energy roboticons 
+	 * stored is not increased when the player does not have any uncustomised roboticons in their inventory and tries to get an energy customisation.
 	 */
 	@Test
 	public void testIncreaseRoboticonsNoUncustomisedRoboticonsCustomiseRoboticonsEnergy(){
@@ -1762,7 +1975,8 @@ public class PlayerIntegrationTests {
 	
 	/////////////////////////////////////////////////////////////////// attemptToCustomiseRoboticon ore
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has more than enough money and more than 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has more than 
+	 * enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testReturnTrueCustomiseRoboticonHaveMoreThanEnoughMoneyAndRoboticonsOre(){
@@ -1775,7 +1989,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has more than enough money and exactly 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has more than 
+	 * enough money and exactly 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testReturnTrueCustomiseRoboticonHaveMoreThanEnoughMoneyAndOneRoboticonOre(){
@@ -1792,7 +2007,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has exactly enough money and more than 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has exactly 
+	 * enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testReturnTrueCustomiseRoboticonHaveExactMoneyAndMoreThanOneRoboticonOre(){
@@ -1805,7 +2021,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has exactly enough money and exactly 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns true when the player has exactly 
+	 * enough money and exactly 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testReturnTrueCustomiseRoboticonHaveExactMoneyAndOneRoboticonOre(){
@@ -1821,7 +2038,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons stored by 1 when the player has more than enough money and more than 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons 
+	 * stored by 1 when the player has more than enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testDecreaseRoboticonsCustomiseRoboticonHaveMoreThanEnoughMoneyAndRoboticonsOre(){
@@ -1837,7 +2055,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons stored by 1 when the player has more than enough money and exactly 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons 
+	 * stored by 1 when the player has more than enough money and exactly 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testDecreaseRoboticonsCustomiseRoboticonHaveMoreThanEnoughMoneyAndOneRoboticonOre(){
@@ -1857,7 +2076,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons stored by 1 when the player has exactly enough money and more than 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons 
+	 * stored by 1 when the player has exactly enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testDecreaseRoboticonsCustomiseRoboticonHaveExactMoneyAndMoreThanOneRoboticonOre(){
@@ -1873,7 +2093,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons stored by 1 when the player has exactly enough money and exactly 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the number of uncustomised roboticons 
+	 * stored by 1 when the player has exactly enough money and exactly 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testDecreaseRoboticonsCustomiseRoboticonHaveExactMoneyAndOneRoboticonOre(){
@@ -1893,7 +2114,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct amount when the player has more than enough money and more than 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct 
+	 * amount when the player has more than enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testDecreaseMoneyCustomiseRoboticonHaveMoreThanEnoughMoneyAndRoboticonsOre(){
@@ -1907,7 +2129,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct amount when the player has more than enough money and exactly 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct 
+	 * amount when the player has more than enough money and exactly 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testDecreaseMoneyCustomiseRoboticonHaveMoreThanEnoughMoneyAndOneRoboticonOre(){
@@ -1926,7 +2149,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct amount when the player has exactly enough money and more than 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the 
+	 * correct amount when the player has exactly enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testDecreaseMoneyCustomiseRoboticonHaveExactMoneyAndMoreThanOneRoboticonOre(){
@@ -1941,7 +2165,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct amount when the player has exactly enough money and exactly 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it decreases the quantity of money stored by the correct 
+	 * amount when the player has exactly enough money and exactly 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testDecreaseMoneyCustomiseRoboticonHaveExactMoneyAndOneRoboticonOre(){
@@ -1960,7 +2185,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of ore roboticons stored by 1 when the player has more than enough money and more than 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of ore roboticons stored by 1 when the 
+	 * player has more than enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testIncreaseRoboticonsCustomiseRoboticonHaveMoreThanEnoughMoneyAndRoboticonsOre(){
@@ -1977,7 +2203,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of ore roboticons stored by 1 stored when the player has more than enough money and exactly 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of ore roboticons stored by 1 stored 
+	 * when the player has more than enough money and exactly 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testIncreaseRoboticonsCustomiseRoboticonHaveMoreThanEnoughMoneyAndOneRoboticonOre(){
@@ -1998,7 +2225,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of ore roboticons stored by 1 stored when the player has exactly enough money and more than 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of ore roboticons stored by 1 stored 
+	 * when the player has exactly enough money and more than 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testIncreaseRoboticonsCustomiseRoboticonHaveExactMoneyAndMoreThanOneRoboticonOre(){
@@ -2015,7 +2243,8 @@ public class PlayerIntegrationTests {
 	}
 
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of ore roboticons stored by 1 stored when the player has exactly enough money and exactly 1 roboticon and tries to customise a roboticon for ore production.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it increases the number of ore roboticons stored by 1 
+	 * stored when the player has exactly enough money and exactly 1 uncustomised roboticon and tries to customise a roboticon for ore production.
 	 */
 	@Test
 	public void testIncreaseRoboticonsCustomiseRoboticonHaveExactMoneyAndOneRoboticonOre(){
@@ -2037,7 +2266,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does not have enough money in their inventory to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does 
+	 * not have enough money in their inventory to get an ore customisation.
 	 */
 	@Test
 	public void testReturnFalseNotEnoughMoneyCustomiseRoboticonsOre(){
@@ -2055,7 +2285,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised roboticons stored does not decrease if player does not have enough money in their inventory to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised roboticons 
+	 * stored does not decrease if player does not have enough money in their inventory to get an ore customisation.
 	 */
 	@Test
 	public void testDecreaseRoboticonsNotEnoughMoneyCustomiseRoboticonsOre(){
@@ -2075,7 +2306,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored does not decrease if player does not have enough money in their inventory to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored does not 
+	 * decrease if player does not have enough money in their inventory to get an ore customisation.
 	 */
 	@Test
 	public void testDecreaseMoneyNotEnoughMoneyCustomiseRoboticonsOre(){
@@ -2095,7 +2327,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of ore roboticons stored does not increase if player does not have enough money in their inventory to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of ore roboticons stored 
+	 * does not increase if player does not have enough money in their inventory to get an ore customisation.
 	 */
 	@Test
 	public void testIncreaseRoboticonsNotEnoughMoneyCustomiseRoboticonsOre(){
@@ -2115,7 +2348,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does not have enough money in their inventory to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does 
+	 * not have enough money in their inventory to get an ore customisation.
 	 */
 	@Test
 	public void testReturnFalseNotEnoughMoneyCustomiseRoboticonsOre2(){
@@ -2133,7 +2367,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised roboticons stored does not decrease if player does not have enough money in their inventory to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised roboticons 
+	 * stored does not decrease if player does not have enough money in their inventory to get an ore customisation.
 	 */
 	@Test
 	public void testDecreaseRoboticonsNotEnoughMoneyCustomiseRoboticonsOre2(){
@@ -2153,7 +2388,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored does not decrease if player does not have enough money in their inventory to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored does not 
+	 * decrease if player does not have enough money in their inventory to get an ore customisation.
 	 */
 	@Test
 	public void testDecreaseMoneyNotEnoughMoneyCustomiseRoboticonsOre2(){
@@ -2173,7 +2409,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of ore roboticons stored does not increase if player does not have enough money in their inventory to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of ore roboticons stored 
+	 * does not increase if player does not have enough money in their inventory to get an ore customisation.
 	 */
 	@Test
 	public void testIncreaseRoboticonsNotEnoughMoneyCustomiseRoboticonsOre2(){
@@ -2193,7 +2430,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does not have any uncustomised roboticons in their inventory and tries to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures it returns false when the player does 
+	 * not have any uncustomised roboticons in their inventory and tries to get an ore customisation.
 	 */
 	@Test
 	public void testReturnFalseNoUncustomisedRoboticonsCustomiseRoboticonsOre(){
@@ -2210,7 +2448,8 @@ public class PlayerIntegrationTests {
 	}	
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised roboticons stored is not reduced when the player does not have any uncustomised roboticons in their inventory and tries to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the number of uncustomised 
+	 * roboticons stored is not reduced when the player does not have any uncustomised roboticons in their inventory and tries to get an ore customisation.
 	 */
 	@Test
 	public void testDecreaseRoboticonsNoUncustomisedRoboticonsCustomiseRoboticonsOre(){
@@ -2227,7 +2466,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored is not reduced when the player does not have any uncustomised roboticons in their inventory and tries to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of money stored 
+	 * is not reduced when the player does not have any uncustomised roboticons in their inventory and tries to get an ore customisation.
 	 */
 	@Test
 	public void testDecreaseMoneyNoUncustomisedRoboticonsCustomiseRoboticonsOre(){
@@ -2245,7 +2485,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of ore roboticons stored is not increased when the player does not have any uncustomised roboticons in their inventory and tries to get an ore customisation.
+	 * Tests {@link Player#attemptToCustomiseRoboticon} ensures that the quantity of ore roboticons 
+	 * stored is not increased when the player does not have any uncustomised roboticons in their inventory and tries to get an ore customisation.
 	 */
 	@Test
 	public void testIncreaseRoboticonsNoUncustomisedRoboticonsCustomiseRoboticonsOre(){
@@ -2287,7 +2528,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns false if the player is attempting to place an ore roboticon on the plot and has no ore roboticons
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns false if the player is 
+	 * attempting to place an ore roboticon on the plot and has no ore roboticons
 	 */
 	@Test
 	public void testReturnFalseNoOreRoboticonsOre(){
@@ -2300,7 +2542,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns false if the player is attempting to place an uncustomised roboticon on the plot
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns false if the player 
+	 * is attempting to place an uncustomised roboticon on the plot
 	 */
 	@Test
 	public void testReturnFalseUncustomisedRoboticonOre(){
@@ -2310,7 +2553,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns true if the player is attempting to place an ore roboticon on the plot (for a plot that they own when they have one ore roboticon)
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns true if the player is 
+	 * attempting to place an ore roboticon on the plot 
+	 * (for a plot that they own when they have one ore roboticon)
 	 */
 	@Test
 	public void testReturnTrueOreRoboticonOrePlotPlayerHasOneOreRoboticon(){
@@ -2330,7 +2575,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that the number of ore roboticons stored is reduced by 1 if the player is attempting to place an ore roboticon on the plot (for a plot that they own when they have one ore roboticon)
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that the number of ore roboticons 
+	 * stored is reduced by 1 if the player is attempting to place an ore roboticon on the plot 
+	 * (for a plot that they own when they have one ore roboticon)
 	 */
 	@Test
 	public void testReduceRoboticonsOreRoboticonOrePlotPlayerHasOneOreRoboticon(){
@@ -2354,7 +2601,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that when the player is attempting to place an ore roboticon on a plot (for a plot that they own when they have one ore roboticon) that the plot actually has a roboticon placed on it
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that when the player is attempting 
+	 * to place an ore roboticon on a plot (for a plot that they own when they have one ore roboticon) 
+	 * that the plot actually has a roboticon placed on it
 	 */
 	@Test
 	public void testPlotHasRoboticonOreRoboticonOrePlotPlayerHasOneOreRoboticon(){
@@ -2376,7 +2625,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns true if the player is attempting to place an ore roboticon on the plot (for a plot that they own when they have three ore roboticons)
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns true if the player is 
+	 * attempting to place an ore roboticon on the plot 
+	 * (for a plot that they own when they have three ore roboticons)
 	 */
 	@Test
 	public void testReturnTrueOreRoboticonOrePlotPlayerHasThreeOreRoboticon(){
@@ -2396,7 +2647,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that the number of ore roboticons stored is reduced by 1 if the player is attempting to place an ore roboticon on the plot (for a plot that they own when they have three ore roboticons)
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that the number of ore roboticons 
+	 * stored is reduced by 1 if the player is attempting to place an ore roboticon 
+	 * on the plot (for a plot that they own when they have three ore roboticons)
 	 */
 	@Test
 	public void testReduceRoboticonsOreRoboticonOrePlotPlayerHasThreeOreRoboticon(){
@@ -2420,7 +2673,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that when the player is attempting to place an ore roboticon on a plot (for a plot that they own when they have three ore roboticons) that the plot actually has a roboticon placed on it
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that when the player is 
+	 * attempting to place an ore roboticon on a plot (for a plot that they own when they have three ore roboticons) 
+	 * that the plot actually has a roboticon placed on it
 	 */
 	@Test
 	public void testPlotHasRoboticonOreRoboticonOrePlotPlayerHasThreeOreRoboticon(){
@@ -2443,7 +2698,8 @@ public class PlayerIntegrationTests {
 	
 	////////////////////////////////////////////////////////////////////////// attemptToPlaceRoboticon energy
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns false if the plot is not owned by the player
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns false if 
+	 * the plot is not owned by the player
 	 */
 	@Test
 	public void testReturnFalsePlaceRoboticonUnownedPlotEnergy(){
@@ -2465,7 +2721,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns false if the player is attempting to place an energy roboticon on the plot and has no energy roboticons
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns false if the player 
+	 * is attempting to place an energy roboticon on the plot and has no energy roboticons
 	 */
 	@Test
 	public void testReturnFalseNoEnergyRoboticonsEnergy(){
@@ -2478,7 +2735,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns false if the player is attempting to place an uncustomised roboticon on the plot
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns false if the player 
+	 * is attempting to place an uncustomised roboticon on the plot
 	 */
 	@Test
 	public void testReturnFalseUncustomisedRoboticonEnergy(){
@@ -2488,7 +2746,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns true if the player is attempting to place an energy roboticon on the plot (for a plot that they own when they have one energy roboticon)
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns true if the player 
+	 * is attempting to place an energy roboticon on the plot 
+	 * (for a plot that they own when they have one energy roboticon)
 	 */
 	@Test
 	public void testReturnTrueEnergyRoboticonEnergyPlotPlayerHasOneEnergyRoboticon(){
@@ -2508,7 +2768,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that the number of energy roboticons stored is reduced by 1 if the player is attempting to place an energy roboticon on the plot (for a plot that they own when they have one energy roboticon)
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that the number of energy 
+	 * roboticons stored is reduced by 1 if the player is attempting to place an energy 
+	 * roboticon on the plot (for a plot that they own when they have one energy roboticon)
 	 */
 	@Test
 	public void testReduceRoboticonsEnergyRoboticonEnergyPlotPlayerHasOneEnergyRoboticon(){
@@ -2532,7 +2794,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that when the player is attempting to place an energy roboticon on a plot (for a plot that they own when they have one energy roboticon) that the plot actually has a roboticon placed on it
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that when the player is 
+	 * attempting to place an energy roboticon on a plot (for a plot that they own when they have one energy roboticon) 
+	 * that the plot actually has a roboticon placed on it
 	 */
 	@Test
 	public void testPlotHasRoboticonEnergyRoboticonEnergyPlotPlayerHasOneEnergyRoboticon(){
@@ -2554,7 +2818,8 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns true if the player is attempting to place an energy roboticon on the plot (for a plot that they own when they have three energy roboticons)
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that it returns true if the player 
+	 * is attempting to place an energy roboticon on the plot (for a plot that they own when they have three energy roboticons)
 	 */
 	@Test
 	public void testReturnTrueEnergyRoboticonEnergyPlotPlayerHasThreeEnergyRoboticons(){
@@ -2574,7 +2839,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that the number of energy roboticons stored is reduced by 1 if the player is attempting to place an energy roboticon on the plot (for a plot that they own when they have three energy roboticons)
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that the number of energy 
+	 * roboticons stored is reduced by 1 if the player is attempting to place an energy
+	 * roboticon on the plot (for a plot that they own when they have three energy roboticons)
 	 */
 	@Test
 	public void testReduceRoboticonsEnergyRoboticonEnergyPlotPlayerHasThreeEnergyRoboticons(){
@@ -2598,7 +2865,9 @@ public class PlayerIntegrationTests {
 	}
 	
 	/**
-	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that when the player is attempting to place an energy roboticon on a plot (for a plot that they own when they have three energy roboticons) that the plot actually has a roboticon placed on it
+	 * Tests {@link Player#attemptToPlaceRoboticon} ensures that when the player is 
+	 * attempting to place an energy roboticon on a plot (for a plot that they own when they have three energy roboticons)
+	 * that the plot actually has a roboticon placed on it
 	 */
 	@Test
 	public void testPlotHasRoboticonEnergyRoboticonEnergyPlotPlayerHasThreeEnergyRoboticons(){
@@ -2619,6 +2888,7 @@ public class PlayerIntegrationTests {
 		
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////// calculateScore
 	/**
 	 * Tests {@link Player#calculateScore} ensures that it returns 0 when the player has no money
 	 */
