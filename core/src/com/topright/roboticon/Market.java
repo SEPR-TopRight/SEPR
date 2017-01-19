@@ -6,12 +6,12 @@ package com.topright.roboticon;
  */
 public class Market {
 	private MarketInventory inventory;
-	private int roboticonOreConversionRate = 4; // How many ore are needed to produce a roboticon
-	private int oreCost = 5;
-	private int energyCost = 6;
-	private int uncustomisedRoboticonCost = 10;
-	private int energyCustomisationCost = 11;
-	private int oreCustomisationCost = 12;
+	private final int roboticonOreConversionRate = 4; // How many ore are needed to produce a roboticon
+	private final int oreCost = 5;
+	private final int energyCost = 6;
+	private final int uncustomisedRoboticonCost = 10;
+	private final int energyCustomisationCost = 11;
+	private final int oreCustomisationCost = 12;
 	
 	private static Market market = new Market(); 
 	

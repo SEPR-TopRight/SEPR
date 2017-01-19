@@ -1,6 +1,5 @@
 package com.topright.roboticon;
 import static org.junit.Assert.*;
-import org.junit.runner.RunWith;
 import org.junit.*;	
 import java.util.EnumMap;
 
