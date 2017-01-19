@@ -221,7 +221,7 @@ public class PlotManager extends Table{
 				final int r = row;
 				final int c = column;
 				
-				ButtonWithIcon button = new ButtonWithIcon("", "plot_overlays/AI2.pack", "AI", "AI",
+				ButtonWithIcon button = new ButtonWithIcon("", "plot_overlays/unacquired.pack", "unacquired", "unacquired",
 						new ClickListener(){
 							@Override
 							public void clicked(InputEvent event, float x, float y)
@@ -230,6 +230,7 @@ public class PlotManager extends Table{
 							}
 						}
 				);
+				
 				
 				add(button).expand().fill();
 				buttons[row][column] = button;

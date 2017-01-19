@@ -61,7 +61,7 @@ public class MessagePopUp extends Dialog{
 	 * Afterwards the centre of the window will be in the centre of the screen
 	 * </p>
 	 */
-	protected void moveToMiddleOfScreen(){
+	private void moveToMiddleOfScreen(){
 		
 		// Width and height of the pop up window
 		float windowWidth = getWidth();

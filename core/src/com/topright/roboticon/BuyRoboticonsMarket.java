@@ -18,6 +18,9 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 	private Label transactionCostLabel; // Displays the total cost of the current transaction (number of roboticons * price per roboticon)
     private Player currentPlayer; // The current player who is using the market
 	private Label roboticonsInStockLabel;
+	private TextButton produceRoboticonButton;
+	private TextButton completeTransactionButton;
+	
 	
 	/**
 	 * Constructor
@@ -37,30 +40,13 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 	        }
 		});
 		
+		createButtons();
+		
 		roboticonsInStockLabel = new Label("Roboticons in stock: "+Integer.toString(Market.getInstance().getRoboticonQuantity()), new Skin(Gdx.files.internal("uiskin.json")));
 		Label costPerRoboticonLabel = new Label("Price per roboticon: "+Integer.toString(Market.getInstance().getCostRoboticons(1)), new Skin(Gdx.files.internal("uiskin.json")));
 		transactionCostLabel = new Label("Total cost: 0",new Skin(Gdx.files.internal("uiskin.json")));
 		
-		// To be clicked when the player wishes to purchase the specified number of roboticons
-		TextButton completeTransactionButton = new TextButton("Purchase",new Skin(Gdx.files.internal("uiskin.json")));
-		completeTransactionButton.addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y)
-	        {
-				attemptTransaction(); // Called whenever the button is clicked
-                         
-	        }
-		});
-
-		// A button that can be clicked to try and make the market produce another roboticon
-		TextButton produceRoboticonButton = new TextButton("Make the market produce another roboticon", new Skin(Gdx.files.internal("uiskin.json")));
-		produceRoboticonButton.addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y)
-	        {
-	        	attemptToProduceRoboticon();
-	        }
-		});
+		
 		
 		Label roboticonOreConversionRateLabel = new Label("It costs the market " +Integer.toString(Market.getInstance().getRoboticonOreConversionRate()) 
 				                                          +" ore to produce 1 roboticon", new Skin(Gdx.files.internal("uiskin.json")));
@@ -90,6 +76,30 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 	private void updateTransactionCostLabel(){
 		Integer transactionCost = Market.getInstance().getCostRoboticons(transactionQuantitySpinBox.getValue()); 
 		transactionCostLabel.setText("Total cost: "+transactionCost.toString());
+	}
+	
+	/**
+	 * Creates the complete transaction button and produce roboticon button and sets them to carry out the correct operations when clicked
+	 */
+	private void createButtons(){
+		// To be clicked when the player wishes to purchase the specified number of roboticons
+		completeTransactionButton = new TextButton("Purchase",new Skin(Gdx.files.internal("uiskin.json")));
+		completeTransactionButton.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+				attemptTransaction(); // Called whenever the button is clicked
+		                         
+			    }
+			});
+
+		// A button that can be clicked to try and make the market produce another roboticon
+		produceRoboticonButton = new TextButton("Make the market produce another roboticon", new Skin(Gdx.files.internal("uiskin.json")));
+		produceRoboticonButton.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y){
+			       attemptToProduceRoboticon();
+			}
+		});
 	}
 	
 	/**

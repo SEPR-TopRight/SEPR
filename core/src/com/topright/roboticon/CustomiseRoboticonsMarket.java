@@ -35,22 +35,9 @@ public class CustomiseRoboticonsMarket extends PopUpWindow {
 			new Skin(Gdx.files.internal("uiskin.json")));
 		
 		TextButton energyCustomisationButton = new TextButton("Customise a roboticon for energy", new Skin(Gdx.files.internal("uiskin.json")));
-		energyCustomisationButton.addListener(new ClickListener(){
-							@Override
-							public void clicked(InputEvent event, float x, float y)
-							{
-								attemptCustomisation(RoboticonCustomisation.ENERGY); // Called whenever the energy customisation button is clicked
-							}
-						});
-
 		TextButton oreCustomisationButton = new TextButton("Customise a roboticon for ore", new Skin(Gdx.files.internal("uiskin.json")));
-		oreCustomisationButton.addListener(new ClickListener(){
-							@Override
-							public void clicked(InputEvent event, float x, float y)
-							{
-								attemptCustomisation(RoboticonCustomisation.ORE); // Called whenever the ore customisation button is clicked
-							}
-						});
+		
+		setCustomisationButtonClickBehaviour(energyCustomisationButton,oreCustomisationButton);
 
 		// Add the widgets to the window in the desired locations
 		add(energyCustomisationCostLabel).left();
@@ -64,6 +51,29 @@ public class CustomiseRoboticonsMarket extends PopUpWindow {
 
 		setSize(getPrefWidth(),getPrefHeight()); // Want the window to be exactly as large as it has be to fit in all of the widgets (no smaller/larger)
 		moveToMiddleOfScreen();
+	}
+	
+	/**
+	 * Sets up the energy and ore customisation buttons to call the attemptCustomisation method when clicked
+	 * @param energyCustomisationButton
+	 * @param oreCustomisationButton
+	 */
+	private void setCustomisationButtonClickBehaviour(TextButton energyCustomisationButton,TextButton oreCustomisationButton){
+		energyCustomisationButton.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				attemptCustomisation(RoboticonCustomisation.ENERGY); // Called whenever the energy customisation button is clicked
+			}
+		});
+		
+		oreCustomisationButton.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				attemptCustomisation(RoboticonCustomisation.ORE); // Called whenever the ore customisation button is clicked
+			}
+		});
 	}
 	
 	/**

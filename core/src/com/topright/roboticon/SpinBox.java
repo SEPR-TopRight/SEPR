@@ -18,6 +18,8 @@ public class SpinBox extends Table{
 	private Integer maxValue;
 	private Integer minValue;
 	private Label valueLabel;
+	private TextButton increaseQuantityButton;
+	private TextButton decreaseQuantityButton;
 	
 	/**
 	 * Constructor
@@ -33,9 +35,9 @@ public class SpinBox extends Table{
 		
 		valueLabel = new Label(Integer.toString(value), new Skin(Gdx.files.internal("uiskin.json")));
 		
-		TextButton increaseQuantityButton = new TextButton("+", new Skin(Gdx.files.internal("uiskin.json")));		
-		TextButton decreaseQuantityButton = new TextButton("-", new Skin(Gdx.files.internal("uiskin.json")));
-		setButtonBehaviour(increaseQuantityButton, decreaseQuantityButton);
+		increaseQuantityButton = new TextButton("+", new Skin(Gdx.files.internal("uiskin.json")));		
+		decreaseQuantityButton = new TextButton("-", new Skin(Gdx.files.internal("uiskin.json")));
+		setButtonBehaviour();
 		
 		add(new Label(text,new Skin(Gdx.files.internal("uiskin.json")))).left();
 		add(valueLabel).right().expand().padRight(5);
@@ -48,7 +50,7 @@ public class SpinBox extends Table{
 	 * @param increaseQuantityButton The button that is clicked to increase the value of the SpinBox
 	 * @param decreaseQuantityButton The button that is clicked to decrease the value of the SpinBox
 	 */
-	private void setButtonBehaviour(TextButton increaseQuantityButton, TextButton decreaseQuantityButton){
+	private void setButtonBehaviour(){
 		increaseQuantityButton.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y)
@@ -87,6 +89,28 @@ public class SpinBox extends Table{
 			value=maxValue; // Reduce the selected value to this new value
 			valueLabel.setText(value.toString());
 		}
+	}
+	
+	/**
+	 * Returns the Textbutton object that when clicked increases the stored value.
+	 * <p>
+	 * Needed for testing purposes, or any other purpose were you want to simulate a button press with code.
+	 * </p>
+	 * @return The Textbutton object that when clicked increases the stored value.
+	 */
+	public TextButton getIncreaseQuantityButton(){
+		return increaseQuantityButton;
+	}
+	
+	/**
+	 * Returns the Textbutton object that when clicked decreases the stored value.
+	 * <p>
+	 * Needed for testing purposes, or any other purpose were you want to simulate a button press with code.
+	 * </p>
+	 * @return The Textbutton object that when clicked decreases the stored value.
+	 */
+	public TextButton getDecreaseQuantityButton(){
+		return decreaseQuantityButton;
 	}
 	
 	/**
