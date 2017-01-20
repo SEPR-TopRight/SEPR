@@ -131,7 +131,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	private void plotAcquisitionStage(){	
 		plotManager.setCurrentPlayer(currentPlayer);
 		if(currentPlayer == humanPlayer){
-			menu.setMenuText("Choose a plot to aquire");
+			menu.setMenuText("Choose a plot to acquire.");
         	plotManager.setPlotClickMode(PlotClickMode.ACQUIRE);
 		}
 		else{
@@ -139,27 +139,6 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		}
 
 		// When done, want to call buying Roboticons phase method
-	}
-	
-	/**
-	 * Sets the game up for the roboticon placing stage.
-	 * <p>
-	 * Tells AI player to place roboticons if they wish. Allows human players to place roboticons.
-	 * </p>
-	 */
-	private void roboticonPlacingStage(){
-		if(currentPlayer == humanPlayer){
-			menu.clearTimer();
-			marketWindow.remove();
-			marketWindow = null; // No longer need it
-			plotManager.setPlotClickMode(PlotClickMode.PLACEROBOTICON);
-			menu.setMenuText("Place roboticons if you want. Click next once you're done");
-			menu.setAndShowNextStageButton("finished my turn",GameEvents.FINISHEDPLACINGROBOTICONS.ordinal());
-		}
-		else{
-			AIPlayer.placeRoboticons(plotManager);
-			nextPlayersTurn();
-		}
 	}
 	
 	/**
@@ -176,10 +155,10 @@ public class Main extends ApplicationAdapter implements Telegraph{
 			marketWindow = new BuyRoboticonsMarket(currentPlayer);
 			
 			// When the player has finished buying roboticons they can click this button to advance to the next stage
-			menu.setAndShowNextStageButton("customising roboticons",GameEvents.FINISHEDBUYINGROBOTICONS.ordinal());
+			menu.setAndShowNextStageButton("Customise roboticons",GameEvents.FINISHEDBUYINGROBOTICONS.ordinal());
 		
         	stage.addActor(marketWindow);        
-        	menu.setMenuText("Purchase roboticons. Click the next button when you're done.");
+        	menu.setMenuText("Purchase roboticons if you wish. Click the 'Customise roboticons' button when you're done.");
         	
         	// The player has a limited amount of time in which to purchase and customise roboticons
         	// If the timer runs out we may need to skip the customising stage entirely
@@ -205,16 +184,37 @@ public class Main extends ApplicationAdapter implements Telegraph{
 			marketWindow = new CustomiseRoboticonsMarket(currentPlayer);
 			
 			// Users may click the next stage button once they have finished customising their roboticons
-			menu.setAndShowNextStageButton("place roboticons",GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal());
+			menu.setAndShowNextStageButton("Place roboticons",GameEvents.FINISHEDCUSTOMISINGROBOTICONS.ordinal());
 		
        		stage.addActor(marketWindow);        
-        	menu.setMenuText("Customise roboticons. Click the next button when you're done.");
+        	menu.setMenuText("Customise as many roboticons as you want. Click the 'Place roboticons' button when you're done.");
 		}
 		else{
 			AIPlayer.customiseRoboticons(plotManager);
 			roboticonPlacingStage();
 		}
         // Note that the timer is still set from the buying roboticons stage (if human player)
+	}
+	
+	/**
+	 * Sets the game up for the roboticon placing stage.
+	 * <p>
+	 * Tells AI player to place roboticons if they wish. Allows human players to place roboticons.
+	 * </p>
+	 */
+	private void roboticonPlacingStage(){
+		if(currentPlayer == humanPlayer){
+			menu.clearTimer();
+			marketWindow.remove();
+			marketWindow = null; // No longer need it
+			plotManager.setPlotClickMode(PlotClickMode.PLACEROBOTICON);
+			menu.setMenuText("Place roboticons if you want. Click the 'Finished my turn' button once you're done.");
+			menu.setAndShowNextStageButton("Finished my turn",GameEvents.FINISHEDPLACINGROBOTICONS.ordinal());
+		}
+		else{
+			AIPlayer.placeRoboticons(plotManager);
+			nextPlayersTurn();
+		}
 	}
 	
 	/**
@@ -234,7 +234,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		menu.setAndShowNextStageButton("Finished with the market",GameEvents.FINISHEDWITHTHEMARKET.ordinal());
 		
         stage.addActor(marketWindow);        
-        menu.setMenuText("Market. Click the finished button when you are done.");
+        menu.setMenuText("Market: buy and sell resources if you want. Click the 'Finished with the market' button when you are done.");
 	}
 	
 	/**
@@ -294,6 +294,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 		menu.hideNextStageButton();
 		marketWindow.remove();
 		marketWindow = null;
+		menu.setMenuText("Game over!");
 		stage.addActor(new GameOverWindow(humanPlayer,AIPlayer));
 	}
 

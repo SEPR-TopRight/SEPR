@@ -2,6 +2,7 @@ package com.topright.roboticon;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Before;
 
 import org.mockito.Mockito;
 
@@ -10,22 +11,34 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplication;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+
+import mockit.Mocked;
+
 
 
 /**
  * Base class that is extended by all classes that wish to test LibGDX components
- * Obtained from: http://manabreak.eu/java/2016/10/21/unittesting-libgdx.html
+ * Obtained from: http://manabreak.eu/java/2016/10/21/unittesting-libgdx.html (and then modified to suit our needs)
  * @author jcn509
  */
 
 public class GuiTest {
     // This is our "test" application
     private static Application application;
-
+    public Stage stage;
+    @Before
+    public void setupStage(){
+    	stage = new Stage(Mockito.mock(ScreenViewport.class), Mockito.mock(SpriteBatch.class));
+    	Gdx.input.setInputProcessor(stage);
+    }
+    
     // Before running any tests, initialize the application with the headless backend
     @BeforeClass
     public static void init() {
@@ -38,10 +51,11 @@ public class GuiTest {
             @Override public void resume() {}
             @Override public void dispose() {}
         },null);
-
+        
         // Use Mockito to mock the OpenGL methods since we are running headlessly
-       Gdx.gl20 = Mockito.mock(GL20.class);
+        Gdx.gl20 = Mockito.mock(GL20.class);
         Gdx.gl = Gdx.gl20;
+   
     }
 
     // After we are done, clean up the application
@@ -52,8 +66,12 @@ public class GuiTest {
         application = null;
     }
     
-    protected static void clickActor(Actor actor) {
-	    Array<EventListener> listeners = actor.getListeners();
+    /**
+     * Used to simulate clicking a button or other widget. By calling of the clicke listeners attaced to the wdiget
+     * @param actor The widget (actor) that is to be "clicked"
+     */
+    protected static void clickActor(Actor widget) {
+	    Array<EventListener> listeners = widget.getListeners();
 	    for(int listener=0;listener<listeners.size;listener++)
 	    {
 	    	// Ignore other types of listener

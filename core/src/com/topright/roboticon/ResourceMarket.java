@@ -252,7 +252,7 @@ public class ResourceMarket extends PopUpWindow {
 				else{ // As the player cannot attempt to purchase more ore than the market has in stock
 					// (Due to the upper bound imposed by the spinbox)
                     // If the purchase fails it must be because they don't have enough money!
-					getParent().getParent().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
+					getStage().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
 				}
 				
 			}
@@ -281,7 +281,7 @@ public class ResourceMarket extends PopUpWindow {
 				else{ // As the player cannot attempt to purchase more energy than the market has in stock
 					// (Due to the upper bound imposed by the spinbox)
                       // If the purchase fails it must be because they don't have enough money!
-					getParent().getParent().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
+					getStage().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
 				}
 				
 			}

@@ -19,7 +19,7 @@ public class BuyRoboticonsMarket extends PopUpWindow{
     private Player currentPlayer; // The current player who is using the market
 	private Label roboticonsInStockLabel;
 	private TextButton produceRoboticonButton;
-	private TextButton completeTransactionButton;
+	private TextButton completePurchaseButton;
 	
 	
 	/**
@@ -30,27 +30,24 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 		super("Market: buy roboticons"); // Argument is the window title
         this.currentPlayer = player;
 		
-        // Creates a new spinbox, the player can choose to purchase any number of roboticons between 0 and the number currently in stock
-		transactionQuantitySpinBox = new SpinBox("Buy ",0,0, Market.getInstance().getRoboticonQuantity());
-		transactionQuantitySpinBox.addListener(new ClickListener(){
-			@Override
-			public void clicked(InputEvent event, float x, float y)
-	        {
-	        	updateTransactionCostLabel(); // To be called whenever the value of the spinbox is altered
-	        }
-		});
-		
+        createTransactionQuantitySpinBox();
 		createButtons();
-		
 		roboticonsInStockLabel = new Label("Roboticons in stock: "+Integer.toString(Market.getInstance().getRoboticonQuantity()), new Skin(Gdx.files.internal("uiskin.json")));
-		Label costPerRoboticonLabel = new Label("Price per roboticon: "+Integer.toString(Market.getInstance().getCostRoboticons(1)), new Skin(Gdx.files.internal("uiskin.json")));
 		transactionCostLabel = new Label("Total cost: 0",new Skin(Gdx.files.internal("uiskin.json")));
 		
-		
-		
+		addWidgetsToWindow();
+		setSize(getPrefWidth(),getPrefHeight());
+		moveToMiddleOfScreen();
+	}
+	
+	/**
+	 * Adds all the widgets that the user uses to interact with the market to the window
+	 */
+	private void addWidgetsToWindow(){
+		Label costPerRoboticonLabel = new Label("Price per roboticon: "+Integer.toString(Market.getInstance().getCostRoboticons(1)), new Skin(Gdx.files.internal("uiskin.json")));
 		Label roboticonOreConversionRateLabel = new Label("It costs the market " +Integer.toString(Market.getInstance().getRoboticonOreConversionRate()) 
-				                                          +" ore to produce 1 roboticon", new Skin(Gdx.files.internal("uiskin.json")));
-		
+        +" ore to produce 1 roboticon", new Skin(Gdx.files.internal("uiskin.json")));
+
 		// Place all items on the screen in the desired places 
 		add(roboticonsInStockLabel).expand().fill().left();
 		row();
@@ -60,14 +57,26 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 		row();
 		add(transactionCostLabel).expand().fill().left();
 		row();
-		add(completeTransactionButton).expand().fill().left().padTop(20);
+		add(completePurchaseButton).expand().fill().left().padTop(20);
 		row();
 		add(roboticonOreConversionRateLabel).padTop(20);
 		row();
 		add(produceRoboticonButton);
-
-		setSize(getPrefWidth(),getPrefHeight());
-		moveToMiddleOfScreen();
+	}
+	
+	/**
+	 * Creates a new spinbox, the player can choose to purchase any number of 
+	 * roboticons between 0 and the number currently in stock
+	 */
+	private void createTransactionQuantitySpinBox(){
+		
+		transactionQuantitySpinBox = new SpinBox("Buy ",0,0, Market.getInstance().getRoboticonQuantity());
+		transactionQuantitySpinBox.addListener(new ClickListener(){
+			@Override
+			public void clicked(InputEvent event, float x, float y)
+			{
+				updateTransactionCostLabel(); // To be called whenever the value of the spinbox is altered
+		}});
 	}
 
 	/**
@@ -79,12 +88,13 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 	}
 	
 	/**
-	 * Creates the complete transaction button and produce roboticon button and sets them to carry out the correct operations when clicked
+	 * Creates the purchase button and produce roboticon button and sets them to 
+	 * carry out the correct operations when clicked
 	 */
 	private void createButtons(){
 		// To be clicked when the player wishes to purchase the specified number of roboticons
-		completeTransactionButton = new TextButton("Purchase",new Skin(Gdx.files.internal("uiskin.json")));
-		completeTransactionButton.addListener(new ClickListener(){
+		completePurchaseButton = new TextButton("Purchase",new Skin(Gdx.files.internal("uiskin.json")));
+		completePurchaseButton.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y){
 				attemptTransaction(); // Called whenever the button is clicked
@@ -111,7 +121,7 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 		}
 		else{
 			// Add the pop up to the parent widget of this window (otherwise it will be contained within the window itself)
-			getParent().addActor(new MessagePopUp("Not enough ore","The market does not have enough ore to produce a roboticon!"));
+			getStage().addActor(new MessagePopUp("Not enough ore","The market does not have enough ore to produce a roboticon!"));
 		}
 	}
 
@@ -136,19 +146,56 @@ public class BuyRoboticonsMarket extends PopUpWindow{
 			else{ // As the player cannot attempt to purchase more Roboticons than the market has in stock
                               // (Due to the upper bound imposed by the spinbox)
                               // Then if the purchase fails it must be because they don't have enough money!
-				// Add the pop up to the parent widget of this window (otherwise it will be contained within the window itself)
-				getParent().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
+				// Add the pop up to the stage of this window (otherwise it will be contained within the window itself)
+				getStage().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
 			}
 		}
 	}
 	
 	/**
-	 * Update the robtoticons in stock label once a purchase has been made 
-	 * (also updates the maximum number that can be selected using the transactonQuantitySpinbox so that the player cannot attempt to buy more roboticons that are available)
+	 * Update the roboticons in stock label once a purchase has been made 
+	 * (also updates the maximum number that can be selected using the transactonQuantitySpinbox 
+	 * so that the player cannot attempt to buy more roboticons that are available)
 	 */
 	private void updateRoboticonsInStockLabel(){
 		int roboticonsInStock = Market.getInstance().getRoboticonQuantity();
 		roboticonsInStockLabel.setText("Roboticons in stock: "+Integer.toString(roboticonsInStock));
 		transactionQuantitySpinBox.setMaxValue(roboticonsInStock);
+	}
+	
+	/**
+	 * Returns the SpinBox object that is used to alter the number of roboticons that the player wishes to buy
+	 * <p>
+	 * This SpinBox is needed for testing purposes or in any case where the programmer wants to simulate 
+	 * the use of this class with code
+	 * </p>
+	 * @return The SpinBox object that is used to alter the number of roboticons that the player wishes to buy
+	 */
+	public SpinBox getTransactionQuantitySpinBox(){
+		return transactionQuantitySpinBox;
+	}
+	
+	/**
+	 * Returns the TextButton object that when clicked causes the purchase to be completed
+	 * <p>
+	 * This TextButton is needed for testing purposes or in any case where the programmer wants to simulate 
+	 * the use of this class with code
+	 * </p>
+	 * @return The TextButton object that when clicked causes the purchase to be completed
+	 */
+	public TextButton getCompletePurchaseButton(){
+		return completePurchaseButton;
+	}
+	
+	/**
+	 * Returns the TextButton object that when clicked causes the market to produce a roboticon
+	 * <p>
+	 * This TextButton is needed for testing purposes or in any case where the programmer wants to simulate 
+	 * the use of this class with code
+	 * </p>
+	 * @return The TextButton object that when clicked causes the market to produce a roboticon
+	 */
+	public TextButton getProduceRoboticonButton(){
+		return produceRoboticonButton;
 	}
 }
