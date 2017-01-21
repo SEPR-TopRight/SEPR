@@ -13,6 +13,14 @@ buildscript {
 
 plugins {
   id "com.github.johnrengelman.shadow" version "1.2.4"
+  id "java"
+}
+
+sourceSets.main.java.srcDirs = [ "/core/src/" ]
+sourceSets.test.java.srcDirs = [ "/core/test/" ]
+javadoc {
+  classpath += sourceSets.test.compileClasspath
+  source += sourceSets.test.java.srcDirs
 }
 
 apply plugin: 'eu.appsatori.fatjar'
@@ -23,6 +31,13 @@ apply plugin: 'eu.appsatori.fatjar'
 
 mainClassName = 'com.topright.roboticon.desktop.DesktopLauncher'
 
+task createJavadocs (type: Javadoc){
+            source = sourceSets.test.java.srcDirs
+            options.linkSource true
+	    classpath += sourceSets.test.compileClasspath
+            
+            failOnError false
+      }
 
 allprojects {
     apply plugin: "eclipse"
@@ -95,6 +110,9 @@ project(":core") {
 	testCompile "junit:junit:4.11" 
     }
 }
+
+
+
 
 tasks.eclipse.doLast {
     delete ".project"

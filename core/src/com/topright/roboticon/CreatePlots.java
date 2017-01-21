@@ -12,9 +12,10 @@ public class CreatePlots {
 	private CreatePlots(){} // No instantiations
 	
 	/**
-	 * Creates the 2d array of plot objects that players can interact with
+	 * Creates the 2D array of plot objects that players can interact with
 	 * @param rows The number of rows of plots that is required
 	 * @param columns The number of columns of plots that is required
+	 * @return 2D array of plot objects of the specified dimensions
 	 */
 	public static Plot[][] createPlots(int rows, int columns){
 		if(rows<=0){

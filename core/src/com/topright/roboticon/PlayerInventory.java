@@ -22,6 +22,7 @@ public class PlayerInventory extends Inventory{
 	 * @param oreQuantity The initial quantity of ore stored in the inventory.
 	 * @param energyQuantity The initial quantity of energy stored in the inventory.
 	 * @param roboticons Maps The customisation type of roboticons onto the initial quantity of each roboticon of that type to be stored in the inventory.
+	 * @param moneyQuantity The initial quantity of money that is to be stored in the inventory.
 	 */
 	public PlayerInventory(int oreQuantity, int energyQuantity, EnumMap<RoboticonCustomisation, Integer> roboticons, int moneyQuantity){
 		super(oreQuantity,energyQuantity);
@@ -86,7 +87,8 @@ public class PlayerInventory extends Inventory{
 	 * Ensures that the number of roboticons to be removed is not negative.
 	 * Ensures that the quantity of roboticons to be removed is not greater than the number stored.
 	 * </p>
-	 * @param customisation specifies the customisation type that the roboticon to be removed has
+	 * @param customisation specifies the customisation type that the roboticons to be removed have
+	 * @param roboticonQuantityDecrease the number of roboticons to be removed from the inventory
 	 */
 	public void decreaseRoboticonQuantity(RoboticonCustomisation customisation, int roboticonQuantityDecrease){
 		

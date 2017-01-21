@@ -174,7 +174,7 @@ public class PlotManager extends Table{
 	
 	/**
 	 * Sets what action will be performed when a plot is clicked.
-	 * @param mode
+	 * @param mode Specifies what action is to be performed when a plot is clicked.
 	 */
 	public void setPlotClickMode(PlotClickMode mode){
 		clickMode = mode;

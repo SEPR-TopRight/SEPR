@@ -41,7 +41,7 @@ public class Player {
 	
 	/**
 	 * Increases the quantity of energy that the player is in possession of
-	 * @return The quantity of energy that the player is in possession of
+	 * @param energyQuantityIncrease the amount of energy that is to be added the amount that the player is in possession of
 	 */
 	public void increaseEnergyQuantity(int energyQuantityIncrease){
 		inventory.increaseEnergyQuantity(energyQuantityIncrease);
@@ -260,8 +260,8 @@ public class Player {
 	 *   The plot already has a roboticon on it
 	 *   the plot is not owned by this player
 	 * </p>
-	 * @param plot
-	 * @param roboticonCustomisation
+	 * @param plot the plot the player is trying to place a roboticon on
+	 * @param roboticonCustomisation the customisation type of the roboticon that the player is trying to place
 	 * @return true if a roboticon was placed and false otherwise
 	 */
 	public boolean attemptToPlaceRoboticon(Plot plot, RoboticonCustomisation roboticonCustomisation){

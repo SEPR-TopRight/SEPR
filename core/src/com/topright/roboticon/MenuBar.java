@@ -113,7 +113,7 @@ public class MenuBar extends Table{
 	
 	/**
 	 * Updates the inventory data is that is displayed in the menu bar.
-	 * @param inventory The inventory that contains the data that is to be displayed.
+	 * @param player the player whose inventory that contains the data that is to be displayed.
 	 */
 	public void setPlayerInventoryData(Player player){
 		inventoryTable.updateData(player);
