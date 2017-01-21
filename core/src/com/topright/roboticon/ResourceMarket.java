@@ -394,7 +394,6 @@ public class ResourceMarket extends PopUpWindow {
 			}
 
 		}
-	
 
 		/**
 		 * Called whenever the player sells ore
@@ -422,5 +421,114 @@ public class ResourceMarket extends PopUpWindow {
 		
 	}
 	
+	/**
+	 * Returns the SpinBox that is used to control how much ore is sold to the market
+	 * <p>
+	 * Needed for testing or any other code that needs to simulate use of the SpinBox.
+	 * </p>
+	 * @return The SpinBox that is used to control how much ore is sold to the market
+	 */
+	public SpinBox getSellOreQuantitySpinBox(){
+		return saleTable.oreSpinBox;
+	}
+	
+	/**
+	 * Returns the SpinBox that is used to control how much energy is sold to the market
+	 * <p>
+	 * Needed for testing or any other code that needs to simulate use of the SpinBox.
+	 * </p>
+	 * @return The SpinBox that is used to control how much energy is sold to the market
+	 */
+	public SpinBox getSellEnergyQuantitySpinBox(){
+		return saleTable.energySpinBox;
+	}
+	
+	/**
+	 * Returns the SpinBox that is used to control how much ore is purchased from the market
+	 * <p>
+	 * Needed for testing or any other code that needs to simulate use of the SpinBox.
+	 * </p>
+	 * @return The SpinBox that is used to control how much ore is purchased from the market
+	 */
+	public SpinBox getPurchaseOreQuantitySpinBox(){
+		return purchaseTable.oreSpinBox;
+	}
+	
+	/**
+	 * Returns the SpinBox that is used to control how much energy is purchased from the market
+	 * <p>
+	 * Needed for testing or any other code that needs to simulate use of the SpinBox.
+	 * </p>
+	 * @return The SpinBox that is used to control how much energy is purchased from the market
+	 */
+	public SpinBox getPurchaseEnergyQuantitySpinBox(){
+		return purchaseTable.energySpinBox;
+	}
+	
+	/**
+	 * Returns the TextButton that is used to sell ore to the market
+	 * <p>
+	 * Needed for testing or any other code that needs to simulate the clicking of the TextButton.
+	 * </p>
+	 * @return The TextButton that is used to sell ore to the market
+	 */
+	public TextButton getSellOreTextButton(){
+		return saleTable.oreButton;
+	}
+	
+	/**
+	 * Returns the TextButton that is used to sell energy to the market
+	 * <p>
+	 * Needed for testing or any other code that needs to simulate the clicking of the TextButton.
+	 * </p>
+	 * @return The TextButton that is used to sell ore to the market
+	 */
+	public TextButton getSellEnergyTextButton(){
+		return saleTable.energyButton;
+	}
+	
+	/**
+	 * Returns the TextButton that is used to buy ore from the market 
+	 * <p>
+	 * Needed for testing or any other code that needs to simulate the clicking of the TextButton.
+	 * </p>
+	 * @return The TextButton that is used to buy ore from to the market 
+	 */
+	public TextButton getPurchaseOreTextButton(){
+		return purchaseTable.oreButton;
+	}
+	
+	/**
+	 * Returns the TextButton that is used to buy energy from the market 
+	 * <p>
+	 * Needed for testing or any other code that needs to simulate the clicking of the TextButton.
+	 * </p>
+	 * @return The TextButton that is used to buy energy from to the market 
+	 */
+	public TextButton getPurchaseEnergyTextButton(){
+		return purchaseTable.energyButton;
+	}
+	
+	/**
+	 * Returns the Label that is used to display the amount of ore that the market has
+	 * <p>
+	 * Needed for testing.
+	 * </p>
+	 * @return The Label that is used to display the amount of ore that the market has
+	 */
+	public Label getMarketOreQuantityLabel(){
+		return marketInventoryTable.oreQuantityLabel;
+	}
+	
+	/**
+	 * Returns the Label that is used to display the amount of energy that the market has
+	 * <p>
+	 * Needed for testing.
+	 * </p>
+	 * @return The Label that is used to display the amount of energy that the market has
+	 */
+	public Label getMarketEnergyQuantityLabel(){
+		return marketInventoryTable.energyQuantityLabel;
+	}
 	
 }
