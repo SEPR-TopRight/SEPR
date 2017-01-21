@@ -17,6 +17,12 @@ public class CreatePlots {
 	 * @param columns The number of columns of plots that is required
 	 */
 	public static Plot[][] createPlots(int rows, int columns){
+		if(rows<=0){
+			throw new IllegalArgumentException("rows must be >=0 rows = "+Integer.toString(rows));
+		}
+		if(columns<=0){
+			throw new IllegalArgumentException("columns must be >=0 columns = "+Integer.toString(columns));
+		}
 		Plot[][] plots = new Plot[rows][columns];
 		
 		for(int row=0;row<rows;row++){

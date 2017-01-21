@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Array;
@@ -78,7 +79,7 @@ public class GuiTest {
 	    	if(listeners.get(listener) instanceof ClickListener){
 	        	
 	        	// Simulate the button click
-	            ((ClickListener)listeners.get(listener)).clicked(null, 0, 0);
+	            ((ClickListener)listeners.get(listener)).clicked(new InputEvent(), 0, 0);
 	        }
 	    }
 	}
