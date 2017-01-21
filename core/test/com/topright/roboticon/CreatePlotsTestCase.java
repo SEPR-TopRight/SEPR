@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  *
  */
 public class CreatePlotsTestCase {
-	
+		
 	
 	/**
 	 * Tests {@link CreatePlots#createPlots(int, int)} ensures that the plot grid has the correct number of rows (4).

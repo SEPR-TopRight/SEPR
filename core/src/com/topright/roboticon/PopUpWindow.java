@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 
 /**
  * Base class to be used for the market window and game over window classes (any pop up window that should not behave like MessagePopUp)
- * @see com.topright.roboticon.MessagePopUp()
+ * @see MessagePopUp
  * @author jcn509
  */
 public class PopUpWindow extends Window{

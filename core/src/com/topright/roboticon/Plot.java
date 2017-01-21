@@ -14,9 +14,8 @@ public class Plot {
 	private RoboticonCustomisation roboticon;
 	
 	/**
-	 * @param Player an integer corresponding to whichever player owns the plot (1 or 2) or  no player owns the plot(0)
-	 * @param best the resource which the plot produces more of
-	 * @param Roboticon the roboticon type which is on the plot if there is one or none otherwise 
+	 * Constructor
+	 * @param specialism The resource that the plot is best at producing
 	 */
 	public Plot(PlotSpecialism specialism){
 		acquiredBy = null; // Indicates that no player has acquired this plot yet
@@ -26,7 +25,7 @@ public class Plot {
 
 	/**
 	 * Sets the customisation type of the roboticon that is on this plot (equivalent to placing a roboticon on the plot)
-	 * @param Roboticon the customisation type of the roboticon
+	 * @param roboticonCustomisation the customisation type of the roboticon
 	 */
 	public void placeRoboticon(RoboticonCustomisation roboticonCustomisation) {
 		this.roboticon = roboticonCustomisation;
@@ -37,7 +36,7 @@ public class Plot {
 	 * <p>
 	 * To be called when a player acquires this plot
 	 * </p>
-	 * @param Player a number referencing the player that owns the plot
+	 * @param player the player who owns the plot
 	 */
 	public void setPlayer(Player player){
 		if (!hasBeenAcquired()){
@@ -66,6 +65,7 @@ public class Plot {
 	
 	/**
 	 * Returns the customisation type of the roboticon on this plot
+	 * @return The customisation type of the roboticon on this plot
 	 */
 	public RoboticonCustomisation getRoboticon(){
 		return roboticon;
