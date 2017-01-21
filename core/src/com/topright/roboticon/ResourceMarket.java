@@ -329,8 +329,8 @@ public class ResourceMarket extends PopUpWindow {
 			setButtonClickBehaviour();
 			
 			// The user cannot sell more of any resource than they have in their inventory
-			oreSpinBox.setMaxValue(player.inventory.getOreQuantity());
-			energySpinBox.setMaxValue(player.inventory.getEnergyQuantity());
+			oreSpinBox.setMaxValue(player.getOreQuantity());
+			energySpinBox.setMaxValue(player.getEnergyQuantity());
 		}
 		
 		/**
@@ -403,7 +403,7 @@ public class ResourceMarket extends PopUpWindow {
 		 * </p>
 		 */
 		public void updateMaxOreValue(){
-			int oreInStock = player.inventory.getOreQuantity();
+			int oreInStock = player.getOreQuantity();
 			oreSpinBox.setMaxValue(oreInStock);
 		}
 		
@@ -415,7 +415,7 @@ public class ResourceMarket extends PopUpWindow {
 		 * </p>
 		 */
 		public void updateMaxEnergyValue(){
-			int energyInStock = player.inventory.getEnergyQuantity();
+			int energyInStock = player.getEnergyQuantity();
 			energySpinBox.setMaxValue(energyInStock);
 		}
 		

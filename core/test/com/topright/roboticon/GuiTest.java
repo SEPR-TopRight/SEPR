@@ -40,7 +40,7 @@ public class GuiTest {
     	Gdx.input.setInputProcessor(stage);
     }
     
-    // Before running any tests, initialize the application with the headless backend
+    // Before running any tests, initialise the application with the headless backend
     @BeforeClass
     public static void init() {
         // Note that we don't need to implement any of the listener's methods
