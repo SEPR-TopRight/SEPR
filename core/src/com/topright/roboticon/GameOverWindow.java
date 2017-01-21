@@ -53,7 +53,7 @@ public class GameOverWindow extends PopUpWindow {
 	 */
 	private String getWinnerText(Player human, Player AI){
 		if(human.calculateScore() > AI.calculateScore()){ // Human player has won
-			return "You win!";
+			return "You won!";
 		}
 		else if(human.calculateScore() == AI.calculateScore()){
 			return "Its a draw!";

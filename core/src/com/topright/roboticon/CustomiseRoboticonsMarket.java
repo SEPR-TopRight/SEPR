@@ -106,10 +106,10 @@ public class CustomiseRoboticonsMarket extends PopUpWindow {
 			// Other parts of the game must respond (e.g. the menu bar must updated as the contents of the player's inventory has changed)
 			MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); 
 		}
-		else if(currentPlayer.inventory.getMoneyQuantity()<Market.getInstance().getCostRoboticonCustomisation(customisation)){ // If the player does not have enough money
+		else if(currentPlayer.getMoneyQuantity()<Market.getInstance().getCostRoboticonCustomisation(customisation)){ // If the player does not have enough money
 			getStage().addActor(new MessagePopUp("Not enough money","You don't have enough money!"));
 		}
-		else if(currentPlayer.inventory.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED) < 1){ // If the player does not have any uncustomised roboticons
+		else if(currentPlayer.getRoboticonQuantity(RoboticonCustomisation.UNCUSTOMISED) < 1){ // If the player does not have any uncustomised roboticons
 			getStage().addActor(new MessagePopUp("No uncustomised roboticons","You have no roboticons that you can customise!"));
 		}
 	}

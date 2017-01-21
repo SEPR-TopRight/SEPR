@@ -69,18 +69,18 @@ public class MenuBar extends Table{
 	/**
 	 * Show the next stage button (only call if it is hidden).
 	 */
-	public void showNextStageButton(){
+	private void showNextStageButton(){
 		add(nextStageButton).right();
 	}
 	
 	/**
-	 * Reset the timer (does not cause the message was to be passed when the timer ran out to be passed)
+	 * Clears the the timer (does not cause the message was to be passed when the timer ran out to be passed)
 	 * <p>
 	 * Also removes the "Time left:" text from the menu bar.
 	 * </p>
 	 */
 	public void clearTimer(){
-		menuLabel.setText(menuText); // Remove the Time left: part
+		menuLabel.setText(menuText); // Remove the 'Time left: ' part
 		timerTime=0;
 	}
 	
@@ -115,7 +115,7 @@ public class MenuBar extends Table{
 	 * Updates the inventory data is that is displayed in the menu bar.
 	 * @param inventory The inventory that contains the data that is to be displayed.
 	 */
-	public void updatePlayerInventoryData(Player player){
+	public void setPlayerInventoryData(Player player){
 		inventoryTable.updateData(player);
 	}
 	
@@ -199,6 +199,94 @@ public class MenuBar extends Table{
 		
 		nextStageButton = new TextButton("", new Skin(Gdx.files.internal("uiskin.json"))); // Dont't want to place it right away
 		                                                                                   // May not be needed and we don't yet know what it should do
+	}
+	
+	/**
+	 * Returns the TextButton that can be clicked to advance to the next stage of the game.
+	 * <p>
+	 * Needed for testing purposes / any code where the programmer wishes to simulate a button click.
+	 * </p>
+	 * @return The TextButton that can be clicked to advance to the next stage of the game.
+	 */
+	public TextButton getNextStageButton(){
+		return nextStageButton;
+	}
+	
+	/**
+	 * Returns the Label that tells the user what to do.
+	 * <p>
+	 * Needed for testing purposes.
+	 * </p>
+	 * @return The Label that tells the user what to do.
+	 */
+	public Label getMenuLabel(){
+		return menuLabel;
+	}
+	
+	/**
+	 * Returns the label that displays how much ore the player is in possession of
+	 * <p>
+	 * Needed for testing purposes.
+	 * </p>
+	 * @return The label that displays how much ore the player is in possession of
+	 */
+	public Label getOreQuantityLabel(){
+		return inventoryTable.oreLabel;
+	}
+	
+	/**
+	 * Returns the label that displays how much energy the player is in possession of
+	 * <p>
+	 * Needed for testing purposes.
+	 * </p>
+	 * @return The label that displays how much energy the player is in possession of
+	 */
+	public Label getEnergyQuantityLabel(){
+		return inventoryTable.energyLabel;
+	}
+	
+	/**
+	 * Returns the label that displays how much money the player is in possession of
+	 * <p>
+	 * Needed for testing purposes.
+	 * </p>
+	 * @return The label that displays how much money the player is in possession of
+	 */
+	public Label getMoneyQuantityLabel(){
+		return inventoryTable.moneyLabel;
+	}
+	
+	/**
+	 * Returns the label that displays how many uncustomised Roboticons the player is in possession of
+	 * <p>
+	 * Needed for testing purposes.
+	 * </p>
+	 * @return The label that displays how many uncustomised Roboticons the player is in possession of
+	 */
+	public Label getUncustomisedRoboticonQuantityLabel(){
+		return inventoryTable.uncustomisedRoboticonLabel;
+	}
+	
+	/**
+	 * Returns the label that displays how many energy Roboticons the player is in possession of
+	 * <p>
+	 * Needed for testing purposes.
+	 * </p>
+	 * @return The label that displays how many energy Roboticons the player is in possession of
+	 */
+	public Label getEnergyRoboticonQuantityLabel(){
+		return inventoryTable.energyRoboticonLabel;
+	}
+	
+	/**
+	 * Returns the label that displays how many ore Roboticons the player is in possession of
+	 * <p>
+	 * Needed for testing purposes.
+	 * </p>
+	 * @return The label that displays how many ore Roboticons the player is in possession of
+	 */
+	public Label getOreRoboticonQuantityLabel(){
+		return inventoryTable.oreRoboticonLabel;
 	}
 	
 }
