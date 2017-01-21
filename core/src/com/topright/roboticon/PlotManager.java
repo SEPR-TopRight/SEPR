@@ -87,11 +87,19 @@ public class PlotManager extends Table{
 		placeRoboticon(plotColumn,plotRow,RoboticonCustomisation.ENERGY,"roboticons/energyRoboticon.png");
 	}
 	
+	/**
+	 * Helper function used by {@link PlotManager#placeEnergyRoboticon(int, int)} and {@link PlotManager#placeOreRoboticon(int, int)}
+	 * places a roboticon of a given customisation on a given plot
+	 * @param plotColumn The column number of the plot on which the roboticon is to be placed
+	 * @param plotRow The row number of the plot on which the roboticon is to be placed
+	 * @param customisation The customisation type of the roboticon that is to be placed
+	 * @param imagePath The location where the image that is to be placed on the plot is stored
+	 */
 	private void placeRoboticon(int plotColumn, int plotRow, RoboticonCustomisation customisation, String imagePath){
 		if(currentPlayer.attemptToPlaceRoboticon(plots[plotRow][plotColumn],customisation)){
 			if(currentPlayer == humanPlayer){
 				MessageManager.getInstance().dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); // Trigger main to update the menubar
-				removeRoboticonPlaceMenu(); // A roboticon has been placed on the given plot
+				removeRoboticonPlaceMenu(); // A roboticon place menu must have been open for the human player to place a roboticon
 			}
 			Image roboticonImage =  new Image(new Texture(Gdx.files.internal(imagePath)));
 			buttons[plotRow][plotColumn].add(roboticonImage);
