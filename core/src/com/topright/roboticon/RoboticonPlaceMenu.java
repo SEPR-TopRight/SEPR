@@ -56,7 +56,7 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 			alreadyHasRoboticonMenu();
 		}
 		// If the player has no customised roboticons
-		else if(player.inventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY) ==0 && player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE) ==0){
+		else if(player.getRoboticonQuantity(RoboticonCustomisation.ENERGY) ==0 && player.getRoboticonQuantity(RoboticonCustomisation.ORE) ==0){
 			noRoboticonsMenu();
 		}
 		else{ // If the plot does not have a roboticon on it and the player has at least 1 customised roboticon
@@ -88,19 +88,19 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 	 */
 	private void placementAllowedMenu(){
 		
-		TextButton oreRoboticonButton = new TextButton("Ore roboticon ("+player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE)+")", new Skin(Gdx.files.internal("uiskin.json")));
-		TextButton energyRoboticonButton = new TextButton("Energy roboticon ("+player.inventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY)+")", new Skin(Gdx.files.internal("uiskin.json")));
+		TextButton oreRoboticonButton = new TextButton("Ore roboticon ("+player.getRoboticonQuantity(RoboticonCustomisation.ORE)+")", new Skin(Gdx.files.internal("uiskin.json")));
+		TextButton energyRoboticonButton = new TextButton("Energy roboticon ("+player.getRoboticonQuantity(RoboticonCustomisation.ENERGY)+")", new Skin(Gdx.files.internal("uiskin.json")));
 		
 		setRoboticonButtonBehaviour(oreRoboticonButton, energyRoboticonButton);
 		
 		// Add the appropriate buttons to the window
 		// If the player has at least one ore roboticon
-		if(player.inventory.getRoboticonQuantity(RoboticonCustomisation.ORE)>0){
+		if(player.getRoboticonQuantity(RoboticonCustomisation.ORE)>0){
 			row();
 			add(oreRoboticonButton).expand().fill().left();
 		}
 		// If the player has at least one energy roboticon
-		if(player.inventory.getRoboticonQuantity(RoboticonCustomisation.ENERGY)>0){
+		if(player.getRoboticonQuantity(RoboticonCustomisation.ENERGY)>0){
 			row();
 			add(energyRoboticonButton).expand().fill().left();
 		}
