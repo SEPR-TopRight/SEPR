@@ -5,6 +5,9 @@ import java.util.EnumMap;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import mockit.Expectations;
@@ -25,6 +28,7 @@ public class BuyRoboticonsMarketTestCase extends GuiTest {
 	@Mocked private Player player;
 	@Mocked private PlayerInventory playerInventory;
 	@Mocked private MarketInventory marketInventory;
+	@Mocked private MessageDispatcher messageDispatcher;
 	private TextButton completePurchaseButton;
 	private TextButton produceRoboticonButton;
 	private SpinBox transactionQuantitySpinBox;
@@ -32,6 +36,7 @@ public class BuyRoboticonsMarketTestCase extends GuiTest {
 	
 	@Before
 	public void setup(){
+		messageDispatcher = MessageManager.getInstance();
 		EnumMap<RoboticonCustomisation,Integer> roboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
 		playerInventory = new PlayerInventory(0,1,roboticonQuantities, 2);
 		player = new Player(playerInventory);
@@ -134,6 +139,41 @@ public class BuyRoboticonsMarketTestCase extends GuiTest {
 		// Pop up message created to tell the user
 		assertFalse(stage.getActors().items[1] instanceof MessagePopUp);
 	}
+	
+	/**
+	 * Ensures a message is dispatched stating that the player's inventory has been updated when
+	 * the player's purchase does not fail
+	 */
+	@Test
+	public void TestClickCompletePurchaseMessageDispatched(){
+		new Expectations(){{
+			player.attemptToBuyRoboticons(anyInt); result = true; // Purchase does not fail
+		}};
+		setTransactionQuantitySpinBoxValue(5);
+		clickActor(completePurchaseButton);
+		
+		new Verifications(){{ // Message dispatched
+			messageDispatcher.dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal());times=1;
+		}};
+	}
+	
+	/**
+	 * Ensures a message is not dispatched stating that the player's inventory has been updated when
+	 * the player's purchase fails
+	 */
+	@Test
+	public void TestClickCompletePurchaseFailNoMessageDispatched(){
+		new Expectations(){{
+			player.attemptToBuyRoboticons(anyInt); result = false; // Purchase fails
+		}};
+		setTransactionQuantitySpinBoxValue(5);
+		clickActor(completePurchaseButton);
+		
+		new Verifications(){{ // Message not dispatched
+			messageDispatcher.dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal());times=0;
+		}};
+	}
+	
 	
 	/**
 	 * Ensures that when the produce roboticon button is clicked that the appropriate method 

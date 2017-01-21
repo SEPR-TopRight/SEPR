@@ -6,6 +6,9 @@ import java.util.EnumMap;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import mockit.Expectations;
@@ -26,6 +29,7 @@ public class CustomiseRoboticonMarketTestCase extends GuiTest {
 	@Mocked Player player;
 	@Mocked PlayerInventory playerInventory;
 	@Mocked MarketInventory marketInventory;
+	@Mocked private MessageDispatcher messageDispatcher;
 	private TextButton energyCustomisationButton;
 	private TextButton oreCustomisationButton;
 	private CustomiseRoboticonsMarket customiseRoboticonsMarket;
@@ -37,6 +41,7 @@ public class CustomiseRoboticonMarketTestCase extends GuiTest {
 	 */
 	@Before
 	public void setup(){
+		messageDispatcher = MessageManager.getInstance();
 		EnumMap<RoboticonCustomisation,Integer> roboticonQuantities = new EnumMap<RoboticonCustomisation,Integer>(RoboticonCustomisation.class);
 		playerInventory = new PlayerInventory(0,1,roboticonQuantities, 2);
 		player = new Player(playerInventory);
@@ -62,6 +67,72 @@ public class CustomiseRoboticonMarketTestCase extends GuiTest {
 			player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY);result=true;
 		}};
 		clickActor(energyCustomisationButton);
+	}
+	
+	/**
+	 * Ensures that when the energy customisation button is clicked and the player is able to produce an energy roboticon
+	 * a message is dispatched stating that the players inventory has been updated
+	 */
+	@Test
+	public void testClickEnergyCustomisationButtonMessageDispatched(){
+		new Expectations(){{
+			player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY);result=true;
+		}};
+		clickActor(energyCustomisationButton);
+		new Verifications(){{ // Message dispatched
+			messageDispatcher.dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); times=1;
+		}};
+	}
+	
+	/**
+	 * Ensures that when the energy customisation button is clicked and the player is 
+	 * not able to produce an energy roboticon
+	 * a message is not dispatched stating that the players inventory has been updated
+	 */
+	@Test
+	public void testClickEnergyCustomisationButtonFailNoMessageDispatched(){
+		new Expectations(){{
+			player.attemptToCustomiseRoboticon(RoboticonCustomisation.ENERGY);result=false;
+			player.getMoneyQuantity();result=10;
+			market.getCostRoboticonCustomisation(RoboticonCustomisation.ENERGY);result=19;
+		}};
+		clickActor(energyCustomisationButton);
+		new Verifications(){{ // Message not dispatched
+			messageDispatcher.dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); times=0;
+		}};
+	}
+	
+	/**
+	 * Ensures that when the energy customisation button is clicked and the player is able to produce an energy roboticon
+	 * a message is dispatched stating that the players inventory has been updated
+	 */
+	@Test
+	public void testClickOreCustomisationButtonMessageDispatched(){
+		new Expectations(){{
+			player.attemptToCustomiseRoboticon(RoboticonCustomisation.ORE);result=true;
+		}};
+		clickActor(oreCustomisationButton);
+		new Verifications(){{ // Message dispatched
+			messageDispatcher.dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); times=1;
+		}};
+	}
+	
+	/**
+	 * Ensures that when the ore customisation button is clicked and the player is 
+	 * not able to produce an ore roboticon
+	 * a message is not dispatched stating that the players inventory has been updated
+	 */
+	@Test
+	public void testClickOreCustomisationButtonFailNoMessageDispatched(){
+		new Expectations(){{
+			player.attemptToCustomiseRoboticon(RoboticonCustomisation.ORE);result=false;
+			player.getMoneyQuantity();result=10;
+			market.getCostRoboticonCustomisation(RoboticonCustomisation.ORE);result=19;
+		}};
+		clickActor(oreCustomisationButton);
+		new Verifications(){{ // Message not dispatched
+			messageDispatcher.dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal()); times=0;
+		}};
 	}
 	
 	/**

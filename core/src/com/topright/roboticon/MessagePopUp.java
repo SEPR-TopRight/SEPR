@@ -13,6 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
  * @author jcn509
  */
 public class MessagePopUp extends Dialog{
+	private TextButton closeButton;
+	
 	/**
 	 * Constructor
 	 * @param title The title of the window (displayed at the top of the window)
@@ -42,7 +44,7 @@ public class MessagePopUp extends Dialog{
 	 * Adds a close button to the window (destroys the window when its clicked)
 	 */
 	private void addCloseButton(){
-		TextButton closeButton = new TextButton("Ok", new Skin(Gdx.files.internal("uiskin.json")));
+		closeButton = new TextButton("Ok", new Skin(Gdx.files.internal("uiskin.json")));
 		
 		// Defines what happens when the close button is clicked
 		closeButton.addListener(new ClickListener(){ 
@@ -73,6 +75,17 @@ public class MessagePopUp extends Dialog{
 		// Move the window
 		setX((screenWidth/2)-(windowWidth/2));
 		setY((screenHeight/2)-(windowHeight/2));
+	}
+	
+	/**
+	 * Returns the close button that is used to destroy the window
+	 * <p>
+	 * Required for testing purposes or for any code that needs to simulate a button click
+	 * </p>
+	 * @return The close button that is used to destroy the window
+	 */
+	public TextButton getCloseButton(){
+		return closeButton;
 	}
 
 }

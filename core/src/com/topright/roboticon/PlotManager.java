@@ -32,10 +32,11 @@ public class PlotManager extends Table{
 	
 	// The menu should not be open initially
 	private RoboticonPlaceMenu roboticonPlaceMenu = null;
-
+	
 	/**
 	 * Constructor.
-	 * @param backgroundImage A String that stores the file path of the background image (i.e. a picture of a map to be displayed behind the plots).
+	 * @param backgroundImage A String that stores the file path of the background image 
+	 * (i.e. a picture of a map to be displayed behind the plots).
 	 */
 	public PlotManager(String backgroundImage, Player humanPlayer, Player AIPlayer){
 		super();
@@ -45,6 +46,17 @@ public class PlotManager extends Table{
 		this.AIPlayer = AIPlayer;
 		initialisePlots(4,5);		
 		createPlotGrid();
+	}
+	
+	/**
+	 * Returns a 2D array containing all of the buttons that are clicked to interact with the various plots.
+	 * <p>
+	 * Needed for testing purposes or for any code where the programmer wishes to simulate a button click.
+	 * </p>
+	 * @return A 2D array containing all of the buttons that are clicked to interact with the various plots.
+	 */
+	public ButtonWithIcon[][] getPlotButtons(){
+		return buttons;
 	}
 	
 	/**

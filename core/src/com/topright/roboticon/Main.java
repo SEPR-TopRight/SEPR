@@ -118,7 +118,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	 */
 	private void startGame() {
 		// Display the human players inventory data on the screen
-		menu.updatePlayerInventoryData(humanPlayer);
+		menu.setPlayerInventoryData(humanPlayer);
 		plotAcquisitionStage();
 	}
 	
@@ -245,7 +245,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	 */
 	private void produceResources(){
 		plotManager.produceResources();
-		menu.updatePlayerInventoryData(humanPlayer);
+		menu.setPlayerInventoryData(humanPlayer);
 		allPlayersMarketStage();// Go straight to this stage
 	}
 	
@@ -332,7 +332,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
 			break;
 		case PLAYERINVENTORYUPDATE:
 			// Whenever something happens that means that the players inventory data that is displayed on the screen should be updated
-			menu.updatePlayerInventoryData(humanPlayer);
+			menu.setPlayerInventoryData(humanPlayer);
 			break;
 		default:
 			throw new IllegalArgumentException("Unable to respond to message type "+event);
