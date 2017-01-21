@@ -26,9 +26,9 @@ public class PlotManager extends Table{
 	private PlotClickMode clickMode = PlotClickMode.NOACTION; // What happens when a plot is clicked
 	private Plot[][] plots;
 	private ButtonWithIcon[][] buttons; // One button for each plot (users click these buttons to interact with the plots)
-	public Player currentPlayer = null;
-	public Player humanPlayer = null;
-	public Player AIPlayer = null;
+	private Player currentPlayer = null;
+	private Player humanPlayer = null;
+	private Player AIPlayer = null;
 	
 	// The menu should not be open initially
 	private RoboticonPlaceMenu roboticonPlaceMenu = null;
@@ -48,7 +48,7 @@ public class PlotManager extends Table{
 		this.humanPlayer = humanPlayer;
 		this.AIPlayer = AIPlayer;
 		this.plots = plots;		
-		createPlotGrid();
+		createPlotButtonGrid();
 	}
 	
 	/**
@@ -201,7 +201,7 @@ public class PlotManager extends Table{
 	/**
 	 * Create a grid of buttons that can be clicked on so that users can interact with the plots.
 	 */
-	private void createPlotGrid(){
+	private void createPlotButtonGrid(){
 		int numRows = plots.length;
 		int numColumns = plots[0].length;
 		
