@@ -32,7 +32,11 @@ public class PlotManagerTestCase extends GuiTest {
 	@Mocked PlayerInventory humanPlayerInventory;
 	@Mocked PlayerInventory AIPlayerInventory;
 	@Mocked MessageDispatcher messageDispatcher;
+	@Mocked Plot[][] plots;
 	
+	/**
+	 * Runs before every test creates the required PlotManager object and all other required (mocked) objects
+	 */
 	@Before
 	public void setup(){
 		messageDispatcher = MessageManager.getInstance();
@@ -45,6 +49,15 @@ public class PlotManagerTestCase extends GuiTest {
 		AIPlayerInventory = new PlayerInventory(0,1,AIRoboticonQuantities, 2);
 		AIPlayer = new Player(AIPlayerInventory);
 		
-		plotManager = new PlotManager("assets/backgrounds/map.png", humanPlayer, AIPlayer);
+		plots = CreatePlots.createPlots(4,5);
+		plotManager = new PlotManager("assets/backgrounds/map.png", plots, humanPlayer, AIPlayer);
 	}
+	
+	@Test
+	public void plotGridIntialisedCorrectly(){
+		
+	}
+	
+	
+	
 }

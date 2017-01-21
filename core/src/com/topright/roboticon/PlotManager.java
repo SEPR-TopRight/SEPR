@@ -37,14 +37,17 @@ public class PlotManager extends Table{
 	 * Constructor.
 	 * @param backgroundImage A String that stores the file path of the background image 
 	 * (i.e. a picture of a map to be displayed behind the plots).
+	 * @param plots A 2D array of plots that the player can interact with
+	 * @param humanPlayer The human player who is playing the game.
+	 * @param AIPlayer The AI player that is competing against the human player.
 	 */
-	public PlotManager(String backgroundImage, Player humanPlayer, Player AIPlayer){
+	public PlotManager(String backgroundImage,Plot[][] plots, Player humanPlayer, Player AIPlayer){
 		super();
 		setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal(backgroundImage)))));
 	
 		this.humanPlayer = humanPlayer;
 		this.AIPlayer = AIPlayer;
-		initialisePlots(4,5);		
+		this.plots = plots;		
 		createPlotGrid();
 	}
 	
@@ -73,28 +76,7 @@ public class PlotManager extends Table{
 		}
 	}
 
-	/**
-	 * Creates the 2d array of plot objects that players can interact with
-	 * @param rows The number of rows of plots that is required
-	 * @param columns The number of columns of plots that is required
-	 */
-	private void initialisePlots(int rows, int columns){
-		plots = new Plot[rows][columns];
-		
-		for(int row=0;row<rows;row++){
-			
-			for(int column=0;column<columns;column++){
-				
-				// Randomly choose a specialism for each plot
-			    PlotSpecialism[] specialismChoice = {PlotSpecialism.ORE,PlotSpecialism.ENERGY};
-			    int choice = new Random().nextInt(specialismChoice.length);
-			
-			    // No Player owns each plot, no roboticon is placed on it and its specialism is random
-				plots[row][column]= new Plot(specialismChoice[choice]);
-			}
-		}
-		
-	}
+	
 
 	/**
 	 * Tries to place an energy roboticon at the chosen plot

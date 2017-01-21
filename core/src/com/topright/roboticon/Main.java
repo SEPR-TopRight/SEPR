@@ -1,6 +1,7 @@
 package com.topright.roboticon;
 
 import java.util.EnumMap;
+import java.util.Random;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -53,6 +54,7 @@ public class Main extends ApplicationAdapter implements Telegraph{
         startGame();
 	}
 	
+	
 	/**
 	 * Creates and initialises the player objects and chooses (randomly) which player is to go first
 	 */
@@ -84,10 +86,11 @@ public class Main extends ApplicationAdapter implements Telegraph{
 	 * Sets up the PlotManager object that contains all of the plots used in the game
 	 */
 	private void initiliasePlotManager(){
-		  plotManager = new PlotManager("backgrounds/map.png",humanPlayer,AIPlayer);
+		Plot[][] plots = CreatePlots.createPlots(4,5);
+		plotManager = new PlotManager("backgrounds/map.png",plots,humanPlayer,AIPlayer);
 		  
-		  // Don't want anything to happen when a plot is clicked initially
-	      plotManager.setPlotClickMode(PlotClickMode.NOACTION);
+		// Don't want anything to happen when a plot is clicked initially
+	    plotManager.setPlotClickMode(PlotClickMode.NOACTION);
 	}
 	
 	/**

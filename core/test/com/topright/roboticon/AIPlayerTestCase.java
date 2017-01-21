@@ -21,6 +21,7 @@ public class AIPlayerTestCase {
 	@Mocked private Plot plot1;
 	@Mocked private Plot plot2;
 	@Mocked private Plot plot3;
+	@Mocked private Plot[][] plots;
 	
 
 	/**
@@ -32,7 +33,8 @@ public class AIPlayerTestCase {
 		player = new AIPlayer(playerInventory);
 		market = Market.getInstance();
 		market.setInventory(new MarketInventory(10,10,10));
-		plotManager = new PlotManager("",null,player);
+		plots = CreatePlots.createPlots(4, 5);
+		plotManager = new PlotManager("",plots,null,player);
 		plot1 = new Plot(PlotSpecialism.ENERGY);
 		plot2 = new Plot(PlotSpecialism.ORE);
 		plot2 = new Plot(PlotSpecialism.ORE);
