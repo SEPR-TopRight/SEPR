@@ -6,9 +6,13 @@ import java.util.EnumMap;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.badlogic.gdx.ai.msg.MessageDispatcher;
+import com.badlogic.gdx.ai.msg.MessageManager;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import mockit.Mocked;
+import mockit.Verifications;
 
 /**
  * Test case for the ResourceMarket class
@@ -21,6 +25,7 @@ public class ResourceMarketTestcase extends GuiTest {
 	@Mocked private PlayerInventory playerInventory;
 	@Mocked private Market market;
 	@Mocked private MarketInventory marketInventory;
+	@Mocked private MessageDispatcher messageDispatcher;
 	private TextButton buyOreButton;
 	private TextButton sellOreButton;
 	private TextButton buyEnergyButton;
@@ -40,6 +45,8 @@ public class ResourceMarketTestcase extends GuiTest {
 		playerInventory = new PlayerInventory(0,0,roboticonQuantities,20);
 		player = new Player(playerInventory);
 		market = Market.getInstance();
+		
+		messageDispatcher = MessageManager.getInstance();
 		
 		marketInventory = new MarketInventory(0,0,0);
 		market.setInventory(marketInventory);
@@ -80,8 +87,29 @@ public class ResourceMarketTestcase extends GuiTest {
 		}
 	}
 	
+	/**
+	 * Ensures that when the buy energy button is clicked and the buy energy quantity SpinBox is
+	 * set to 0 the attemptToBuyOre method from the Player class is not called
+	 */
 	@Test
-	public void testClickBuyEnergyButtonZeroOre(){
+	public void testClickBuyEnergyButtonZeroOrePlayerNotBuyOre(){
 		setSpinBoxValue(0,buyEnergySpinBox);
+		clickActor(buyOreButton);
+		new Verifications(){{
+			player.attemptToBuyOre(anyInt);times=0;
+		}};
+	}
+	
+	/**
+	 * Ensures that when the buy energy button is clicked and the buy energy quantity SpinBox is
+	 * set to 0 a message is not dispatched that states that the players inventory has been updated
+	 */
+	@Test
+	public void testClickBuyEnergyButtonZeroOreMessageNotDispatched(){
+		setSpinBoxValue(0,buyEnergySpinBox);
+		clickActor(buyOreButton);
+		new Verifications(){{
+			messageDispatcher.dispatchMessage(GameEvents.PLAYERINVENTORYUPDATE.ordinal());times=0;
+		}};
 	}
 }
