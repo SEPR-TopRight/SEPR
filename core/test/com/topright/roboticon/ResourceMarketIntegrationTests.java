@@ -128,15 +128,71 @@ public class ResourceMarketIntegrationTests extends GuiTest {
 	
 	/**
 	 * Ensures that when the buy energy button is clicked and the buy energy quantity SpinBox is
+	 * set to 1 the quantity of money in the players inventory is reduced by the correct amount
+	 */
+	@Test
+	public void testClickBuyEnergyButtonOneEnergyBuyEnergyMoneyReduced(){
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(1));
+		int moneyBefore = playerInventory.getMoneyQuantity();
+		setSpinBoxValue(1,buyEnergySpinBox);
+		clickActor(buyEnergyButton);
+		assertEquals(moneyBefore-market.getCostEnergy(1),playerInventory.getMoneyQuantity());
+	}
+	
+	/**
+	 * Ensures that when the buy energy button is clicked and the buy energy quantity SpinBox is
 	 * set to 5 the quantity of energy in the Players inventory is increased by 5
+	 * (when the player has enough money to buy 5 energy)
 	 */
 	@Test
 	public void testClickBuyEnergyButtonFiveEnergyBuyEnergy(){
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(5)); // Have enough money
 		int energyBefore = playerInventory.getEnergyQuantity();
 		setSpinBoxValue(5,buyEnergySpinBox);
 		clickActor(buyEnergyButton);
 		assertEquals(energyBefore+5,playerInventory.getEnergyQuantity());
-	}	
+	}
+	
+	/**
+	 * Ensures that when the buy energy button is clicked and the buy energy quantity SpinBox is
+	 * set to 5 the quantity of money in the players inventory is reduced by the correct amount
+	 */
+	@Test
+	public void testClickBuyEnergyButtonFiveEnergyBuyEnergyMoneyReduced(){
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(5));
+		int moneyBefore = playerInventory.getMoneyQuantity();
+		setSpinBoxValue(5,buyEnergySpinBox);
+		clickActor(buyEnergyButton);
+		assertEquals(moneyBefore-market.getCostEnergy(5),playerInventory.getMoneyQuantity());
+	}
+	
+	/**
+	 * Ensures that when the buy energy button is clicked and the buy energy quantity SpinBox is
+	 * set to 1 the quantity of energy in the markets inventory is reduced by 1
+	 */
+	@Test
+	public void testClickBuyEnergyButtonOneEnergyBuyEnergyEnergyReduced(){
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(1));
+		int energyBefore = marketInventory.getEnergyQuantity();
+		setSpinBoxValue(1,buyEnergySpinBox);
+		clickActor(buyEnergyButton);
+		assertEquals(energyBefore-1,marketInventory.getEnergyQuantity());
+	}
+	
+	
+	/**
+	 * Ensures that when the buy energy button is clicked and the buy energy quantity SpinBox is
+	 * set to 5 the quantity of energy in the markets inventory is reduced by 5
+	 */
+	@Test
+	public void testClickBuyEnergyButtonFiveEnergyBuyEnergyEnergyReduced(){
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(5));
+		int energyBefore = marketInventory.getEnergyQuantity();
+		setSpinBoxValue(5,buyEnergySpinBox);
+		clickActor(buyEnergyButton);
+		assertEquals(energyBefore-5,marketInventory.getEnergyQuantity());
+	}
+	
 	
 	/**
 	 * Ensures that when the buy energy button is clicked and the buy energy SpinBox has a value of 1, 
@@ -304,7 +360,7 @@ public class ResourceMarketIntegrationTests extends GuiTest {
 		marketInventory.increaseEnergyQuantity(1);
 		
 		// 2 energy left in player's inventory
-		playerInventory.decreaseEnergyQuantity(market.getEnergyQuantity());
+		playerInventory.decreaseEnergyQuantity(player.getEnergyQuantity());
 		playerInventory.increaseEnergyQuantity(2);
 		
 		setSpinBoxValue(1,buyEnergySpinBox);
@@ -325,14 +381,16 @@ public class ResourceMarketIntegrationTests extends GuiTest {
 		marketInventory.decreaseEnergyQuantity(market.getEnergyQuantity());
 		marketInventory.increaseEnergyQuantity(1);
 			
-		// 2 energy left in player's inventory
-		playerInventory.decreaseEnergyQuantity(market.getEnergyQuantity());
-		playerInventory.increaseEnergyQuantity(2);
+		// 4 energy left in player's inventory
+		playerInventory.decreaseEnergyQuantity(player.getEnergyQuantity());
+		playerInventory.increaseEnergyQuantity(4);
+		
+		resourceMarket = new ResourceMarket(player);
 		
 		setSpinBoxValue(1,sellEnergySpinBox);
 		clickActor(sellEnergyButton); // Sale made
 		setSpinBoxValue(19,sellEnergySpinBox); // Initially 15 energy in stock see setup method
-		assertEquals(4,sellEnergySpinBox.getValue()); // Not able to go beyond 4
+		assertEquals(3,sellEnergySpinBox.getValue()); // Not able to go beyond 3
 	 }
 	 
 	 
@@ -384,11 +442,10 @@ public class ResourceMarketIntegrationTests extends GuiTest {
 		marketInventory.increaseOreQuantity(1);
 		
 		// 2 ore left in player's inventory
-		playerInventory.decreaseOreQuantity(market.getOreQuantity());
+		playerInventory.decreaseOreQuantity(player.getOreQuantity());
 		playerInventory.increaseOreQuantity(2);
 		
 		playerInventory.increaseMoneyQuantity(market.getCostOre(1));
-		
 		setSpinBoxValue(1,buyOreSpinBox);
 		clickActor(buyOreButton); // Purchase made
 		setSpinBoxValue(12,sellOreSpinBox); // Initially 10 ore in stock see setup method
@@ -407,14 +464,16 @@ public class ResourceMarketIntegrationTests extends GuiTest {
 		marketInventory.decreaseOreQuantity(market.getOreQuantity());
 		marketInventory.increaseOreQuantity(1);
 			
-		// 2 ore left in player's inventory
-		playerInventory.decreaseOreQuantity(market.getOreQuantity());
-		playerInventory.increaseOreQuantity(2);
+		// 4 ore left in player's inventory
+		playerInventory.decreaseOreQuantity(player.getOreQuantity());
+		playerInventory.increaseOreQuantity(4);
+		
+		resourceMarket = new ResourceMarket(player);
 		
 		setSpinBoxValue(1,sellOreSpinBox);
 		clickActor(sellOreButton); // Sale made
 		setSpinBoxValue(19,sellOreSpinBox); // Initially 15 ore in stock see setup method
-		assertEquals(4,sellOreSpinBox.getValue()); // Not able to go beyond 4
+		assertEquals(3,sellOreSpinBox.getValue()); // Not able to go beyond 3
 	 }
 	 
 	 /**
@@ -575,4 +634,135 @@ public class ResourceMarketIntegrationTests extends GuiTest {
 		 clickActor(sellOreButton);
 		 assertEquals(Integer.parseInt(oreInStockLabel.getText().toString()),valueBefore);
 	 }	 
+	 
+	 /**
+	 * Ensures that when the buy ore button is clicked and the buy ore quantity SpinBox is
+	 * set to 1 the quantity of money in the players inventory is reduced by the correct amount
+	 */
+	@Test
+	public void testClickBuyOreButtonOneOreBuyOreMoneyReduced(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(1));
+		int moneyBefore = playerInventory.getMoneyQuantity();
+		setSpinBoxValue(1,buyOreSpinBox);
+		clickActor(buyOreButton);
+		assertEquals(moneyBefore-market.getCostOre(1),playerInventory.getMoneyQuantity());
+	}
+		
+	/**
+	 * Ensures that when the buy ore button is clicked and the buy ore quantity SpinBox is
+	 * set to 5 the quantity of money in the players inventory is reduced by the correct amount
+	 */
+	@Test
+	public void testClickBuyOreButtonFiveOreBuyOreMoneyReduced(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(5));
+		int moneyBefore = playerInventory.getMoneyQuantity();
+		setSpinBoxValue(5,buyOreSpinBox);
+		clickActor(buyOreButton);
+		assertEquals(moneyBefore-market.getCostOre(5),playerInventory.getMoneyQuantity());
+	}
+	
+	/**
+	 * Ensures that when the buy ore button is clicked and the buy ore quantity SpinBox is
+	 * set to 1 the quantity of ore in the markets inventory is reduced by 1
+	 */
+	@Test
+	public void testClickBuyOreButtonOneOreBuyOreOreReduced(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(1));
+		int oreBefore = marketInventory.getOreQuantity();
+		setSpinBoxValue(1,buyOreSpinBox);
+		clickActor(buyOreButton);
+		assertEquals(oreBefore-1,marketInventory.getOreQuantity());
+	}
+	
+	/**
+	 * Ensures that when the buy ore button is clicked and the buy ore quantity SpinBox is
+	 * set to 5 the quantity of ore in the markets inventory is reduced by 5
+	 */
+	@Test
+	public void testClickBuyOreButtonFiveOreBuyOreOreReduced(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(5));
+		int oreBefore = marketInventory.getOreQuantity();
+		setSpinBoxValue(5,buyOreSpinBox);
+		clickActor(buyOreButton);
+		assertEquals(oreBefore-5,marketInventory.getOreQuantity());
+	}
+	
+	/**
+	 * Ensures that when the sell ore button is clicked and the sell ore quantity SpinBox is
+	 * set to 1 the quantity of money in the players inventory is increased by the correct amount
+	 */
+	@Test
+	public void testClickSellOreButtonOneOreSellOreMoneyIncreased(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(1));
+		int moneyBefore = playerInventory.getMoneyQuantity();
+		setSpinBoxValue(1,sellOreSpinBox);
+		clickActor(sellOreButton);
+		assertEquals(moneyBefore+market.getCostOre(1),playerInventory.getMoneyQuantity());
+	}
+		
+	/**
+	 * Ensures that when the sell ore button is clicked and the sell ore quantity SpinBox is
+	 * set to 5 the quantity of money in the players inventory is increased by the correct amount
+	 */
+	@Test
+	public void testClickSellOreButtonFiveOreSellOreMoneyIncreased(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(5));
+		int moneyBefore = playerInventory.getMoneyQuantity();
+		setSpinBoxValue(5,sellOreSpinBox);
+		clickActor(sellOreButton);
+		assertEquals(moneyBefore+market.getCostOre(5),playerInventory.getMoneyQuantity());
+	}
+	
+	/**
+	 * Ensures that when the sell ore button is clicked and the sell ore quantity SpinBox is
+	 * set to 1 the quantity of ore in the markets inventory is increased by 1
+	 */
+	@Test
+	public void testClickSellOreButtonOneOreSellOreOreIncreased(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(1));
+		int oreBefore = marketInventory.getOreQuantity();
+		setSpinBoxValue(1,sellOreSpinBox);
+		clickActor(sellOreButton);
+		assertEquals(oreBefore+1,marketInventory.getOreQuantity());
+	}
+	
+	/**
+	 * Ensures that when the sell ore button is clicked and the sell ore quantity SpinBox is
+	 * set to 5 the quantity of ore in the markets inventory is increased by 5
+	 */
+	@Test
+	public void testClickSellOreButtonFiveOreSellOreOreIncreased(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(5));
+		int oreBefore = marketInventory.getOreQuantity();
+		setSpinBoxValue(5,sellOreSpinBox);
+		clickActor(sellOreButton);
+		assertEquals(oreBefore+5,marketInventory.getOreQuantity());
+	}
+	
+	/**
+	 * Ensures that when the sell energy button is clicked and the sell energy quantity SpinBox is
+	 * set to 5 the quantity of energy in the markets inventory is increased by 5
+	 */
+	@Test
+	public void testClickSellEnergyButtonOneEnergySellEnergyEnergyIncreased(){
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(1));
+		int energyBefore = marketInventory.getEnergyQuantity();
+		setSpinBoxValue(1,sellEnergySpinBox);
+		clickActor(sellEnergyButton);
+		assertEquals(energyBefore+1,marketInventory.getEnergyQuantity());
+	}
+	
+	/**
+	 * Ensures that when the sell energy button is clicked and the sell energy quantity SpinBox is
+	 * set to 5 the quantity of energy in the markets inventory is increased by 5
+	 */
+	@Test
+	public void testClickSellEnergyButtonFiveEnergySellEnergyEnergyIncreased(){
+		playerInventory.increaseMoneyQuantity(market.getCostEnergy(5));
+		int energyBefore = marketInventory.getEnergyQuantity();
+		setSpinBoxValue(5,sellEnergySpinBox);
+		clickActor(sellEnergyButton);
+		assertEquals(energyBefore+5,marketInventory.getEnergyQuantity());
+	}
+
 }

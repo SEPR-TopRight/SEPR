@@ -49,7 +49,7 @@ public class PlotManagerIntegrationTests extends GuiTest {
 		AIPlayer = new Player(AIPlayerInventory);
 		
 		plots = CreatePlots.createPlots(4,5);
-		plotManager = new PlotManager("backgrounds/map.png", plots, humanPlayer, AIPlayer);
+		plotManager = new PlotManager("assets/backgrounds/map.png", plots, humanPlayer, AIPlayer);
 		buttons = plotManager.getPlotButtons();
 		stage.addActor(plotManager);
 	}
@@ -510,7 +510,7 @@ public class PlotManagerIntegrationTests extends GuiTest {
 		Plot plot3 = new Plot(PlotSpecialism.ENERGY);
 		Plot plot4 = new Plot(PlotSpecialism.ENERGY);
 		Plot[][] plots = {{plot1,plot2,plot3},{plot4,plot4,plot4},{plot4,plot4,plot4}};
-		plotManager = new PlotManager("backgrounds/map.png", plots, humanPlayer, AIPlayer);
+		plotManager = new PlotManager("assets/backgrounds/map.png", plots, humanPlayer, AIPlayer);
 		plot1.setPlayer(humanPlayer);
 		plot2.setPlayer(humanPlayer);
 		plot3.setPlayer(humanPlayer);
@@ -535,7 +535,7 @@ public class PlotManagerIntegrationTests extends GuiTest {
 		Plot plot3 = new Plot(PlotSpecialism.ENERGY);
 		Plot plot4 = new Plot(PlotSpecialism.ENERGY);
 		Plot[][] plots = {{plot1,plot2,plot3},{plot4,plot4,plot4},{plot4,plot4,plot4}};
-		plotManager = new PlotManager("backgrounds/map.png", plots, humanPlayer, AIPlayer);
+		plotManager = new PlotManager("assets/backgrounds/map.png", plots, humanPlayer, AIPlayer);
 		plot1.setPlayer(humanPlayer);
 		plot2.setPlayer(humanPlayer);
 		plot3.setPlayer(humanPlayer);
@@ -560,7 +560,7 @@ public class PlotManagerIntegrationTests extends GuiTest {
 		Plot plot3 = new Plot(PlotSpecialism.ORE);
 		Plot plot4 = new Plot(PlotSpecialism.ENERGY);
 		Plot[][] plots = {{plot1,plot2,plot3},{plot4,plot4,plot4},{plot4,plot4,plot4}};
-		plotManager = new PlotManager("backgrounds/map.png", plots, humanPlayer, AIPlayer);
+		plotManager = new PlotManager("assets/backgrounds/map.png", plots, humanPlayer, AIPlayer);
 		plot1.setPlayer(humanPlayer);
 		plot2.setPlayer(humanPlayer);
 		plot3.setPlayer(humanPlayer);
@@ -585,7 +585,7 @@ public class PlotManagerIntegrationTests extends GuiTest {
 		Plot plot3 = new Plot(PlotSpecialism.ORE);
 		Plot plot4 = new Plot(PlotSpecialism.ORE);
 		Plot[][] plots = {{plot1,plot2,plot3},{plot4,plot4,plot4},{plot4,plot4,plot4}};
-		plotManager = new PlotManager("backgrounds/map.png", plots, humanPlayer, AIPlayer);
+		plotManager = new PlotManager("assets/backgrounds/map.png", plots, humanPlayer, AIPlayer);
 		plot1.setPlayer(humanPlayer);
 		plot2.setPlayer(humanPlayer);
 		plot3.setPlayer(humanPlayer);

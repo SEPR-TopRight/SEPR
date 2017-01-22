@@ -261,7 +261,7 @@ public class ResourceMarketTestcase extends GuiTest {
 	 @Test
 	 public void testClickBuyEnergyButtonEnergySaleFailedStockNotUpdated(){
 		 new Expectations(){{
-			player.attemptToBuyEnergy(anyInt); result = false; // Sale successful 
+			player.attemptToBuyEnergy(anyInt); result = false; // Sale not successful 
 		 }};
 		 setSpinBoxValue(10,buyEnergySpinBox);
 		 clickActor(buyEnergyButton);
@@ -415,7 +415,7 @@ public class ResourceMarketTestcase extends GuiTest {
 	 @Test
 	 public void testClickSellEnergyButtonEnergySaleFailedStockNotUpdated(){
 		 new Expectations(){{
-			player.attemptToSellEnergy(anyInt); result = false; // Sale successful 
+			player.attemptToSellEnergy(anyInt); result = false; // Sale not successful 
 		 }};
 		 setSpinBoxValue(10,sellEnergySpinBox);
 		 clickActor(sellEnergyButton);
@@ -657,11 +657,11 @@ public class ResourceMarketTestcase extends GuiTest {
 	 @Test
 	 public void testClickBuyOreButtonOreSaleFailedStockNotUpdated(){
 		 new Expectations(){{
-			player.attemptToBuyOre(anyInt); result = false; // Sale successful 
+			player.attemptToBuyOre(anyInt); result = false; // Sale not successful 
 		 }};
-		 setSpinBoxValue(10,buyOreSpinBox);
+		 setSpinBoxValue(9,buyOreSpinBox);
 		 clickActor(buyOreButton);
-		 assertEquals(Integer.parseInt(oreInStockLabel.getText().toString()),10); // Value unchaged
+		 assertEquals(Integer.parseInt(oreInStockLabel.getText().toString()),9); // Value unchaged
 	 }
 
 	 /**
@@ -707,11 +707,11 @@ public class ResourceMarketTestcase extends GuiTest {
 	 @Test
 	 public void testClickSellOreButtonOreSaleFailedStockNotUpdated(){
 		 new Expectations(){{
-			player.attemptToSellOre(anyInt); result = false; // Sale successful 
+			player.attemptToSellOre(anyInt); result = false; // Sale not successful 
 		 }};
-		 setSpinBoxValue(10,sellOreSpinBox);
+		 setSpinBoxValue(9,sellOreSpinBox);
 		 clickActor(sellOreButton);
-		 assertEquals(Integer.parseInt(oreInStockLabel.getText().toString()),10); // Value unchaged
+		 assertEquals(Integer.parseInt(oreInStockLabel.getText().toString()),9); // Value unchaged
 	 }
 
 }
