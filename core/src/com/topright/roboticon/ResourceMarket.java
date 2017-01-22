@@ -531,4 +531,5 @@ public class ResourceMarket extends PopUpWindow {
 		return marketInventoryTable.energyQuantityLabel;
 	}
 	
+	
 }

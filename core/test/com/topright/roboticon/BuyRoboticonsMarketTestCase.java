@@ -34,6 +34,10 @@ public class BuyRoboticonsMarketTestCase extends GuiTest {
 	private SpinBox transactionQuantitySpinBox;
 	private BuyRoboticonsMarket buyRoboticonsMarket;
 	
+	/**
+	 * Runs before every test, creates the BuyRoboticonsMarket object that is being tested and
+	 * all the required (mocked) objects
+	 */
 	@Before
 	public void setup(){
 		messageDispatcher = MessageManager.getInstance();
@@ -76,9 +80,9 @@ public class BuyRoboticonsMarketTestCase extends GuiTest {
 	@Test
 	public void TestClickCompletePurchaseButtonOneRoboticon(){
 		new Expectations(){{
-			player.attemptToBuyRoboticons(5);result=true;
+			player.attemptToBuyRoboticons(1);result=true;
 		}};
-		setTransactionQuantitySpinBoxValue(5);
+		setTransactionQuantitySpinBoxValue(1);
 		clickActor(completePurchaseButton);
 	}
 	
@@ -136,7 +140,7 @@ public class BuyRoboticonsMarketTestCase extends GuiTest {
 		setTransactionQuantitySpinBoxValue(5);
 		clickActor(completePurchaseButton);
 		
-		// Pop up message created to tell the user
+		// Pop up message not created to tell the user
 		assertFalse(stage.getActors().items[1] instanceof MessagePopUp);
 	}
 	
