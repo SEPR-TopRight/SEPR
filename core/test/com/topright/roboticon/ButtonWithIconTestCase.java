@@ -29,7 +29,7 @@ public class ButtonWithIconTestCase extends GuiTest {
 	@Before
 	public void setup(){
 		clickValue=false;
-		button = new ButtonWithIcon("", "plot_overlays/unacquired.pack", "unacquired", "unacquired",
+		button = new ButtonWithIcon("", "assets/plot_overlays/unacquired.pack", "unacquired", "unacquired",
 				new ClickListener(){
 					@Override
 					public void clicked(InputEvent event, float x, float y)

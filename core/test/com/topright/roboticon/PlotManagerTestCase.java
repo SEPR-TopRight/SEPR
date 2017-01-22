@@ -285,7 +285,7 @@ public class PlotManagerTestCase extends GuiTest {
 		plotManager.setPlotClickMode(PlotClickMode.PLACEROBOTICON);
 		plotManager.setCurrentPlayer(humanPlayer);
 		new Expectations(){{
-			humanPlayer.getRoboticonQuantity(RoboticonCustomisation.ORE);result=2;
+			
 			plots[1][2].getPlayer();result=humanPlayer;
 		}};
 		clickActor(buttons[1][2]);
@@ -317,7 +317,6 @@ public class PlotManagerTestCase extends GuiTest {
 		plotManager.setPlotClickMode(PlotClickMode.PLACEROBOTICON);
 		plotManager.setCurrentPlayer(humanPlayer);
 		new Expectations(){{
-			humanPlayer.getRoboticonQuantity(RoboticonCustomisation.ORE);result=2;
 			plots[1][2].getPlayer();result=humanPlayer;
 			plots[2][3].getPlayer();result=humanPlayer;
 		}};
@@ -346,7 +345,7 @@ public class PlotManagerTestCase extends GuiTest {
 		plotManager.setPlotClickMode(PlotClickMode.PLACEROBOTICON);
 		plotManager.setCurrentPlayer(humanPlayer);
 		new Expectations(){{
-			humanPlayer.getRoboticonQuantity(RoboticonCustomisation.ORE);result=2;
+			
 			plots[1][2].getPlayer();result=humanPlayer;
 			plots[2][3].getPlayer();result=humanPlayer;
 		}};
@@ -374,7 +373,6 @@ public class PlotManagerTestCase extends GuiTest {
 		plotManager.setPlotClickMode(PlotClickMode.PLACEROBOTICON);
 		plotManager.setCurrentPlayer(humanPlayer);
 		new Expectations(){{
-			humanPlayer.getRoboticonQuantity(RoboticonCustomisation.ORE);result=2;
 			plots[1][2].getPlayer();result=humanPlayer;
 			plots[2][3].getPlayer();result=AIPlayer;
 		}};
@@ -404,7 +402,6 @@ public class PlotManagerTestCase extends GuiTest {
 		plotManager.setPlotClickMode(PlotClickMode.PLACEROBOTICON);
 		plotManager.setCurrentPlayer(humanPlayer);
 		new Expectations(){{
-			humanPlayer.getRoboticonQuantity(RoboticonCustomisation.ORE);result=2;
 			plots[1][2].getPlayer();result=humanPlayer;
 			plots[2][3].getPlayer();result=AIPlayer;
 		}};
@@ -444,7 +441,6 @@ public class PlotManagerTestCase extends GuiTest {
 		plotManager.setPlotClickMode(PlotClickMode.PLACEROBOTICON);
 		plotManager.setCurrentPlayer(humanPlayer);
 		new Expectations(){{
-			humanPlayer.getRoboticonQuantity(RoboticonCustomisation.ORE);result=2;
 			plots[1][2].getPlayer();result=humanPlayer;
 		}};
 		clickActor(buttons[1][2]); // Plot clicked (menu opened)
