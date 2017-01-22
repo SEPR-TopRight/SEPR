@@ -16,6 +16,8 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 	private int plotRow;
 	private int plotColumn;
 	private Player player;
+	private TextButton oreRoboticonButton;
+	private TextButton energyRoboticonButton;
 	
 	/**
 	 * Constructor
@@ -35,7 +37,7 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 		this.plotColumn = plotColumn;
 		this.player = player;
 		
-		createMenu();
+		//createMenu();
 		
 		// Make the window exactly as large as it needs to be to fit its contents
 		setSize(getPrefWidth(),getPrefHeight());
@@ -43,7 +45,9 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 		// Position the window
 		setX(menuX);
 		setY(menuY - getHeight()); // We want the top of the menu to be just below the cursor
+		
 	}
+
 	
 	/**
 	 * Chooses which portions of the menu to create based on whether the plot has a roboticon on it already and how
@@ -88,8 +92,8 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 	 */
 	private void placementAllowedMenu(){
 		
-		TextButton oreRoboticonButton = new TextButton("Ore roboticon ("+player.getRoboticonQuantity(RoboticonCustomisation.ORE)+")", new Skin(Gdx.files.internal("uiskin.json")));
-		TextButton energyRoboticonButton = new TextButton("Energy roboticon ("+player.getRoboticonQuantity(RoboticonCustomisation.ENERGY)+")", new Skin(Gdx.files.internal("uiskin.json")));
+		oreRoboticonButton = new TextButton("Ore roboticon ("+player.getRoboticonQuantity(RoboticonCustomisation.ORE)+")", new Skin(Gdx.files.internal("uiskin.json")));
+		energyRoboticonButton = new TextButton("Energy roboticon ("+player.getRoboticonQuantity(RoboticonCustomisation.ENERGY)+")", new Skin(Gdx.files.internal("uiskin.json")));
 		
 		setRoboticonButtonBehaviour(oreRoboticonButton, energyRoboticonButton);
 		
@@ -142,5 +146,27 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 	 */
 	private void noRoboticonsMenu(){
 		add(new Label("You don't have any customised roboticons!", new Skin(Gdx.files.internal("uiskin.json")))).fill().expand();
+	}
+	
+	/**
+	 * Returns the TextButton object that be clicked in order to place an ore roboticon
+	 * <p>
+	 * Needed for testing purposes, or for any other code that needs to simulate a button click
+	 * </p>
+	 * @return the TextButton object that be clicked in order to place an ore roboticon
+	 */
+	public TextButton getOreRoboticonButton(){
+		return oreRoboticonButton;
+	}
+	
+	/**
+	 * Returns the TextButton object that be clicked in order to place an energy roboticon
+	 * <p>
+	 * Needed for testing purposes, or for any other code that needs to simulate a button click
+	 * </p>
+	 * @return the TextButton object that be clicked in order to place an energy roboticon
+	 */
+	public TextButton getEnergyRoboticonButton(){
+		return energyRoboticonButton;
 	}
 }

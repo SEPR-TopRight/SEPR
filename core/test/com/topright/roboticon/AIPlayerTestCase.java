@@ -43,7 +43,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#choosePlot} ensures that an exception is thrown if there are no unacquired plots
+	 * Tests {@link AIPlayer#choosePlot} ensures that an exception is thrown if 
+	 * there are no unacquired plots
 	 */
 	@Test(expected=IllegalStateException.class)
 	public void testChoosePlotExceptionThrownNoEmptyPlots(){
@@ -63,6 +64,7 @@ public class AIPlayerTestCase {
 	
 	/**
 	 * Tests {@link AIPlayer#choosePlot} ensures that the first unacquired plot is acquired
+	 * (when the first plot in the plot grid has not been acquired)
 	 */
 	@Test
 	public void testChoosePlotFirstEmptyPlotAcquired(){
@@ -83,7 +85,9 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#choosePlot} ensures that all apart from the first unacquired plots are not acquired
+	 * Tests {@link AIPlayer#choosePlot} ensures that all plots apart from the first unacquired plot 
+	 * are not acquired
+	 * (when the first plot in the plot grid has not been acquired)
 	 */
 	@Test
 	public void testChoosePlotOnlyOneAcquired(){
@@ -105,7 +109,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#choosePlot} ensures that the first unacquired plot is acquired (when the first plot has already been acquired)
+	 * Tests {@link AIPlayer#choosePlot} ensures that the first unacquired plot is acquired 
+	 * (when the first plot in the grid has already been acquired)
 	 */
 	@Test
 	public void testChoosePlotFirstEmptyPlotAcquired2(){
@@ -126,8 +131,10 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#choosePlot} ensures that the first unacquired plot is acquired (when the first plot has already been acquired)
-	 */
+	 * Tests {@link AIPlayer#choosePlot} ensures that all plots apart from the first unacquired plot 
+	 * are not acquired
+	 * (when the first plot in the plot grid has already been acquired)
+	 * */
 	@Test
 	public void testChoosePlotOnlyOneAcquired2(){
 		
@@ -147,7 +154,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyRoboticons} ensures that no roboticons are purchase when the player has no plots without roboticons on them
+	 * Tests {@link AIPlayer#buyRoboticons} ensures that no roboticons are purchased 
+	 * when the player has no plots without roboticons on them
 	 */
 	@Test
 	public void testBuyRoboticonsNoEmptyPlots(){
@@ -172,7 +180,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyRoboticons} ensures that no roboticons are purchase when the player has as many roboticons as they have empty plots
+	 * Tests {@link AIPlayer#buyRoboticons} ensures that no roboticons are purchased 
+	 * when the player has as many roboticons as they have empty plots
 	 */
 	@Test
 	public void testBuyRoboticonsManyRoboticonsInInventory(){
@@ -200,7 +209,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyRoboticons} ensures that 1 roboticon is purchased when the player has one empty plot (and no roboticons in their inventory)
+	 * Tests {@link AIPlayer#buyRoboticons} ensures that 1 roboticon is purchased 
+	 * when the player has one empty plot (and no roboticons in their inventory)
 	 */
 	@Test
 	public void testBuyRoboticonsOneEmptyPlot(){
@@ -234,7 +244,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyRoboticons} ensures that 2 roboticons are purchased when the player has two empty plots (and no roboticons in their inventory)
+	 * Tests {@link AIPlayer#buyRoboticons} ensures that 2 roboticons are purchased when 
+	 * the player has two empty plots (and no roboticons in their inventory)
 	 */
 	@Test
 	public void testBuyRoboticonsTwoEmptyPlots(){
@@ -271,7 +282,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyRoboticons} ensures that 2 roboticons are purchased when the player has three empty plots and 1 roboticons in their inventory
+	 * Tests {@link AIPlayer#buyRoboticons} ensures that 2 roboticons are purchased when the 
+	 * player has three empty plots and 1 roboticon in their inventory
 	 */
 	@Test
 	public void testBuyRoboticonsThreeEmptyPlotsOneRoboticonInInvetory(){
@@ -308,7 +320,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyRoboticons} ensures that the correct amount of money is removed from the AIPlayers inventory when they buy roboticons
+	 * Tests {@link AIPlayer#buyRoboticons} ensures that the correct amount of money 
+	 * is removed from the AIPlayers inventory when it buys 2 roboticons
 	 */
 	@Test
 	public void testBuyRoboticonsMoneyTaken(){
@@ -345,7 +358,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyRoboticons} ensures that the AIPlayer causes the production of a roboticon doesn't have one when it needs one
+	 * Tests {@link AIPlayer#buyRoboticons} ensures that the AIPlayer causes the 
+	 * production of a roboticon when the market doesn't have one when it needs one
 	 */
 	@Test
 	public void testBuyRoboticonsProduceARoboticon(){
@@ -382,7 +396,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyRoboticons} ensures that the AIPlayer causes the production of a roboticon if the market only has 2 roboticon when it needs three
+	 * Tests {@link AIPlayer#buyRoboticons} ensures that the AIPlayer causes the production of a 
+	 * roboticon if the market only has 2 roboticon when it needs three
 	 */
 	@Test
 	public void testBuyRoboticonsProduceRoboticon(){
@@ -417,7 +432,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyRoboticons} ensures that the AIPlayer doesn't attempt to buy a roboticon if the market doesn't have any and none can be produced
+	 * Tests {@link AIPlayer#buyRoboticons} ensures that the AIPlayer doesn't attempt to buy a 
+	 * roboticon if the market doesn't have any and none can be produced
 	 */
 	@Test
 	public void testBuyRoboticonsNoPurchaseIfRoboticonCantBeProduced(){
@@ -455,7 +471,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyRoboticons} ensures that the AIPlayer doesn't attempt to buy a roboticon if it does not have enough money
+	 * Tests {@link AIPlayer#buyRoboticons} ensures that the AIPlayer doesn't attempt to buy a 
+	 * roboticon if it does not have enough money
 	 */
 	@Test
 	public void testBuyRoboticonsNotEnoughMoneyToPurchase(){
@@ -487,7 +504,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyRoboticons} ensures that the AIPlayer doesn't attempt to buy a roboticon if they wouldn't have enough money to customise it afterwards
+	 * Tests {@link AIPlayer#buyRoboticons} ensures that the AIPlayer doesn't attempt to buy 
+	 * a roboticon if they wouldn't have enough money to customise it afterwards
 	 */
 	@Test
 	public void testBuyRoboticonsNotEnoughMoneyToCustomise(){
@@ -517,7 +535,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AIPlayer doesn't attempt to place any roboticons if they don't have any customised roboticons to place
+	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AIPlayer doesn't attempt to 
+	 * place any roboticons if they don't have any customised roboticons to place
 	 */
 	@Test
 	public void testPlaceRoboticonsNoRoboticons(){
@@ -550,7 +569,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AIPlayer doesn't attempt to place any roboticons if they don't have any empty plots
+	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AIPlayer doesn't attempt to 
+	 * place any roboticons if they don't have any empty plots
 	 */
 	@Test
 	public void testPlaceRoboticonsNoEmptyPlots(){
@@ -578,7 +598,9 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AIPlayer only attempts to place energy roboticons if they only have energy roboticons (and have empty plots that specialise in both ore and energy production)
+	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AIPlayer only attempts to place energy 
+	 * roboticons if they only have energy roboticons 
+	 * (and have empty plots that specialise in both ore and energy production)
 	 */
 	@Test
 	public void testPlaceRoboticonsOnlyHaveEnergyRoboticonsNoOreRoboticonsPlaced(){
@@ -610,7 +632,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AI player places 3 energy roboticons if they have 3 energy roboticons and 3 empty plots that specialise in energy production
+	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AI player places 3 energy roboticons 
+	 * if they have 3 energy roboticons and 3 empty plots that specialise in energy production
 	 */
 	@Test
 	public void testPlaceRoboticonsOnlyHaveEnergyRoboticonsEnergyRoboticonsPlaced(){
@@ -642,7 +665,9 @@ public class AIPlayerTestCase {
 	
 	
 	/**
-	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AIPlayer only attempts to place ore roboticons if they only have ore roboticons (and have empty plots that specialise in both ore and energy production)
+	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AIPlayer only attempts to place ore
+	 *  roboticons if they only have ore roboticons 
+	 *  (and have empty plots that specialise in both ore and energy production)
 	 */
 	@Test
 	public void testPlaceRoboticonsOnlyHaveOreRoboticonsNoEnergyRoboticonsPlaced(){
@@ -673,7 +698,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AI player places 3 ore roboticons if they have 3 ore roboticons and 3 empty plots that specialise in ore production
+	 * Tests {@link AIPlayer#placeRoboticons} ensures that the AI player places 3 ore 
+	 * roboticons if they have 3 ore roboticons and 3 empty plots that specialise in ore production
 	 */
 	@Test
 	public void testPlaceRoboticonsOnlyHaveOreRoboticonsOreRoboticonsPlaced(){
@@ -704,7 +730,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player does not attempt to sell ore if it hasn't got any
+	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player does not 
+	 * attempt to sell ore if it hasn't got any
 	 */
 	@Test
 	public void testBuyAndSellResourcesNoOreToSell(){
@@ -719,7 +746,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player does not attempt to sell energy if it hasn't got any
+	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player does not 
+	 * attempt to sell energy if it hasn't got any
 	 */
 	@Test
 	public void testBuyAndSellResourcesNoEnergyToSell(){
@@ -734,7 +762,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player attempts to sell one ore if it has exactly one ore in its inventory
+	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player attempts to 
+	 * sell one ore if it has exactly one ore in its inventory
 	 */
 	@Test
 	public void testBuyAndSellResourcesOneOre(){
@@ -749,7 +778,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player attempts to sell Five ore if it has exactly Five ore in its inventory
+	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player attempts to 
+	 * sell Five ore if it has exactly Five ore in its inventory
 	 */
 	@Test
 	public void testBuyAndSellResourcesFiveOre(){
@@ -764,7 +794,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player attempts to sell one energy if it has exactly energy ore in its inventory
+	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player attempts to 
+	 * sell one energy if it has exactly energy ore in its inventory
 	 */
 	@Test
 	public void testBuyAndSellResourcesOneEnergy(){
@@ -779,7 +810,8 @@ public class AIPlayerTestCase {
 	}
 	
 	/**
-	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player attempts to sell Five energy if it has exactly Five energy in its inventory
+	 * Tests {@link AIPlayer#buyAndSellResources} ensures that the AI player attempts to 
+	 * sell Five energy if it has exactly Five energy in its inventory
 	 */
 	@Test
 	public void testBuyAndSellResourcesFiveEnergy(){

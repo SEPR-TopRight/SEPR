@@ -11,23 +11,20 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Array;
 
-import mockit.Expectations;
-import mockit.Mocked;
-
 /**
- * Test case for the GameOverWindow class
+ * Integration tests for the {@link GameOverWindow} and {@link Player} classes
  * @author jcn509
  *
  */
-public class GameOverWindowTestCase extends GuiTest { 
+public class GameOverWindowIntegrationTests extends GuiTest { 
 	private GameOverWindow gameOverWindow;
 	private String humanScoreString;
 	private String AIScoreString;
 	private String winnerTextString;
-	@Mocked Player AIPlayer;
-	@Mocked Player humanPlayer;
-	@Mocked PlayerInventory AIPlayerInventory;
-	@Mocked PlayerInventory humanPlayerInventory;
+	Player AIPlayer;
+	Player humanPlayer;
+	PlayerInventory AIPlayerInventory;
+	PlayerInventory humanPlayerInventory;
 	
 	/**
 	 * Runs before every test. Creates the required (mocked) Player and PlayerInventory objects
@@ -74,9 +71,9 @@ public class GameOverWindowTestCase extends GuiTest {
 	 */
 	@Test
 	public void testHumanScoreZero(){
-		new Expectations(){{
-			humanPlayer.calculateScore();result=0;
-		}};
+		
+		// No money = 0 score
+		humanPlayerInventory.decreaseMoneyQuantity(humanPlayerInventory.getMoneyQuantity());
 		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		getLabelData();
 		String score = humanScoreString.replaceAll("[^0-9]",""); // Leaves on the numbers
@@ -90,9 +87,9 @@ public class GameOverWindowTestCase extends GuiTest {
 	 */
 	@Test
 	public void testHumanScoreFifteen(){
-		new Expectations(){{
-			humanPlayer.calculateScore();result=15;
-		}};
+		// No money = 0 score
+		humanPlayerInventory.decreaseMoneyQuantity(humanPlayerInventory.getMoneyQuantity());
+		humanPlayerInventory.increaseMoneyQuantity(15); // 15 money = 15 score
 		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		getLabelData();
 		String score = humanScoreString.replaceAll("[^0-9]",""); // Leaves on the numbers
@@ -104,9 +101,9 @@ public class GameOverWindowTestCase extends GuiTest {
 	 */
 	@Test
 	public void testAIScoreZero(){
-		new Expectations(){{
-			AIPlayer.calculateScore();result=0;
-		}};
+		// No money = 0 score
+		AIPlayerInventory.decreaseMoneyQuantity(AIPlayerInventory.getMoneyQuantity());
+		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		getLabelData();
 		String score = AIScoreString.replaceAll("[^0-9]",""); // Leaves on the numbers
@@ -118,9 +115,9 @@ public class GameOverWindowTestCase extends GuiTest {
 	 */
 	@Test
 	public void testAIScoreFifteen(){
-		new Expectations(){{
-			AIPlayer.calculateScore();result=15;
-		}};
+		// No money = 0 score
+		AIPlayerInventory.decreaseMoneyQuantity(AIPlayerInventory.getMoneyQuantity());
+		AIPlayerInventory.increaseMoneyQuantity(15); // 15 money = 15 score
 		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		getLabelData();
 		String score = AIScoreString.replaceAll("[^0-9]",""); // Leaves on the numbers
@@ -132,10 +129,13 @@ public class GameOverWindowTestCase extends GuiTest {
 	 */
 	@Test
 	public void winnerTextDrawBothOne(){
-		new Expectations(){{
-			humanPlayer.calculateScore();result=1;
-			AIPlayer.calculateScore();result=1;
-		}};
+		// No money = 0 score
+		AIPlayerInventory.decreaseMoneyQuantity(AIPlayerInventory.getMoneyQuantity());
+		AIPlayerInventory.increaseMoneyQuantity(1); // 1 money = 1 score
+				
+		// No money = 0 score
+		humanPlayerInventory.decreaseMoneyQuantity(humanPlayerInventory.getMoneyQuantity());
+		humanPlayerInventory.increaseMoneyQuantity(1); // 1 money = 1 score
 		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		getLabelData();
 		assertTrue(winnerTextString.contains("draw") && !winnerTextString.contains("won"));
@@ -146,10 +146,11 @@ public class GameOverWindowTestCase extends GuiTest {
 	 */
 	@Test
 	public void winnerTextDrawBothZero(){
-		new Expectations(){{
-			humanPlayer.calculateScore();result=0;
-			AIPlayer.calculateScore();result=0;
-		}};
+		// No money = 0 score
+		AIPlayerInventory.decreaseMoneyQuantity(AIPlayerInventory.getMoneyQuantity());
+				
+		// No money = 0 score
+		humanPlayerInventory.decreaseMoneyQuantity(humanPlayerInventory.getMoneyQuantity());
 		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		getLabelData();
 		assertTrue(winnerTextString.contains("draw") && !winnerTextString.contains("won"));
@@ -160,10 +161,13 @@ public class GameOverWindowTestCase extends GuiTest {
 	 */
 	@Test
 	public void winnerTextDrawBothNineteen(){
-		new Expectations(){{
-			humanPlayer.calculateScore();result=19;
-			AIPlayer.calculateScore();result=19;
-		}};
+		// No money = 0 score
+		AIPlayerInventory.decreaseMoneyQuantity(AIPlayerInventory.getMoneyQuantity());
+		AIPlayerInventory.increaseMoneyQuantity(9); // 9 money = 9 score
+						
+		// No money = 0 score
+		humanPlayerInventory.decreaseMoneyQuantity(humanPlayerInventory.getMoneyQuantity());
+		humanPlayerInventory.increaseMoneyQuantity(9); // 9 money = 9 score
 		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		getLabelData();
 		assertTrue(winnerTextString.contains("draw") && !winnerTextString.contains("won"));
@@ -174,10 +178,13 @@ public class GameOverWindowTestCase extends GuiTest {
 	 */
 	@Test
 	public void winnerTextHumanWonByOnePoint(){
-		new Expectations(){{
-			humanPlayer.calculateScore();result=1;
-			AIPlayer.calculateScore();result=0;
-		}};
+		// No money = 0 score
+		AIPlayerInventory.decreaseMoneyQuantity(AIPlayerInventory.getMoneyQuantity());
+		AIPlayerInventory.increaseMoneyQuantity(9); // 9 money = 9 score
+								
+		// No money = 0 score
+		humanPlayerInventory.decreaseMoneyQuantity(humanPlayerInventory.getMoneyQuantity());
+		humanPlayerInventory.increaseMoneyQuantity(10); // 10 money = 10 score
 		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		getLabelData();
 		assertTrue(winnerTextString.contains("you") && winnerTextString.contains("won") && !winnerTextString.contains("ai"));
@@ -188,10 +195,13 @@ public class GameOverWindowTestCase extends GuiTest {
 	 */
 	@Test
 	public void winnerTextHumanWonByFivePoints(){
-		new Expectations(){{
-			humanPlayer.calculateScore();result=10;
-			AIPlayer.calculateScore();result=5;
-		}};
+		// No money = 0 score
+		AIPlayerInventory.decreaseMoneyQuantity(AIPlayerInventory.getMoneyQuantity());
+		AIPlayerInventory.increaseMoneyQuantity(9); // 9 money = 9 score
+								
+		// No money = 0 score
+		humanPlayerInventory.decreaseMoneyQuantity(humanPlayerInventory.getMoneyQuantity());
+		humanPlayerInventory.increaseMoneyQuantity(14); // 14 money = 14 score
 		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		getLabelData();
 		assertTrue(winnerTextString.contains("you") && winnerTextString.contains("won") && !winnerTextString.contains("ai"));
@@ -202,10 +212,13 @@ public class GameOverWindowTestCase extends GuiTest {
 	 */
 	@Test
 	public void winnerTextAIWonByOnePoint(){
-		new Expectations(){{
-			humanPlayer.calculateScore();result=0;
-			AIPlayer.calculateScore();result=1;
-		}};
+		// No money = 0 score
+		AIPlayerInventory.decreaseMoneyQuantity(AIPlayerInventory.getMoneyQuantity());
+		AIPlayerInventory.increaseMoneyQuantity(9); // 9 money = 9 score
+								
+		// No money = 0 score
+		humanPlayerInventory.decreaseMoneyQuantity(humanPlayerInventory.getMoneyQuantity());
+		humanPlayerInventory.increaseMoneyQuantity(8); // 8 money = 8 score
 		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		getLabelData();
 		assertTrue(winnerTextString.contains("ai") && winnerTextString.contains("won") && !winnerTextString.contains("you"));
@@ -216,11 +229,13 @@ public class GameOverWindowTestCase extends GuiTest {
 	 */
 	@Test
 	public void winnerTextAIWonByThreePoints(){
-		
-		new Expectations(){{
-			humanPlayer.calculateScore();result=12;
-			AIPlayer.calculateScore();result=15;
-		}};
+		// No money = 0 score
+		AIPlayerInventory.decreaseMoneyQuantity(AIPlayerInventory.getMoneyQuantity());
+		AIPlayerInventory.increaseMoneyQuantity(9); // 9 money = 9 score
+								
+		// No money = 0 score
+		humanPlayerInventory.decreaseMoneyQuantity(humanPlayerInventory.getMoneyQuantity());
+		humanPlayerInventory.increaseMoneyQuantity(4); // 4 money = 4 score
 		gameOverWindow = new GameOverWindow(humanPlayer,AIPlayer);
 		getLabelData();
 		assertTrue(winnerTextString.contains("ai") && winnerTextString.contains("won") && !winnerTextString.contains("you"));
