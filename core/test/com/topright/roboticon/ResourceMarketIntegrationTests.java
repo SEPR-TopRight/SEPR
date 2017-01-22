@@ -433,9 +433,11 @@ public class ResourceMarketIntegrationTests extends GuiTest {
 	/**
 	 * Ensures that when the buy ore button is clicked and the buy ore quantity SpinBox is
 	 * set to 1 the quantity of ore in the Players inventory is increased by 1
+	 * (if the player has enough money)
 	 */
 	@Test
 	public void testClickBuyOreButtonOneOreBuyOre(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(1));
 		int oreBefore = playerInventory.getOreQuantity();
 		setSpinBoxValue(1,buyOreSpinBox);
 		clickActor(buyOreButton);
@@ -445,9 +447,11 @@ public class ResourceMarketIntegrationTests extends GuiTest {
 	/**
 	 * Ensures that when the buy ore button is clicked and the buy ore quantity SpinBox is
 	 * set to 5 the quantity of ore in the Players inventory is increased by 5
+	 * (if the player has enough money)
 	 */
 	@Test
 	public void testClickBuyOreButtonFiveOreBuyOre(){
+		playerInventory.increaseMoneyQuantity(market.getCostOre(5));
 		int oreBefore = playerInventory.getOreQuantity();
 		setSpinBoxValue(5,buyOreSpinBox);
 		clickActor(buyOreButton);
