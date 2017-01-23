@@ -11,6 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 /**
  * A window that players can use to buy and sell resources to and from the market
+ * 
+ * This class contains four inner classes: 
+ * TransactionTable, marketTable, purchaseTable and salTable (purchaseTable and saleTable are subclasses of transaction table).
+ * These classes are inner classes as they are not needed anywhere else in the code but allow us to more clearly
+ * organise the code in this class by separating it into distinct logical chunks. The saleTable and purchaseTable classes share a lot
+ * of common attributes which is why they both inherit from a single transactionTable class.
  * @author jcn509
  */
 public class ResourceMarket extends PopUpWindow {
