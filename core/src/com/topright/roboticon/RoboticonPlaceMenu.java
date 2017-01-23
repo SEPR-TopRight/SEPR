@@ -37,7 +37,7 @@ public class RoboticonPlaceMenu extends PopUpWindow{
 		this.plotColumn = plotColumn;
 		this.player = player;
 		
-		//createMenu();
+		createMenu();
 		
 		// Make the window exactly as large as it needs to be to fit its contents
 		setSize(getPrefWidth(),getPrefHeight());
