@@ -50,6 +50,7 @@ local.properties
 .loadpath
 .externalToolBuilders/
 *.launch
+core/TopRightGame.jar
 
 ## NetBeans
 **/nbproject/private/
@@ -69,3 +70,6 @@ build/
 ## OS Specific
 .DS_Store
 Thumbs.db
+
+
+core/classDiagram.mgc
