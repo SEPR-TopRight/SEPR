@@ -13,3 +13,5 @@ Energy Sign - http://publicdomainvectors.org/en/free-clipart/Lightning-icon-vect
 House - http://www.clipartbest.com/clipart-9c4e4y5gi
 
 Ore - https://openclipart.org/detail/210039/ilmenskie-rock-beryl-fore2
+
+Roboticon - https://www.flickr.com/photos/striatic/245603625
