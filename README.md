@@ -3,6 +3,7 @@ Website: http://sepr-topright.github.io/SEPR/
 Trello: https://trello.com/b/1TR8XhPy/roboticon-colony-of-york
 
 Links to images used:
+
 Pickaxe - http://www.clker.com/clipart-10011.html
 
 Dollar Sign - http://publicdomainvectors.org/en/free-clipart/Dollar-sign-graphics/3639.html
