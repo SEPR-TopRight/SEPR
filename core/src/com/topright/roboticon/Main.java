@@ -15,7 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import java.lang.Math;
 
 /**
- * Sets up the various stages of the game and the GUI
+ * Sets up the various stages of the game and the GUI.
+ * An executable version of the game can be found here: https://sepr-topright.github.io/SEPR/documentation/assessment2/TRCGame.zip
  * @author jcn509
  */
 public class Main extends ApplicationAdapter implements Telegraph{

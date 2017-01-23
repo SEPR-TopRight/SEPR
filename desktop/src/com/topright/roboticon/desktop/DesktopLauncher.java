@@ -5,7 +5,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.topright.roboticon.Main;
 
 /**
- * The class that must be run in order to actually run the game. Contains the main method.
+ * The class that must be run in order to actually run the game. Instantiates the main class
+ * and creates a window.
+ * An executable version of the game can be found here: https://sepr-topright.github.io/SEPR/documentation/assessment2/TRCGame.zip
  * @author jcn509
  *
  */
